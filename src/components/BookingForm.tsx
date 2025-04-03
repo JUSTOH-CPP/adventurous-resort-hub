@@ -26,13 +26,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { sendBookingConfirmations } from "@/utils/email-service";
 import { useToast } from "@/hooks/use-toast";
-
-// Define the booking interface that includes bookingReference
-interface BookingDetails extends z.infer<typeof FormSchema> {
-  bookingReference?: string;
-}
+import { createBookingInSupabase, BookingFormData } from "@/utils/booking-service";
+import { useAuth } from "@/context/AuthContext";
+import { Textarea } from "@/components/ui/textarea";
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -54,6 +51,10 @@ const FormSchema = z.object({
   checkOutDate: z.date({
     required_error: "Please select a check-out date.",
   }),
+  roomType: z.string({
+    required_error: "Please select a room type.",
+  }),
+  specialRequests: z.string().optional(),
 }).refine((data) => data.checkOutDate > data.checkInDate, {
   message: "Check-out date must be after check-in date",
   path: ["checkOutDate"],
@@ -65,38 +66,37 @@ interface BookingFormProps {
 
 export function BookingForm({ onSubmit }: BookingFormProps) {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-  const [bookingDetails, setBookingDetails] = React.useState<BookingDetails | null>(null);
+  const [bookingDetails, setBookingDetails] = React.useState<BookingFormData & { bookingId?: string } | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: user?.user_metadata?.name || "",
+      email: user?.email || "",
       phone: "",
       adults: "1",
       children: "0",
       checkInDate: new Date(),
       checkOutDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+      roomType: "standard",
+      specialRequests: "",
     },
   });
 
   async function handleFormSubmit(values: z.infer<typeof FormSchema>) {
     setIsSubmitting(true);
     try {
+      // Create booking in Supabase
+      const bookingId = await createBookingInSupabase(values);
+      
       // Generate a simple booking reference
-      const bookingReference = `BK${Date.now().toString().slice(-6)}`;
+      const bookingReference = `BK${bookingId.slice(-6)}`;
       
       // Store booking details for confirmation dialog
-      setBookingDetails({ ...values, bookingReference });
-      
-      // Send confirmation emails and SMS
-      await sendBookingConfirmations({
-        ...values,
-        bookingReference,
-      }, bookingReference);
+      setBookingDetails({ ...values, bookingReference, bookingId });
       
       // Show confirmation dialog
       setShowConfirmation(true);
@@ -104,9 +104,11 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
       // Show success toast
       toast({
         title: "Booking Successful!",
-        description: "Check your email and phone for booking details.",
+        description: "Your booking has been confirmed.",
       });
       
+      // Call the parent onSubmit function
+      onSubmit(values);
     } catch (error) {
       console.error('Booking error:', error);
       toast({
@@ -123,6 +125,29 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="roomType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Room Type</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select room type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="standard">Standard Room (₹2,499/night)</SelectItem>
+                    <SelectItem value="deluxe">Deluxe Room (₹3,999/night)</SelectItem>
+                    <SelectItem value="suite">Luxury Suite (₹5,999/night)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        
           <FormField
             control={form.control}
             name="name"
@@ -304,6 +329,24 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
               )}
             />
           </div>
+          
+          <FormField
+            control={form.control}
+            name="specialRequests"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Special Requests (optional)</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Any special requests or requirements" 
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button type="submit" disabled={isSubmitting} className="w-full">
             {isSubmitting ? (
@@ -336,8 +379,12 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
           {bookingDetails && (
             <div className="mt-4 space-y-3 animate-fade-in animation-delay-400 bg-muted/50 p-4 rounded-lg">
               <p className="flex justify-between">
-                <span className="font-medium">Booking Reference:</span> 
-                <span className="text-accent">{bookingDetails.bookingReference}</span>
+                <span className="font-medium">Booking ID:</span> 
+                <span className="text-accent">{bookingDetails.bookingId?.slice(0, 8)}...</span>
+              </p>
+              <p className="flex justify-between">
+                <span className="font-medium">Room Type:</span> 
+                <span className="capitalize">{bookingDetails.roomType}</span>
               </p>
               <p className="flex justify-between">
                 <span className="font-medium">Name:</span> 
@@ -361,6 +408,11 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
                   <span className="font-medium"> ({bookingDetails.email})</span> and 
                   phone number <span className="font-medium">({bookingDetails.phone})</span>.
                 </p>
+              </div>
+              <div className="pt-4">
+                <Button className="w-full" onClick={() => window.location.href = "/my-bookings"}>
+                  View My Bookings
+                </Button>
               </div>
             </div>
           )}

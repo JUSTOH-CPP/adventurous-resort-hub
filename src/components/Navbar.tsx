@@ -1,181 +1,128 @@
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import { Logo } from './Logo';
+import AuthButtons from './AuthButtons';
 
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, Phone } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import Logo from './Logo';
-import { 
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogHeader
-} from "@/components/ui/dialog";
-import { SearchForm } from './SearchForm';
+const navLinks = [
+  {
+    label: "Accommodation",
+    href: "/accommodation",
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Activities",
+    href: "/activities",
+  },
+  {
+    label: "Gallery",
+    href: "/gallery",
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+  },
+];
 
-const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isAtTop, setIsAtTop] = React.useState(true);
   const location = useLocation();
-  const navigate = useNavigate();
   
-  useEffect(() => {
+  React.useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsAtTop(window.scrollY === 0);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
-  
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+
+  const isActive = (href: string) => {
+    return location.pathname === href;
   };
   
-  // Removed "Booking" from this array
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Accommodation', path: '/accommodation' },
-    { name: 'Activities', path: '/activities' },
-    { name: 'Contact', path: '/contact' },
-  ];
-  
   return (
-    <header
-      className={cn(
-        'fixed w-full top-0 z-50 transition-all duration-300',
-        isScrolled ? 'glass py-3' : 'bg-transparent py-6'
-      )}
-    >
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        <Logo />
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={cn(
-                'text-sm font-medium relative transition-all duration-300',
-                'after:content-[""] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-[-4px] after:left-0',
-                'after:bg-accent after:origin-bottom-right after:transition-transform after:duration-300',
-                'hover:after:scale-x-100 hover:after:origin-bottom-left',
-                location.pathname === link.path 
-                  ? 'text-accent after:scale-x-100' 
-                  : 'text-foreground/80 hover:text-foreground'
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-        
-        <div className="hidden md:flex items-center space-x-4">
-          <a 
-            href="tel:+918904704234" 
-            className="flex items-center gap-1 text-foreground/80 hover:text-foreground transition-colors duration-300"
-          >
-            <Phone size={16} />
-            <span>+91 8904704234</span>
-          </a>
-          <button 
-            className="p-2 rounded-full text-foreground/70 hover:text-foreground transition-colors duration-300"
-            onClick={() => setIsSearchOpen(true)}
-          >
-            <Search size={20} />
-          </button>
-          <Link 
-            to="/booking" 
-            className="btn-primary"
-          >
-            Book Now
+    <header className={cn(
+      "fixed top-0 w-full z-50 transition-all duration-300",
+      !isAtTop ? "bg-background shadow-md" : "bg-transparent text-white shadow-none"
+    )}>
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <Logo size={40} />
+            <span className={cn(
+              "font-display font-bold text-xl",
+              !isAtTop && "text-foreground"
+            )}>Dandeli Adventures</span>
           </Link>
+          
+          <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={cn(
+                  "text-sm font-medium hover:text-accent transition-colors",
+                  isActive(link.href) && "text-accent underline decoration-2 underline-offset-4"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          
+          <div className="flex items-center gap-4">
+            <AuthButtons />
+            
+            {/* Mobile menu button */}
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button 
+                  size="icon" 
+                  variant="ghost" 
+                  className="md:hidden"
+                  onClick={() => setIsMenuOpen(true)}
+                >
+                  <Menu className={cn(
+                    "h-6 w-6",
+                    !isAtTop && "text-foreground"
+                  )} />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <SheetHeader className="mb-4">
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <nav className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className={cn(
+                        "text-foreground hover:text-accent px-4 py-2 rounded-md transition-colors",
+                        isActive(link.href) && "bg-accent/10 text-accent font-medium"
+                      )}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-        
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-foreground p-2"
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </div>
-      
-      {/* Mobile Navigation */}
-      <div 
-        className={cn(
-          'fixed inset-0 bg-background pt-20 px-4 z-40 transition-all duration-300 ease-in-out md:hidden',
-          isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
-        )}
-      >
-        <button 
-          className="absolute top-4 right-4 p-2 text-foreground"
-          onClick={() => setIsMenuOpen(false)}
-          aria-label="Close menu"
-        >
-          <X size={24} />
-        </button>
-        
-        <nav className="flex flex-col space-y-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={cn(
-                'text-xl font-medium py-2 border-b border-border',
-                location.pathname === link.path 
-                  ? 'text-accent' 
-                  : 'text-foreground/80'
-              )}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <a
-            href="tel:+918904704234"
-            className="text-xl font-medium py-2 border-b border-border text-foreground/80 flex items-center gap-2"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <Phone size={20} className="text-green-600" />
-            Call Now: +91 8904704234
-          </a>
-          <button
-            className="text-xl font-medium py-2 border-b border-border text-foreground/80 text-left flex items-center gap-2"
-            onClick={() => {
-              setIsMenuOpen(false);
-              setIsSearchOpen(true);
-            }}
-          >
-            <Search size={20} />
-            Search
-          </button>
-          <Link 
-            to="/booking" 
-            className="btn-primary text-center"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Book Now
-          </Link>
-        </nav>
-      </div>
-      
-      {/* Search Dialog */}
-      <Dialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-        <DialogContent className="sm:max-w-3xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-display mb-4">Search for Availability</DialogTitle>
-          </DialogHeader>
-          <SearchForm />
-        </DialogContent>
-      </Dialog>
     </header>
   );
 };
