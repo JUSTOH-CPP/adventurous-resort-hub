@@ -12,7 +12,7 @@ type ActivityCardProps = {
   duration: string;
   difficulty: 'Easy' | 'Moderate' | 'Challenging';
   groupSize: string;
-  rating: number;
+  rating: number | undefined;
   price: number;
   delay?: number;
 }
@@ -65,7 +65,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
             <h3 className="text-xl font-display font-semibold">{title}</h3>
             <div className="flex items-center">
               <Star size={16} className="text-yellow-500 mr-1 fill-yellow-500" />
-              <span className="font-medium">{rating.toFixed(1)}</span>
+              <span className="font-medium">{rating !== undefined ? rating.toFixed(1) : "N/A"}</span>
             </div>
           </div>
           

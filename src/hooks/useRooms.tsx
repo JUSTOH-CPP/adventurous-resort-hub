@@ -12,7 +12,9 @@ export function useRooms() {
     refetch
   } = useQuery<Room[], Error>({
     queryKey: ['rooms'],
-    queryFn: getRooms
+    queryFn: getRooms,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: true
   });
 
   return {

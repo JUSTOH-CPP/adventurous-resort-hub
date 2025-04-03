@@ -12,7 +12,9 @@ export function useActivities() {
     refetch
   } = useQuery<Activity[], Error>({
     queryKey: ['activities'],
-    queryFn: getActivities
+    queryFn: getActivities,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: true
   });
 
   return {
