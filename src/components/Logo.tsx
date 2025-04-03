@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Logo: React.FC = () => {
+export const Logo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center gap-2 group">
       <div className="relative w-14 h-14 overflow-hidden rounded-full">
@@ -35,4 +35,5 @@ const Logo: React.FC = () => {
   );
 };
 
+// Add this to maintain backward compatibility
 export default Logo;
