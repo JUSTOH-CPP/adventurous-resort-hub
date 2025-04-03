@@ -340,5 +340,4 @@ const Accommodation: React.FC = () => {
     </div>;
 };
 
-
-
+export default Accommodation;
