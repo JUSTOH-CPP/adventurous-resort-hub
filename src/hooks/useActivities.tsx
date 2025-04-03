@@ -8,7 +8,8 @@ export function useActivities() {
     data: activities,
     isLoading,
     isError,
-    error
+    error,
+    refetch
   } = useQuery<Activity[], Error>({
     queryKey: ['activities'],
     queryFn: getActivities
@@ -18,7 +19,8 @@ export function useActivities() {
     activities,
     isLoading,
     isError,
-    error
+    error,
+    refetch
   };
 }
 

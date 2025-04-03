@@ -8,7 +8,8 @@ export function useRooms() {
     data: rooms,
     isLoading,
     isError,
-    error
+    error,
+    refetch
   } = useQuery<Room[], Error>({
     queryKey: ['rooms'],
     queryFn: getRooms
@@ -18,7 +19,8 @@ export function useRooms() {
     rooms,
     isLoading,
     isError,
-    error
+    error,
+    refetch
   };
 }
 

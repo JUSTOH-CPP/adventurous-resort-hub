@@ -19,7 +19,7 @@ const Index: React.FC = () => {
         {/* Call Now Button - repositioned above chatbot with more space */}
         <div className="fixed bottom-32 right-4 z-40 md:bottom-24">
           <a 
-            href="tel:+918904704234" 
+            href="tel:+254722123456" 
             className="flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 hover:scale-105 animate-pulse hover:animate-none"
           >
             <Phone size={20} className="animate-bounce" />
@@ -30,7 +30,7 @@ const Index: React.FC = () => {
         {/* Special Promotion Banner */}
         <div className="bg-green-700 text-white py-3 px-4 text-center shadow-md">
           <div className="container mx-auto">
-            <p className="text-xl font-bold">Book now just at ₹1499! <Link to="/booking" className="underline ml-2 hover:text-yellow-200 transition-colors">Limited time offer</Link></p>
+            <p className="text-xl font-bold">Book now just at KSh 15,999! <Link to="/booking" className="underline ml-2 hover:text-yellow-200 transition-colors">Limited time offer</Link></p>
           </div>
         </div>
         
@@ -39,21 +39,19 @@ const Index: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
               <div className="relative">
-                {/* Updated to BG1.jpg image */}
-                <img src="/lovable-uploads/f97f4d91-56e4-4e2f-bb73-93760030da48.png" alt="Dandeli Wildlife" className="w-full h-[500px] object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300" />
+                <img src="/lovable-uploads/f97f4d91-56e4-4e2f-bb73-93760030da48.png" alt="Maasai Mara Wildlife" className="w-full h-[500px] object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300" />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl hidden md:block hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                  {/* Updated to Cr.jpg image */}
-                  <img src="/lovable-uploads/8fe5892b-b9ce-440c-8423-786ee90235e7.png" alt="Rafting in Dandeli" className="w-40 h-32 object-cover rounded-md" />
+                  <img src="/lovable-uploads/8fe5892b-b9ce-440c-8423-786ee90235e7.png" alt="Safari in Kenya" className="w-40 h-32 object-cover rounded-md" />
                 </div>
               </div>
             </div>
             
             <div className="animate-slide-up animation-delay-200">
               <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-                Experience Nature's Paradise in Dandeli
+                Experience Kenya's Magic in Maasai Mara
               </h2>
               <p className="text-foreground/70 mb-6">
-                Nestled in the heart of Western Ghats, Dandeli Adventures offers an immersive experience in one of India's most biodiverse regions. Our eco-friendly resort combines luxury with wilderness, providing the perfect backdrop for your nature retreat.
+                Nestled in the heart of Kenya's most famous wildlife reserve, Maasai Adventures offers an immersive experience in one of Africa's most biodiverse regions. Our eco-friendly resort combines luxury with wilderness, providing the perfect backdrop for your authentic Kenyan safari.
               </p>
               
               <div className="space-y-4 mb-8">
@@ -62,9 +60,9 @@ const Index: React.FC = () => {
                     <Leaf size={20} className="group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <h3 className="font-medium group-hover:text-green-700 transition-colors duration-300">Eco-Friendly Resort</h3>
+                    <h3 className="font-medium group-hover:text-green-700 transition-colors duration-300">Eco-Friendly Safari Lodge</h3>
                     <p className="text-sm text-foreground/70">
-                      Committed to sustainable tourism practices with minimal environmental impact.
+                      Committed to sustainable tourism practices that protect Kenya's precious wildlife and environment.
                     </p>
                   </div>
                 </div>
@@ -74,9 +72,9 @@ const Index: React.FC = () => {
                     <Shield size={20} className="group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <h3 className="font-medium group-hover:text-green-700 transition-colors duration-300">Safety First Adventures</h3>
+                    <h3 className="font-medium group-hover:text-green-700 transition-colors duration-300">Authentic Maasai Guides</h3>
                     <p className="text-sm text-foreground/70">
-                      All activities conducted by certified professionals with top-tier safety equipment.
+                      All safaris conducted by expert local Maasai guides with generations of knowledge about the land.
                     </p>
                   </div>
                 </div>
@@ -88,7 +86,7 @@ const Index: React.FC = () => {
                   <div>
                     <h3 className="font-medium group-hover:text-green-700 transition-colors duration-300">Award-Winning Hospitality</h3>
                     <p className="text-sm text-foreground/70">
-                      Recognized for exceptional service and authentic local experiences.
+                      Recognized for exceptional service and authentic Kenyan experiences.
                     </p>
                   </div>
                 </div>
@@ -119,28 +117,28 @@ const Index: React.FC = () => {
                 Stunning Accommodations
               </h2>
               <p className="text-foreground/70 max-w-2xl mx-auto">
-                Relax in comfort after your adventure in our thoughtfully designed spaces that blend with nature.
+                Relax in comfort after your safari in our thoughtfully designed spaces that blend with the Kenyan landscape.
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[{
-              title: "Riverside Cottages",
+              title: "Savanna View Cottages",
               image: "/lovable-uploads/44997248-2a7d-4c4b-8656-13d704d35b37.png",
-              description: "Wake up to the soothing sounds of the river",
-              price: "₹2,499",
+              description: "Wake up to the soothing sounds of the Kenyan bush",
+              price: "KSh 24,999",
               delay: 0
             }, {
-              title: "Treehouse Villas",
+              title: "Luxury Safari Tents",
               image: "/lovable-uploads/e254561c-a576-4abe-ba9b-a057e1ddc8d7.png",
-              description: "Elevated living with panoramic forest views",
-              price: "₹3,999",
+              description: "Elevated comfort with panoramic views of the Mara plains",
+              price: "KSh 39,999",
               delay: 200
             }, {
-              title: "Luxury Tents",
+              title: "Maasai Manyatta Experience",
               image: "/lovable-uploads/507d9972-fed7-467f-90af-7506080a19b4.png",
-              description: "Glamping experience with all modern amenities",
-              price: "₹1,999",
+              description: "Traditional Maasai-inspired living with modern amenities",
+              price: "KSh 19,999",
               delay: 400
             }].map((accommodation, index) => <div key={index} className="overflow-hidden rounded-xl group shadow-md animate-slide-up card-hover bg-white" style={{
               animationDelay: `${accommodation.delay}ms`
@@ -189,23 +187,23 @@ const Index: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                name: "Stanley Nuthalpati",
-                location: "New York, USA",
-                quote: "The river rafting experience was exhilarating! The staff was incredibly knowledgeable and made us feel safe while still having a blast.",
+                name: "Wangari Muthoni",
+                location: "Nairobi, Kenya",
+                quote: "The safari experience was breathtaking! Our guide was incredibly knowledgeable about all the wildlife and made us feel safe while still having a genuine adventure.",
                 image: "/lovable-uploads/b2944dcd-84a0-4ab8-af63-861cd91c2d08.png",
                 delay: 0
               },
               {
-                name: "Atharva Kulkarni",
-                location: "Mumbai, India",
-                quote: "The treehouse villa exceeded our expectations. Waking up to birds chirping and the view of the forest canopy was magical. A perfect anniversary getaway.",
+                name: "Omar Abdullah",
+                location: "Mombasa, Kenya",
+                quote: "The luxury tent exceeded our expectations. Waking up to zebras and giraffes grazing just outside was magical. A perfect anniversary getaway in the heart of Kenya.",
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
                 delay: 200
               },
               {
-                name: "Rajat Hegde",
-                location: "Singapore",
-                quote: "The wildlife safari was the highlight of our trip. We spotted elephants, deer, and even a black panther! Our guide was exceptional in tracking the animals.",
+                name: "Christine Njeri",
+                location: "Kisumu, Kenya",
+                quote: "The Big Five safari was the highlight of our trip. We spotted lions, elephants, buffalo, leopards, and even a rhino! Our Maasai guide was exceptional.",
                 image: "/lovable-uploads/54f9733a-3115-43f8-8702-ac90313ce5aa.png",
                 delay: 400
               }
@@ -239,7 +237,7 @@ const Index: React.FC = () => {
                 Get Exclusive Updates
               </h2>
               <p className="text-foreground/70 mb-8">
-                Subscribe to our newsletter and be the first to know about new adventures and seasonal experiences.
+                Subscribe to our newsletter and be the first to know about migration patterns and seasonal safari experiences.
               </p>
               <div className="flex flex-col sm:flex-row items-center max-w-md mx-auto gap-3">
                 <input type="email" placeholder="Your email address" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
@@ -260,13 +258,13 @@ const Index: React.FC = () => {
           <div className="container relative z-10 px-4 text-center">
             <div className="max-w-3xl mx-auto animate-fade-in">
               <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                Your Adventure Awaits!
+                Your African Adventure Awaits!
               </h2>
               <p className="text-xl mb-8 text-white/90">
-                Book your stay now and create memories that will last a lifetime.
+                Book your Kenyan safari now and create memories that will last a lifetime.
               </p>
               <Link to="/booking" className="inline-block px-8 py-4 bg-white text-green-700 font-medium text-lg rounded-md transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:translate-y-[-2px]">
-                Book Your Adventure Now
+                Book Your Safari Now
               </Link>
             </div>
           </div>

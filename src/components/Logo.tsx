@@ -6,28 +6,31 @@ export const Logo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center gap-2 group">
       <div className="relative w-14 h-14 overflow-hidden rounded-full">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-blue-700 group-hover:from-green-500 group-hover:to-blue-600 transition-colors duration-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-red-700 group-hover:from-green-500 group-hover:to-red-600 transition-colors duration-500"></div>
         <div className="absolute inset-0 flex items-center justify-center">
-          {/* Stylized river and mountain logo */}
+          {/* Stylized savanna and acacia tree logo */}
           <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg">
-            {/* Mountain */}
-            <path d="M22 20L14 4L8 12L2 20H22Z" fill="#e0f2f1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            {/* River */}
-            <path d="M3 15C5 13 7 15 9 13C11 11 13 13 15 11C17 9 19 11 21 9" stroke="#bbdefb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             {/* Sun */}
             <circle cx="17" cy="7" r="2" fill="#ffeb3b" stroke="currentColor" strokeWidth="0.5"/>
-            {/* Tree */}
-            <path d="M9 17V20" stroke="#2e7d32" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M9 14L7 17H11L9 14Z" fill="#2e7d32" stroke="#2e7d32" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M9 12L6.5 16H11.5L9 12Z" fill="#2e7d32" stroke="#2e7d32" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+            
+            {/* Savanna */}
+            <path d="M2 20L22 20L12 15L2 20Z" fill="#f9a825" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            
+            {/* Acacia Tree */}
+            <path d="M12 19V14" stroke="#2e7d32" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M12 14C10 10 8 13 12 8C16 13 14 10 12 14Z" fill="#2e7d32" stroke="#2e7d32" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 9C10 5 8 8 12 3C16 8 14 5 12 9Z" fill="#2e7d32" stroke="#2e7d32" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+            
+            {/* Wildlife silhouette */}
+            <path d="M6 19C6 17 5 18 4 17C3 16 3.5 15 4 14C4.5 13 5 14 6 14C7 14 7.5 15 7 16C6.5 17 6 17 6 19Z" fill="#6d4c41" stroke="#6d4c41" strokeWidth="0.5"/>
           </svg>
         </div>
       </div>
       <div className="flex flex-col">
         <span className="text-lg font-display font-bold text-green-700 leading-tight group-hover:text-green-600 transition-colors duration-300">
-          Dandeli
+          Maasai
         </span>
-        <span className="text-xs font-medium text-blue-600 -mt-1 group-hover:text-blue-500 transition-colors duration-300">
+        <span className="text-xs font-medium text-red-600 -mt-1 group-hover:text-red-500 transition-colors duration-300">
           Adventures
         </span>
       </div>
