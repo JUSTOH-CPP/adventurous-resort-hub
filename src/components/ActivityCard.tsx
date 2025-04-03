@@ -35,6 +35,9 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
     Challenging: 'bg-red-100 text-red-800'
   };
   
+  // Ensure image has a fallback
+  const imageUrl = image || "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80";
+  
   return (
     <div 
       id={id}
@@ -46,10 +49,13 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
     >
       <div className="md:w-2/5 lg:w-1/3 relative">
         <img 
-          src={image} 
+          src={imageUrl} 
           alt={title} 
           className="w-full h-full object-cover"
           style={{ minHeight: '250px', objectPosition: 'center' }}
+          onError={(e) => {
+            e.currentTarget.src = "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80";
+          }}
         />
         <div className={cn(
           "absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-medium",
