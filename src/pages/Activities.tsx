@@ -9,119 +9,122 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import ActivityCard from '@/components/ActivityCard';
+import { useActivities } from '@/hooks/useActivities';
 
 const Activities: React.FC = () => {
+  const { activities, isLoading, isError } = useActivities();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [activeFilter, setActiveFilter] = useState<boolean>(false);
   const [filteredActivities, setFilteredActivities] = useState<any[]>([]);
   
-  // Sample activities data
-  const activities = [
+  // Sample activities data as fallback if database isn't populated yet
+  const sampleActivities = [
     {
-      id: "river-rafting",
-      title: "River Rafting",
-      description: "Experience the thrill of navigating through the rapids of Kali River, with expert guides ensuring safety while you enjoy the adrenaline rush.",
-      image: "/lovable-uploads/1d3255ca-7296-4e20-b1fb-416cfb82fa82.png",
-      duration: "2-3 hours",
-      difficulty: "Moderate",
-      groupSize: "4-8 people",
-      rating: 4.8,
-      price: 45,
-      category: "water"
-    },
-    {
-      id: "wildlife-safari",
-      title: "Wildlife Safari",
-      description: "Explore the rich biodiversity of Dandeli Wildlife Sanctuary with guided jeep safaris. Spot elephants, black panthers, and various bird species in their natural habitat.",
+      id: "game-drive",
+      title: "Game Drive Safari",
+      description: "Experience the thrill of spotting Africa's Big Five on our guided game drives in Kenya's world-famous Maasai Mara National Reserve.",
       image: "/lovable-uploads/dc56b3d5-8de2-40a9-b259-35829487f125.png",
       duration: "3-4 hours",
       difficulty: "Easy",
-      groupSize: "6-10 people",
-      rating: 4.7,
-      price: 35,
-      category: "land"
-    },
-    {
-      id: "jungle-trekking",
-      title: "Jungle Trekking",
-      description: "Embark on a guided trek through pristine forest trails, discovering hidden waterfalls, spotting exotic birds, and learning about local flora and fauna.",
-      image: "/lovable-uploads/41b176ee-c1a4-467f-8c90-a34ecc92fb8b.png",
-      duration: "4-5 hours",
-      difficulty: "Moderate",
-      groupSize: "4-12 people",
-      rating: 4.6,
-      price: 30,
-      category: "land"
-    },
-    {
-      id: "kayaking",
-      title: "Kayaking",
-      description: "Paddle through the calm stretches of the Kali River and enjoy the peaceful surroundings. Perfect for beginners and nature lovers seeking a serene adventure.",
-      image: "/lovable-uploads/d3b0e6e8-2ca3-404f-be2d-c15f09cbabbb.png",
-      duration: "1-2 hours",
-      difficulty: "Easy",
-      groupSize: "1-2 people",
-      rating: 4.5,
-      price: 25,
-      category: "water"
-    },
-    {
-      id: "night-camping",
-      title: "Night Camping",
-      description: "Experience the wilderness under the stars with our guided night camping. Enjoy bonfire, stargazing, and the sounds of the jungle at night.",
-      image: "https://images.unsplash.com/photo-1478827536114-da961b7f86d2?auto=format&fit=crop&w=600&q=80",
-      duration: "Overnight",
-      difficulty: "Easy",
-      groupSize: "10-20 people",
+      groupSize: "4-8 people",
       rating: 4.9,
-      price: 50,
-      category: "land"
+      price: 85,
+      category: "safari"
     },
     {
-      id: "zipline-adventure",
-      title: "Zipline Adventure",
-      description: "Soar through the forest canopy on our thrilling zipline course. Get a bird's eye view of the beautiful landscapes while experiencing an adrenaline rush.",
+      id: "great-migration",
+      title: "Great Migration Experience",
+      description: "Witness one of nature's most spectacular events as millions of wildebeest and zebra cross the Mara River during their annual migration.",
+      image: "/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png",
+      duration: "Full day",
+      difficulty: "Easy",
+      groupSize: "4-6 people",
+      rating: 5.0,
+      price: 120,
+      category: "safari"
+    },
+    {
+      id: "walking-safari",
+      title: "Walking Safari",
+      description: "Walk alongside Maasai guides as they share their ancestral knowledge of the savanna, its plants, animals, and survival techniques.",
+      image: "/lovable-uploads/41b176ee-c1a4-467f-8c90-a34ecc92fb8b.png",
+      duration: "2-3 hours",
+      difficulty: "Moderate",
+      groupSize: "4-8 people",
+      rating: 4.6,
+      price: 60,
+      category: "adventure"
+    },
+    {
+      id: "balloon-safari",
+      title: "Hot Air Balloon Safari",
+      description: "Soar above the plains at dawn for a bird's eye view of Kenya's magnificent landscapes and wildlife, followed by a champagne breakfast.",
       image: "/lovable-uploads/504eed73-ca66-4273-aa1a-905482b892fe.png",
-      duration: "1-2 hours",
-      difficulty: "Challenging",
-      groupSize: "2-10 people",
-      rating: 4.7,
-      price: 40,
+      duration: "3-4 hours",
+      difficulty: "Easy",
+      groupSize: "8-16 people",
+      rating: 4.8,
+      price: 450,
       category: "air"
     },
     {
-      id: "coracle-ride",
-      title: "Coracle Ride",
-      description: "Experience a traditional boat ride in circular coracles. Spin and float down the gentle currents while enjoying the scenic beauty around you.",
-      image: "/lovable-uploads/07e0c5d8-5e69-46ba-918d-1d36153e73dd.png",
-      duration: "1-2 hours",
+      id: "maasai-village",
+      title: "Maasai Village Visit",
+      description: "Immerse yourself in authentic Maasai culture with a visit to a local village, where you can learn about their traditions, dances, and way of life.",
+      image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600&q=80",
+      duration: "Half day",
       difficulty: "Easy",
-      groupSize: "2-3 people",
-      rating: 4.4,
-      price: 20,
-      category: "water"
+      groupSize: "6-12 people",
+      rating: 4.7,
+      price: 45,
+      category: "cultural"
     },
     {
-      id: "bird-watching",
-      title: "Bird Watching",
-      description: "Dandeli is home to over 300 species of birds. Join our expert ornithologists for a guided bird watching experience in this avian paradise.",
-      image: "/lovable-uploads/a86fb74f-d5e7-48b5-a676-777476545216.png",
-      duration: "3-4 hours",
+      id: "night-safari",
+      title: "Night Safari Adventure",
+      description: "Explore the savanna after dark to encounter nocturnal wildlife such as lions on the hunt, hyenas, bush babies, and other creatures of the night.",
+      image: "/lovable-uploads/8fe5892b-b9ce-440c-8423-786ee90235e7.png",
+      duration: "3 hours",
       difficulty: "Easy",
       groupSize: "4-8 people",
-      rating: 4.6,
-      price: 25,
-      category: "nature"
+      rating: 4.5,
+      price: 95,
+      category: "safari"
+    },
+    {
+      id: "photography",
+      title: "Wildlife Photography Tour",
+      description: "Join our professional wildlife photographer for specialized safari focused on capturing stunning images of Kenya's iconic wildlife and landscapes.",
+      image: "/lovable-uploads/a86fb74f-d5e7-48b5-a676-777476545216.png",
+      duration: "Full day",
+      difficulty: "Easy",
+      groupSize: "3-6 people",
+      rating: 4.9,
+      price: 180,
+      category: "safari"
+    },
+    {
+      id: "conservation",
+      title: "Conservation Experience",
+      description: "Participate in our conservation activities including wildlife monitoring, anti-poaching efforts, and community education programs.",
+      image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80",
+      duration: "Half day",
+      difficulty: "Moderate",
+      groupSize: "4-10 people",
+      rating: 4.8,
+      price: 75,
+      category: "conservation"
     }
   ];
   
   const categories = [
     { id: "all", label: "All Activities" },
-    { id: "water", label: "Water Adventures" },
-    { id: "land", label: "Land Expeditions" },
-    { id: "air", label: "Aerial Adventures" },
-    { id: "nature", label: "Nature Experiences" }
+    { id: "safari", label: "Safari Experiences" },
+    { id: "adventure", label: "Adventure Activities" },
+    { id: "air", label: "Aerial Experiences" },
+    { id: "cultural", label: "Cultural Experiences" },
+    { id: "conservation", label: "Conservation" }
   ];
   
   const difficulties = [
@@ -132,11 +135,9 @@ const Activities: React.FC = () => {
   ];
   
   useEffect(() => {
-    filterActivities();
-  }, [selectedCategory, selectedDifficulty]);
-  
-  const filterActivities = () => {
-    let filtered = [...activities];
+    const activitiesToFilter = activities && activities.length > 0 ? activities : sampleActivities;
+    
+    let filtered = [...activitiesToFilter];
     
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(activity => activity.category === selectedCategory);
@@ -147,7 +148,7 @@ const Activities: React.FC = () => {
     }
     
     setFilteredActivities(filtered);
-  };
+  }, [selectedCategory, selectedDifficulty, activities]);
   
   const toggleFilter = () => {
     setActiveFilter(!activeFilter);
@@ -162,8 +163,8 @@ const Activities: React.FC = () => {
         <section className="relative h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden">
           <div className="absolute inset-0">
             <img 
-              src="/lovable-uploads/1d3255ca-7296-4e20-b1fb-416cfb82fa82.png" 
-              alt="Adventure activities" 
+              src="/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png" 
+              alt="Kenyan Safari" 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/50" />
@@ -171,16 +172,16 @@ const Activities: React.FC = () => {
           
           <div className="relative container h-full flex flex-col justify-center items-center text-center text-white p-4">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 animate-slide-down">
-              Adventure Awaits
+              Discover Wild Kenya
             </h1>
             <p className="text-lg md:text-xl max-w-2xl mb-8 animate-fade-in animation-delay-200">
-              Discover thrilling experiences in the heart of Western Ghats' wilderness
+              Embark on unforgettable safari adventures in the heart of East Africa's most spectacular wildlife reserves
             </p>
             <Link 
               to="/booking" 
               className="bg-white text-accent px-8 py-3 rounded-md font-medium text-lg transition-all duration-300 hover:bg-white/90 hover:shadow-lg animate-slide-up animation-delay-400"
             >
-              Book an Adventure
+              Book Your Safari
             </Link>
           </div>
         </section>
@@ -190,10 +191,10 @@ const Activities: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-start mb-10">
             <div className="mb-6 md:mb-0">
               <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-                Explore Our Activities
+                Explore Our Safari Activities
               </h2>
               <p className="text-foreground/70 max-w-xl">
-                From thrilling water sports to peaceful nature walks, find the perfect adventure for every type of explorer.
+                From thrilling game drives to cultural experiences, discover the wonders of Kenya's wildlife and heritage.
               </p>
             </div>
             
@@ -206,7 +207,7 @@ const Activities: React.FC = () => {
             </Button>
           </div>
           
-          {/* Filter Section - Visible on mobile when toggled */}
+          {/* Filter Section */}
           <div className={cn(
             "bg-card p-6 rounded-lg shadow-md mb-8 transition-all duration-300 overflow-hidden",
             activeFilter ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 md:max-h-[500px] md:opacity-100"
@@ -248,7 +249,17 @@ const Activities: React.FC = () => {
           
           {/* Activities Grid */}
           <div className="space-y-8">
-            {filteredActivities.length > 0 ? (
+            {isLoading ? (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-medium mb-2">Loading activities...</h3>
+                <p className="text-foreground/70">Please wait</p>
+              </div>
+            ) : isError ? (
+              <div className="text-center py-16">
+                <h3 className="text-xl font-medium mb-2">Error loading activities</h3>
+                <p className="text-foreground/70">Please try again later</p>
+              </div>
+            ) : filteredActivities.length > 0 ? (
               filteredActivities.map((activity, index) => (
                 <ActivityCard 
                   key={activity.id}
@@ -273,33 +284,33 @@ const Activities: React.FC = () => {
           </div>
         </section>
         
-        {/* Adventure Guidelines Section */}
+        {/* Safari Guidelines Section */}
         <section className="bg-secondary py-16 px-4">
           <div className="container">
             <h2 className="text-3xl font-display font-bold mb-8 text-center">
-              Adventure Guidelines
+              Safari Guidelines
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   title: "Safety First",
-                  description: "All activities are conducted with strict safety protocols. Listen to your guides and follow their instructions at all times.",
+                  description: "Always follow your guide's instructions and never leave the vehicle unless instructed it's safe to do so.",
                   image: "/lovable-uploads/61d7b6e2-720c-42fc-a459-7624b56b81d0.png"
                 },
                 {
-                  title: "Eco-Friendly Approach",
-                  description: "Help us preserve the natural beauty of Dandeli. Follow the 'leave no trace' policy during all adventures.",
-                  image: "https://images.unsplash.com/photo-1433477155337-9aea4e790195?auto=format&fit=crop&w=400&q=80"
+                  title: "Respect Wildlife",
+                  description: "Maintain a respectful distance from animals, keep noise to a minimum, and never feed wildlife.",
+                  image: "https://images.unsplash.com/photo-1471005197911-88e9d4a7834d?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                   title: "What to Bring",
-                  description: "Comfortable clothing, water bottle, insect repellent, and sunscreen are recommended for most activities.",
+                  description: "Neutral-colored clothing, hat, sunscreen, binoculars, camera, and insect repellent are essential for your safari.",
                   image: "https://images.unsplash.com/photo-1581912492723-688317ba2162?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                   title: "Booking Policy",
-                  description: "Advance booking is required for all activities. Cancellations need to be made 24 hours prior for a full refund.",
+                  description: "Advance booking is required. Cancellations need to be made 48 hours prior for a full refund.",
                   image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80"
                 }
               ].map((guideline, index) => (
@@ -331,20 +342,20 @@ const Activities: React.FC = () => {
         
         {/* CTA Section */}
         <section className="py-20 bg-accent text-accent-foreground relative">
-          <div className="absolute inset-0 bg-[url('/lovable-uploads/1d3255ca-7296-4e20-b1fb-416cfb82fa82.png')] bg-cover bg-center opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png')] bg-cover bg-center opacity-20"></div>
           <div className="container relative z-10 px-4 text-center">
             <div className="max-w-3xl mx-auto animate-fade-in">
               <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                Ready for Your Next Adventure?
+                Ready for Your Kenyan Safari?
               </h2>
               <p className="text-xl mb-8 text-accent-foreground/90">
-                Book your activity now and create memories that will last a lifetime.
+                Book your adventure now and witness the magic of Kenya's wildlife up close.
               </p>
               <Link 
                 to="/booking" 
                 className="inline-block px-8 py-4 bg-white text-accent font-medium text-lg rounded-md transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:translate-y-[-2px]"
               >
-                Book Your Adventure
+                Book Your Safari
               </Link>
             </div>
           </div>

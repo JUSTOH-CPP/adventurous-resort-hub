@@ -5,62 +5,65 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ArrowRight, Leaf, Shield, Award, Users, Heart, BookOpen, Map, Calendar, Mountain } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
 const About: React.FC = () => {
   const teamMembers = [{
-    name: "Aishwarya Sharma",
+    name: "Wanjiku Mwangi",
     role: "Founder & CEO",
-    bio: "With over 15 years of experience in adventure tourism, Aishwarya founded Dandeli Adventures with a vision to create sustainable tourism experiences.",
+    bio: "With over 15 years of experience in safari tourism and conservation, Wanjiku founded Maasai Adventures with a vision to create sustainable wildlife experiences.",
     image: "/lovable-uploads/2bbf5848-053c-4f28-96bc-dac23d6a8b34.png"
   }, {
-    name: "Rahul Patil",
-    role: "Operations Director",
-    bio: "Rahul ensures all our adventures run smoothly and safely, with a background in wilderness management and outdoor leadership.",
+    name: "Daniel Kipkorir",
+    role: "Head Safari Guide",
+    bio: "Born and raised in the Maasai Mara, Daniel has unparalleled knowledge of Kenya's wildlife and landscapes after 12 years of guiding experience.",
     image: "/lovable-uploads/849faf99-8ef2-4028-bb7f-9b1fd88877ee.png"
   }, {
-    name: "Priya Desai",
-    role: "Wildlife Expert",
-    bio: "A certified naturalist with a passion for conservation, Priya leads our wildlife experiences and educational programs.",
+    name: "Amina Omar",
+    role: "Conservation Director",
+    bio: "A certified ecologist with a passion for big cat conservation, Amina leads our wildlife protection programs and community education initiatives.",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80"
   }, {
-    name: "Vikram Mehra",
-    role: "Head Chef",
-    bio: "Specializing in local Malnad cuisine, Chef Vikram creates authentic farm-to-table experiences using ingredients from our organic garden.",
+    name: "Joseph Mutua",
+    role: "Cultural Ambassador",
+    bio: "A respected Maasai elder, Joseph helps create authentic cultural experiences while ensuring respectful engagement with local communities.",
     image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80"
   }];
+  
   const timeline = [{
     year: "2005",
     title: "Our Beginning",
-    description: "Dandeli Adventures was founded with just two riverside cottages and a dream to share the magic of Western Ghats."
+    description: "Maasai Adventures was founded with just two safari vehicles and a dream to share Kenya's wildlife wonders with the world."
   }, {
     year: "2010",
-    title: "Expansion",
-    description: "Added our signature treehouse villas and expanded our adventure activities to include white water rafting and kayaking."
+    title: "Conservation Focus",
+    description: "Launched our anti-poaching unit and community conservation education program in partnership with Kenya Wildlife Service."
   }, {
     year: "2015",
-    title: "Conservation Partnership",
-    description: "Partnered with the Karnataka Forest Department for wildlife conservation initiatives in Dandeli-Anshi Tiger Reserve."
+    title: "Expansion",
+    description: "Expanded our luxury tented camps and introduced hot air balloon safaris and cultural immersion experiences."
   }, {
     year: "2019",
     title: "Sustainability Award",
-    description: "Recognized with the National Tourism Award for sustainable ecotourism practices and community development."
+    description: "Received the Eco-Tourism Kenya Gold Award for sustainable tourism practices and community development."
   }, {
     year: "2023",
     title: "Today",
-    description: "Now offering over 20 unique experiences and accommodations while remaining committed to sustainable tourism."
+    description: "Now a leader in responsible safari tourism with over 20 unique experiences while protecting over 50,000 acres of wildlife habitat."
   }];
+  
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow pt-24">
         {/* Hero Section */}
         <section className="relative py-20 mb-8">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20 bg-lime-600"></div>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20 bg-lime-600"></div>
           <div className="relative z-10 container mx-auto text-center px-4">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 animate-fade-in hover:text-glow transition-all duration-300">
               Our Story
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 animate-fade-in animation-delay-200">
-              Discover the journey of Dandeli Adventures, from a small riverside camp to becoming Karnataka's premier eco-adventure destination.
+              Discover the journey of Maasai Adventures, from a small family business to becoming Kenya's premier safari and conservation company.
             </p>
           </div>
         </section>
@@ -70,9 +73,9 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
               <div className="relative">
-                <img src="/lovable-uploads/fa6d6df3-ea4b-4f3f-9db1-81fbb2370f9f.png" alt="Dandeli Wildlife" className="w-full h-[500px] object-cover rounded-xl shadow-lg" />
+                <img src="/lovable-uploads/fa6d6df3-ea4b-4f3f-9db1-81fbb2370f9f.png" alt="Kenya Wildlife" className="w-full h-[500px] object-cover rounded-xl shadow-lg" />
                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-xl hidden md:block">
-                  <img src="/lovable-uploads/627761c4-60f7-43ef-864e-7bfaab1c1dc6.png" alt="Zipline Adventure" className="w-40 h-32 object-cover rounded-md" />
+                  <img src="/lovable-uploads/627761c4-60f7-43ef-864e-7bfaab1c1dc6.png" alt="Safari Experience" className="w-40 h-32 object-cover rounded-md" />
                 </div>
               </div>
             </div>
@@ -82,7 +85,7 @@ const About: React.FC = () => {
                 Our Mission & Vision
               </h2>
               <p className="text-foreground/70 mb-6">
-                At Dandeli Adventures, we're on a mission to create transformative experiences that connect people with nature while preserving the pristine wilderness of the Western Ghats for generations to come.
+                At Maasai Adventures, we're committed to creating transformative safari experiences that connect people with Kenya's magnificent wildlife while ensuring its conservation for future generations.
               </p>
               
               <div className="space-y-6 mb-8">
@@ -92,7 +95,7 @@ const About: React.FC = () => {
                     <h3 className="font-display text-xl font-semibold">Our Mission</h3>
                   </div>
                   <p className="text-foreground/70">
-                    To provide unforgettable, sustainable adventure experiences that educate and inspire a deep appreciation for nature's wonders.
+                    To provide unforgettable safari experiences that inspire conservation awareness while directly contributing to wildlife protection and community development.
                   </p>
                 </div>
                 
@@ -102,9 +105,64 @@ const About: React.FC = () => {
                     <h3 className="font-display text-xl font-semibold">Our Vision</h3>
                   </div>
                   <p className="text-foreground/70">
-                    To be recognized globally as a model for responsible ecotourism that benefits local communities and natural ecosystems.
+                    To be a global model for responsible safari tourism that demonstrates how wildlife conservation, community empowerment, and authentic tourism can thrive together.
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Conservation Efforts */}
+        <section className="py-20 bg-white">
+          <div className="container px-4">
+            <div className="text-center mb-16 animate-slide-up">
+              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                Our Conservation Efforts
+              </h2>
+              <p className="text-foreground/70 max-w-2xl mx-auto">
+                Maasai Adventures is committed to protecting Kenya's wildlife and supporting local communities through these key initiatives.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-secondary p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md animate-fade-in">
+                <img 
+                  src="https://images.unsplash.com/photo-1504173010664-32509aeebb62?auto=format&fit=crop&w=600&q=80" 
+                  alt="Anti-poaching" 
+                  className="w-full h-56 object-cover rounded-lg mb-5"
+                />
+                <h3 className="text-xl font-display font-semibold mb-3">Anti-Poaching Unit</h3>
+                <p className="text-foreground/70 mb-4">
+                  Our dedicated team of rangers patrol protected areas to prevent poaching, especially targeting rhino and elephant populations. We've helped reduce poaching by 70% in our areas of operation.
+                </p>
+                <div className="font-semibold text-accent">10% of all safari bookings directly fund our anti-poaching efforts</div>
+              </div>
+              
+              <div className="bg-secondary p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md animate-fade-in" style={{animationDelay: '100ms'}}>
+                <img 
+                  src="https://images.unsplash.com/photo-1541688669813-3b99f1e6adf6?auto=format&fit=crop&w=600&q=80" 
+                  alt="Wildlife research" 
+                  className="w-full h-56 object-cover rounded-lg mb-5"
+                />
+                <h3 className="text-xl font-display font-semibold mb-3">Wildlife Research</h3>
+                <p className="text-foreground/70 mb-4">
+                  In partnership with the Kenya Wildlife Service and international universities, we conduct vital research on endangered species including lions, cheetahs, and rhinoceros.
+                </p>
+                <div className="font-semibold text-accent">Our guests can participate in citizen science initiatives during their safaris</div>
+              </div>
+              
+              <div className="bg-secondary p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md animate-fade-in" style={{animationDelay: '200ms'}}>
+                <img 
+                  src="https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=600&q=80" 
+                  alt="Community education" 
+                  className="w-full h-56 object-cover rounded-lg mb-5"
+                />
+                <h3 className="text-xl font-display font-semibold mb-3">Community Education</h3>
+                <p className="text-foreground/70 mb-4">
+                  We provide conservation education in local schools and create alternative livelihoods for communities traditionally dependent on activities that might harm wildlife.
+                </p>
+                <div className="font-semibold text-accent">Over 5,000 students participate in our programs annually</div>
               </div>
             </div>
           </div>
@@ -118,30 +176,30 @@ const About: React.FC = () => {
                 Our Core Values
               </h2>
               <p className="text-foreground/70 max-w-2xl mx-auto">
-                The guiding principles that define everything we do at Dandeli Adventures.
+                The guiding principles that define everything we do at Maasai Adventures.
               </p>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[{
               icon: <Leaf size={30} />,
-              title: "Sustainability",
-              description: "Minimize our ecological footprint while maximizing positive impact on local ecosystems.",
+              title: "Conservation",
+              description: "Wildlife protection and habitat preservation are integrated into every aspect of our operations.",
               delay: 0
             }, {
               icon: <Shield size={30} />,
               title: "Safety",
-              description: "Rigorous safety standards and certified guides for all adventure activities.",
+              description: "Rigorous safety protocols and certified guides ensure secure wildlife experiences.",
               delay: 100
             }, {
               icon: <Users size={30} />,
               title: "Community",
-              description: "Supporting local communities through employment and cultural preservation.",
+              description: "Supporting local Maasai communities through employment, education, and cultural preservation.",
               delay: 200
             }, {
               icon: <Award size={30} />,
-              title: "Excellence",
-              description: "Commitment to exceptional experiences and continuous improvement.",
+              title: "Authenticity",
+              description: "Providing genuine experiences that honor Kenya's wildlife, landscapes, and cultures.",
               delay: 300
             }].map((value, index) => <div key={index} className="bg-white p-8 rounded-xl text-center shadow-sm animate-slide-up card-hover" style={{
               animationDelay: `${value.delay}ms`
@@ -167,7 +225,7 @@ const About: React.FC = () => {
               Our Journey
             </h2>
             <p className="text-foreground/70 max-w-2xl mx-auto">
-              From humble beginnings to a recognized name in ecotourism.
+              From humble beginnings to a leader in Kenyan safari and conservation.
             </p>
           </div>
           
@@ -212,7 +270,7 @@ const About: React.FC = () => {
                 Meet Our Team
               </h2>
               <p className="text-foreground/70 max-w-2xl mx-auto">
-                The passionate individuals who make your adventures unforgettable.
+                The passionate individuals who make your Kenyan safaris unforgettable.
               </p>
             </div>
             
@@ -238,10 +296,10 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="animate-slide-up">
               <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-                Visit Us in Paradise
+                Visit Us in Kenya
               </h2>
               <p className="text-foreground/70 mb-6">
-                Nestled between the lush forests of the Western Ghats and the crystal-clear Kali River, Dandeli Adventures offers the perfect backdrop for your nature retreat.
+                Our headquarters are located in Nairobi, with safari operations throughout Kenya's premier wildlife reserves including Maasai Mara, Amboseli, and Tsavo.
               </p>
               
               <div className="space-y-4 mb-8">
@@ -250,9 +308,9 @@ const About: React.FC = () => {
                     <Map size={20} />
                   </div>
                   <div>
-                    <h3 className="font-medium">Our Location</h3>
+                    <h3 className="font-medium">Our Headquarters</h3>
                     <p className="text-sm text-foreground/70">
-                      Dandeli Wildlife Sanctuary, Karnataka, India - 581325
+                      Maasai Adventures, Ngong Road, Karen, Nairobi, Kenya
                     </p>
                   </div>
                 </div>
@@ -262,9 +320,9 @@ const About: React.FC = () => {
                     <Mountain size={20} />
                   </div>
                   <div>
-                    <h3 className="font-medium">Getting Here</h3>
+                    <h3 className="font-medium">Safari Locations</h3>
                     <p className="text-sm text-foreground/70">
-                      5 hours drive from Goa, 3 hours from Hubli, and 8 hours from Bangalore.
+                      Maasai Mara, Amboseli, Tsavo, Lake Nakuru, and Samburu National Reserves
                     </p>
                   </div>
                 </div>
@@ -277,9 +335,9 @@ const About: React.FC = () => {
             
             <div className="animate-slide-up animation-delay-200">
               <div className="rounded-xl overflow-hidden shadow-lg">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61475.89343423126!2d74.57940594863278!3d15.244387199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbf35941ce7aacd%3A0xcdbe67b4b8d98c2!2sDandeli%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1650120000000!5m2!1sen!2sin" width="100%" height="450" style={{
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35853841743!2d36.70731444941403!3d-1.304441599999922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%20National%20Park!5e0!3m2!1sen!2sus!4v1650120000000!5m2!1sen!2sus" width="100%" height="450" style={{
                 border: 0
-              }} allowFullScreen loading="lazy" title="Dandeli Adventures Location" className="w-full"></iframe>
+              }} allowFullScreen loading="lazy" title="Maasai Adventures Location" className="w-full"></iframe>
               </div>
             </div>
           </div>
@@ -287,21 +345,21 @@ const About: React.FC = () => {
         
         {/* CTA */}
         <section className="py-20 bg-accent text-accent-foreground relative">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1612455679639-8dbaf41db6a2?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-20"></div>
           <div className="container relative z-10 px-4 text-center">
             <div className="max-w-3xl mx-auto animate-fade-in">
               <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
-                Ready to Experience Dandeli?
+                Ready to Experience Wild Kenya?
               </h2>
               <p className="text-xl mb-8 text-accent-foreground/90">
-                Book your stay now and discover the magic of the Western Ghats with us.
+                Book your safari now and discover the magic of Kenya's wildlife with us.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/accommodation" className="inline-block px-8 py-4 bg-white text-accent font-medium text-lg rounded-md transition-all duration-300 hover:bg-white/90 hover:shadow-lg hover:translate-y-[-2px]">
-                  View Accommodations
+                  View Our Camps
                 </Link>
                 <Link to="/booking" className="inline-block px-8 py-4 bg-transparent border-2 border-white text-white font-medium text-lg rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:translate-y-[-2px]">
-                  Book Now
+                  Book Your Safari
                 </Link>
               </div>
             </div>

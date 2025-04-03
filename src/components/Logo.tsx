@@ -6,7 +6,7 @@ export const Logo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center gap-2 group">
       <div className="relative w-14 h-14 overflow-hidden rounded-full">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-red-700 group-hover:from-green-500 group-hover:to-red-600 transition-colors duration-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-yellow-700 group-hover:from-green-500 group-hover:to-yellow-600 transition-colors duration-500"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Stylized savanna and acacia tree logo */}
           <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +30,7 @@ export const Logo: React.FC = () => {
         <span className="text-lg font-display font-bold text-green-700 leading-tight group-hover:text-green-600 transition-colors duration-300">
           Maasai
         </span>
-        <span className="text-xs font-medium text-red-600 -mt-1 group-hover:text-red-500 transition-colors duration-300">
+        <span className="text-xs font-medium text-yellow-600 -mt-1 group-hover:text-yellow-500 transition-colors duration-300">
           Adventures
         </span>
       </div>
