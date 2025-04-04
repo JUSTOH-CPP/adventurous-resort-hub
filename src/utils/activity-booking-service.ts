@@ -34,7 +34,7 @@ export const createActivityBooking = async (bookingData: ActivityBookingFormData
     const totalPrice = (activity as Activity).price * bookingData.participants;
     
     // Insert activity booking into Supabase
-    const bookingRecord = {
+    const bookingRecord: any = {
       activity_id: bookingData.activityId,
       date: bookingData.date.toISOString().split('T')[0],
       participants: bookingData.participants,
@@ -47,10 +47,10 @@ export const createActivityBooking = async (bookingData: ActivityBookingFormData
     
     // Add user_id only if we have a valid user session
     if (userId) {
-      Object.assign(bookingRecord, { user_id: userId });
+      bookingRecord.user_id = userId;
+      bookingRecord.status = 'pending'; // Add status only when there's a user
     }
     
-    // Make sure we're setting the status as a separate call to match database schema
     const { data, error } = await supabase
       .from('activity_bookings')
       .insert(bookingRecord)
@@ -82,7 +82,7 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       throw new Error('User not authenticated');
     }
     
-    // Explicitly define the type of the data returned to avoid deep instantiation issues
+    // Use specific types to avoid deep instantiation issues
     const { data, error } = await supabase
       .from('activity_bookings')
       .select(`
@@ -94,8 +94,8 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       
     if (error) throw error;
     
-    // Type assertion to ActivityBooking[] to avoid circular references
-    return (data || []) as ActivityBooking[];
+    // Return empty array if no data
+    return data as ActivityBooking[] || [];
   } catch (error) {
     console.error('Error getting user activity bookings:', error);
     return []; // Return empty array instead of throwing
@@ -104,7 +104,7 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
 
 export const cancelActivityBooking = async (bookingId: string): Promise<void> => {
   try {
-    // Update the booking status using the specific status field
+    // Ensure we only update fields that exist in the table
     const { error } = await supabase
       .from('activity_bookings')
       .update({ status: 'cancelled' })
