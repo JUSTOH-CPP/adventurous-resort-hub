@@ -169,5 +169,39 @@ export const kenyaRooms = [
       { icon: "tv", label: "Smart TV" },
       { icon: "users", label: "Up to 2 Guests" }
     ]
+  },
+  {
+    id: "luxury-pool-villa",
+    title: "Luxury Pool Villa",
+    description: "Exclusive villa with a private pool and expansive views of the savanna. Featuring a fully-equipped kitchen and outdoor dining area.",
+    price: 550,
+    capacity: 4,
+    size: "850 sq ft",
+    bedType: "2 Kings",
+    image: "/lovable-uploads/e254561c-a576-4abe-ba9b-a057e1ddc8d7.png",
+    views: "Savanna and Pool",
+    amenities: [
+      { icon: "wifi", label: "Free Wi-Fi" },
+      { icon: "coffee", label: "Gourmet Kitchen" },
+      { icon: "tv", label: "Smart TV" },
+      { icon: "users", label: "Up to 4 Guests" }
+    ]
+  },
+  {
+    id: "honeymoon-suite",
+    title: "Honeymoon Suite",
+    description: "Romantic suite designed for couples, featuring a private hot tub, champagne service, and stunning sunset views over the savanna.",
+    price: 480,
+    capacity: 2,
+    size: "600 sq ft",
+    bedType: "1 King",
+    image: "/lovable-uploads/44997248-2a7d-4c4b-8656-13d704d35b37.png",
+    views: "Sunset Savanna",
+    amenities: [
+      { icon: "wifi", label: "Free Wi-Fi" },
+      { icon: "coffee", label: "Premium Mini Bar" },
+      { icon: "tv", label: "Smart TV" },
+      { icon: "users", label: "Up to 2 Guests" }
+    ]
   }
 ];
