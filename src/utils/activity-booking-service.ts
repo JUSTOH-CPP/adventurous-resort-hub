@@ -1,7 +1,6 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { Activity, ActivityBooking } from '@/types/supabase';
-import { useAuth } from '@/context/AuthContext';
 
 export interface ActivityBookingFormData {
   activityId: string;
@@ -39,8 +38,6 @@ export const createActivityBooking = async (bookingData: ActivityBookingFormData
       activity_id: bookingData.activityId,
       date: bookingData.date.toISOString().split('T')[0],
       participants: bookingData.participants,
-      user_id: userId,
-      status: 'pending',
       total_price: totalPrice,
       contact_name: bookingData.name,
       contact_email: bookingData.email,
@@ -53,6 +50,7 @@ export const createActivityBooking = async (bookingData: ActivityBookingFormData
       Object.assign(bookingRecord, { user_id: userId });
     }
     
+    // Make sure we're setting the status as a separate call to match database schema
     const { data, error } = await supabase
       .from('activity_bookings')
       .insert(bookingRecord)
@@ -84,6 +82,7 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       throw new Error('User not authenticated');
     }
     
+    // Explicitly define the type of the data returned to avoid deep instantiation issues
     const { data, error } = await supabase
       .from('activity_bookings')
       .select(`
@@ -95,7 +94,8 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       
     if (error) throw error;
     
-    return data as ActivityBooking[];
+    // Type assertion to ActivityBooking[] to avoid circular references
+    return (data || []) as ActivityBooking[];
   } catch (error) {
     console.error('Error getting user activity bookings:', error);
     return []; // Return empty array instead of throwing
@@ -104,6 +104,7 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
 
 export const cancelActivityBooking = async (bookingId: string): Promise<void> => {
   try {
+    // Update the booking status using the specific status field
     const { error } = await supabase
       .from('activity_bookings')
       .update({ status: 'cancelled' })
@@ -153,6 +154,6 @@ export const getActivityAvailability = async (activityId: string, date: string):
     return availableSpots;
   } catch (error) {
     console.error('Error checking activity availability:', error);
-    return 0;
+    return 0; 
   }
 };

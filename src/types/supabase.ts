@@ -1,3 +1,4 @@
+
 export interface Booking {
   id: string;
   user_id?: string;
