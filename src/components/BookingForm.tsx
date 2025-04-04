@@ -90,13 +90,25 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
     setIsSubmitting(true);
     try {
       // Create booking in Supabase
-      const bookingId = await createBookingInSupabase(values);
+      const bookingData: BookingFormData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        adults: values.adults,
+        children: values.children,
+        checkInDate: values.checkInDate,
+        checkOutDate: values.checkOutDate,
+        roomType: values.roomType,
+        specialRequests: values.specialRequests,
+      };
+      
+      const bookingId = await createBookingInSupabase(bookingData);
       
       // Generate a simple booking reference
       const bookingReference = `BK${bookingId.slice(-6)}`;
       
       // Store booking details for confirmation dialog
-      setBookingDetails({ ...values, bookingReference, bookingId });
+      setBookingDetails({ ...bookingData, bookingReference, bookingId });
       
       // Show confirmation dialog
       setShowConfirmation(true);

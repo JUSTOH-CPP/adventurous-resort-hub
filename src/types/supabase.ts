@@ -30,6 +30,11 @@ export interface Activity {
   price: number;
   duration: number;
   max_participants?: number;
+  category?: string;
+  difficulty?: string;
+  rating?: number;
+  groupSize?: string;
+  image?: string;
   created_at: string;
   updated_at: string;
 }

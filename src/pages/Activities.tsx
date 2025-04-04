@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import ActivityCard from '@/components/ActivityCard';
 import { useActivities } from '@/hooks/useActivities';
+import type { Activity } from '@/types/supabase';
 
 const Activities: React.FC = () => {
   const { activities, isLoading, isError } = useActivities();
@@ -72,7 +73,7 @@ const Activities: React.FC = () => {
       id: "maasai-village",
       title: "Maasai Village Visit",
       description: "Immerse yourself in authentic Maasai culture with a visit to a local village, where you can learn about their traditions, dances, and way of life.",
-      image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600&q=80",
+      image: "/lovable-uploads/41b176ee-c1a4-467f-8c90-a34ecc92fb8b.png",
       duration: "Half day",
       difficulty: "Easy",
       groupSize: "6-12 people",
@@ -108,13 +109,37 @@ const Activities: React.FC = () => {
       id: "conservation",
       title: "Conservation Experience",
       description: "Participate in our conservation activities including wildlife monitoring, anti-poaching efforts, and community education programs.",
-      image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80",
+      image: "/lovable-uploads/61d7b6e2-720c-42fc-a459-7624b56b81d0.png",
       duration: "Half day",
       difficulty: "Moderate",
       groupSize: "4-10 people",
       rating: 4.8,
       price: 75,
       category: "conservation"
+    },
+    {
+      id: "lake-nakuru",
+      title: "Lake Nakuru Flamingo Tour",
+      description: "Visit the stunning Lake Nakuru, home to millions of flamingos that create a stunning pink horizon against the blue waters.",
+      image: "/lovable-uploads/8fe5892b-b9ce-440c-8423-786ee90235e7.png",
+      duration: "Full day",
+      difficulty: "Easy",
+      groupSize: "6-12 people",
+      rating: 4.7,
+      price: 110,
+      category: "wildlife"
+    },
+    {
+      id: "elephant-orphanage",
+      title: "David Sheldrick Elephant Orphanage",
+      description: "Visit Nairobi's famous elephant orphanage and witness the care given to baby elephants rescued from the wild.",
+      image: "/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png",
+      duration: "3 hours",
+      difficulty: "Easy",
+      groupSize: "10-20 people",
+      rating: 4.9,
+      price: 55,
+      category: "wildlife"
     }
   ];
   
@@ -124,7 +149,8 @@ const Activities: React.FC = () => {
     { id: "adventure", label: "Adventure Activities" },
     { id: "air", label: "Aerial Experiences" },
     { id: "cultural", label: "Cultural Experiences" },
-    { id: "conservation", label: "Conservation" }
+    { id: "conservation", label: "Conservation" },
+    { id: "wildlife", label: "Wildlife Interaction" }
   ];
   
   const difficulties = [
@@ -140,11 +166,19 @@ const Activities: React.FC = () => {
     let filtered = [...activitiesToFilter];
     
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter(activity => activity.category === selectedCategory);
+      filtered = filtered.filter(activity => {
+        // Handle both database activities and sample activities
+        const category = 'category' in activity ? activity.category : undefined;
+        return category === selectedCategory;
+      });
     }
     
     if (selectedDifficulty !== 'all') {
-      filtered = filtered.filter(activity => activity.difficulty === selectedDifficulty);
+      filtered = filtered.filter(activity => {
+        // Handle both database activities and sample activities
+        const difficulty = 'difficulty' in activity ? activity.difficulty : undefined;
+        return difficulty === selectedDifficulty;
+      });
     }
     
     setFilteredActivities(filtered);
