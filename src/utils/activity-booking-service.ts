@@ -97,20 +97,17 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       throw new Error('User not authenticated');
     }
     
-    // Use explicit type for the return data to avoid deep instantiation issues
+    // Use a simpler approach to avoid deep instantiation issues
     const { data, error } = await supabase
       .from('activity_bookings')
-      .select(`
-        *,
-        activity:activity_id(*)
-      `)
+      .select('*, activity:activity_id(*)')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
       
     if (error) throw error;
     
-    // Use type assertion to handle the shape of the data from Supabase
-    return (data || []) as unknown as ActivityBooking[];
+    // Use type assertion with a simpler approach
+    return data as ActivityBooking[] || [];
   } catch (error) {
     console.error('Error getting user activity bookings:', error);
     return []; // Return empty array instead of throwing
@@ -119,10 +116,12 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
 
 export const cancelActivityBooking = async (bookingId: string): Promise<void> => {
   try {
-    // The update operations needs to use a type that has the status field
+    // Use a status update that matches the expected database schema
     const { error } = await supabase
       .from('activity_bookings')
-      .update({ status: 'cancelled' } as { status: string })
+      .update({ 
+        status: 'cancelled'
+      })
       .eq('id', bookingId);
       
     if (error) throw error;
