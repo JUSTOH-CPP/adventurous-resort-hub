@@ -132,7 +132,8 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
         description: `Booking for ${bookingDetails.roomType} room`,
         metadata: {
           guestName: bookingDetails.name,
-          checkInDate: bookingDetails.date?.toISOString(), // Added optional chaining
+          checkInDate: bookingDetails.checkInDate?.toISOString(), // Use optional chaining for dates
+          checkOutDate: bookingDetails.checkOutDate?.toISOString(),
           roomType: bookingDetails.roomType,
           promoApplied: promoApplied ? promoCode : null
         }
@@ -209,7 +210,17 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
           <div className="flex justify-between">
             <span>Check-in Date:</span>
             <span className="font-medium">
-              {bookingDetails.date ? bookingDetails.date.toLocaleDateString() : "Not specified"}
+              {bookingDetails.checkInDate 
+                ? new Date(bookingDetails.checkInDate).toLocaleDateString() 
+                : "Not specified"}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span>Check-out Date:</span>
+            <span className="font-medium">
+              {bookingDetails.checkOutDate 
+                ? new Date(bookingDetails.checkOutDate).toLocaleDateString() 
+                : "Not specified"}
             </span>
           </div>
           

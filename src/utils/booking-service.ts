@@ -34,16 +34,21 @@ export const createBookingInSupabase = async (bookingData: BookingFormData): Pro
     
     // Insert booking into Supabase, even if user is not logged in
     // For now, we'll create a booking without a user_id to avoid the foreign key constraint error
+    const bookingRecord = {
+      check_in: bookingData.checkInDate.toISOString().split('T')[0],
+      check_out: bookingData.checkOutDate.toISOString().split('T')[0],
+      total_price: totalPrice,
+      status: 'pending',
+    };
+
+    // Add user_id only if we have a valid user session
+    if (userId) {
+      Object.assign(bookingRecord, { user_id: userId });
+    }
+    
     const { data, error } = await supabase
       .from('bookings')
-      .insert({
-        // Remove the user_id field to avoid foreign key constraint errors
-        // user_id: userId, 
-        check_in: bookingData.checkInDate.toISOString().split('T')[0],
-        check_out: bookingData.checkOutDate.toISOString().split('T')[0],
-        total_price: totalPrice,
-        status: 'pending',
-      })
+      .insert(bookingRecord)
       .select()
       .single();
       
