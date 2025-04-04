@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { Logo } from './Logo';
+import Logo from './Logo';  // Fixed import statement
 import AuthButtons from './AuthButtons';
 
 const navLinks = [
