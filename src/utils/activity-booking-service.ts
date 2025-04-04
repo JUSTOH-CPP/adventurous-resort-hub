@@ -12,6 +12,21 @@ export interface ActivityBookingFormData {
   specialRequests?: string;
 }
 
+// Define the type for activity booking record to be inserted into the database
+// This matches what Supabase expects for the activity_bookings table
+interface ActivityBookingInsert {
+  activity_id?: string;
+  user_id?: string;
+  date: string;
+  participants: number;
+  total_price?: number;
+  contact_name?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  special_requests?: string;
+  status?: string;
+}
+
 export const createActivityBooking = async (bookingData: ActivityBookingFormData): Promise<string> => {
   try {
     // Get the current user or create a guest booking
@@ -33,9 +48,8 @@ export const createActivityBooking = async (bookingData: ActivityBookingFormData
     // Calculate total price based on number of participants
     const totalPrice = (activity as Activity).price * bookingData.participants;
     
-    // Insert activity booking into Supabase
-    // Use a record object that matches our database schema
-    const bookingRecord: Partial<ActivityBooking> = {
+    // Create a booking record that matches the expected structure of the database table
+    const bookingRecord: ActivityBookingInsert = {
       activity_id: bookingData.activityId,
       date: bookingData.date.toISOString().split('T')[0],
       participants: bookingData.participants,
@@ -46,11 +60,10 @@ export const createActivityBooking = async (bookingData: ActivityBookingFormData
       special_requests: bookingData.specialRequests || null
     };
     
-    // Add user_id only if we have a valid user session
+    // Add user_id and status only if we have a valid user session
     if (userId) {
       bookingRecord.user_id = userId;
-      // The status field is defined in the ActivityBooking interface
-      bookingRecord.status = 'pending'; 
+      bookingRecord.status = 'pending';
     }
     
     const { data, error } = await supabase
@@ -84,7 +97,7 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       throw new Error('User not authenticated');
     }
     
-    // Get the bookings with proper return type handling
+    // Use explicit type for the return data to avoid deep instantiation issues
     const { data, error } = await supabase
       .from('activity_bookings')
       .select(`
@@ -96,7 +109,7 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       
     if (error) throw error;
     
-    // Return empty array if no data, explicitly cast to ActivityBooking[]
+    // Use type assertion to handle the shape of the data from Supabase
     return (data || []) as unknown as ActivityBooking[];
   } catch (error) {
     console.error('Error getting user activity bookings:', error);
@@ -106,10 +119,10 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
 
 export const cancelActivityBooking = async (bookingId: string): Promise<void> => {
   try {
-    // Update the booking status
+    // The update operations needs to use a type that has the status field
     const { error } = await supabase
       .from('activity_bookings')
-      .update({ status: 'cancelled' })
+      .update({ status: 'cancelled' } as { status: string })
       .eq('id', bookingId);
       
     if (error) throw error;
