@@ -27,15 +27,29 @@ export const useActivities = () => {
           category: activity.category,
           difficulty: activity.difficulty,
           rating: activity.rating,
+          groupSize: activity.groupSize,
           image: activity.image,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         } as Activity;
       });
   
+  // Filter functions
+  const filterByCategory = (categoryFilter: string | null) => {
+    if (!categoryFilter || categoryFilter === 'all') return activities;
+    return activities.filter(activity => activity.category?.toLowerCase() === categoryFilter.toLowerCase());
+  };
+  
+  const filterByDifficulty = (difficultyFilter: string | null) => {
+    if (!difficultyFilter || difficultyFilter === 'all') return activities;
+    return activities.filter(activity => activity.difficulty?.toLowerCase() === difficultyFilter.toLowerCase());
+  };
+  
   return {
     activities,
     isLoading,
-    isError: !!error
+    isError: !!error,
+    filterByCategory,
+    filterByDifficulty
   };
 };

@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 import type { 
   Booking, 
@@ -98,10 +97,37 @@ export const getActivityById = async (id: string) => {
 export const getActivityBookings = async () => {
   const { data, error } = await supabase
     .from('activity_bookings')
-    .select('*');
+    .select(`
+      *,
+      activity:activity_id(*)
+    `);
   
   if (error) throw error;
   return data as ActivityBooking[];
+};
+
+export const getActivityBookingById = async (id: string) => {
+  const { data, error } = await supabase
+    .from('activity_bookings')
+    .select(`
+      *,
+      activity:activity_id(*)
+    `)
+    .eq('id', id)
+    .single();
+  
+  if (error) throw error;
+  return data as ActivityBooking;
+};
+
+export const createActivityBooking = async (booking: Omit<ActivityBooking, 'id' | 'created_at' | 'updated_at'>) => {
+  const { data, error } = await supabase
+    .from('activity_bookings')
+    .insert(booking)
+    .select();
+  
+  if (error) throw error;
+  return data[0] as ActivityBooking;
 };
 
 // Users

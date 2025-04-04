@@ -1,4 +1,3 @@
-
 export interface Booking {
   id: string;
   user_id?: string;
@@ -43,10 +42,18 @@ export interface ActivityBooking {
   id: string;
   booking_id?: string;
   activity_id?: string;
+  user_id?: string;
+  status?: string;
   date: string;
   participants: number;
+  total_price?: number;
+  contact_name?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  special_requests?: string;
   created_at: string;
   updated_at: string;
+  activity?: Activity;
 }
 
 export interface User {

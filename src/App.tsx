@@ -11,12 +11,14 @@ import NotFound from "./pages/NotFound";
 import Accommodation from "./pages/Accommodation";
 import About from "./pages/About";
 import Activities from "./pages/Activities";
+import ActivityDetail from "./pages/ActivityDetail";
 import Booking from "./pages/Booking";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import UserBookings from "./pages/UserBookings";
+import UserActivityBookings from "./pages/UserActivityBookings";
 import Profile from "./pages/Profile";
 import ChatBot from "./components/ChatBot";
 import WhatsAppButton from "./components/WhatsAppButton";
@@ -35,8 +37,10 @@ const App = () => (
             <Route path="/accommodation" element={<Accommodation />} />
             <Route path="/about" element={<About />} />
             <Route path="/activities" element={<Activities />} />
+            <Route path="/activities/:activityId" element={<ActivityDetail />} />
             <Route path="/booking" element={<AuthMiddleware><Booking /></AuthMiddleware>} />
             <Route path="/my-bookings" element={<AuthMiddleware><UserBookings /></AuthMiddleware>} />
+            <Route path="/my-activity-bookings" element={<AuthMiddleware><UserActivityBookings /></AuthMiddleware>} />
             <Route path="/profile" element={<AuthMiddleware><Profile /></AuthMiddleware>} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
