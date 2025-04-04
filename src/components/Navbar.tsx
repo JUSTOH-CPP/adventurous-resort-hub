@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import Logo from './Logo';  // Fixed import statement
+import Logo from './Logo';  // Default import from Logo component
 import AuthButtons from './AuthButtons';
 
 const navLinks = [
