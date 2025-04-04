@@ -33,10 +33,12 @@ export const createBookingInSupabase = async (bookingData: BookingFormData): Pro
     const totalPrice = basePrice * duration * (parseInt(bookingData.adults) + parseInt(bookingData.children) * 0.5);
     
     // Insert booking into Supabase, even if user is not logged in
+    // For now, we'll create a booking without a user_id to avoid the foreign key constraint error
     const { data, error } = await supabase
       .from('bookings')
       .insert({
-        user_id: userId, // This can be null for guest bookings
+        // Remove the user_id field to avoid foreign key constraint errors
+        // user_id: userId, 
         check_in: bookingData.checkInDate.toISOString().split('T')[0],
         check_out: bookingData.checkOutDate.toISOString().split('T')[0],
         total_price: totalPrice,

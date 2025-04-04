@@ -132,7 +132,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
         description: `Booking for ${bookingDetails.roomType} room`,
         metadata: {
           guestName: bookingDetails.name,
-          checkInDate: bookingDetails.date.toISOString(),
+          checkInDate: bookingDetails.date?.toISOString(), // Added optional chaining
           roomType: bookingDetails.roomType,
           promoApplied: promoApplied ? promoCode : null
         }
@@ -208,7 +208,9 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
           </div>
           <div className="flex justify-between">
             <span>Check-in Date:</span>
-            <span className="font-medium">{bookingDetails.date.toLocaleDateString()}</span>
+            <span className="font-medium">
+              {bookingDetails.date ? bookingDetails.date.toLocaleDateString() : "Not specified"}
+            </span>
           </div>
           
           {/* Promo code section */}
