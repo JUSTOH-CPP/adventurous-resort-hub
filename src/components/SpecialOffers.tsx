@@ -76,37 +76,37 @@ const SpecialOffers: React.FC = () => {
           <span className="px-4 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium inline-block mb-4">Limited Time</span>
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Special Offers & Discounts</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Take advantage of our exclusive deals and save on your next adventure in Dandeli.
+            Take advantage of our exclusive deals and save on your next adventure in the Maasai Mara.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Offer 
-            title="Monsoon Magic"
-            description="Experience the thrill of rafting during monsoon with our special package."
-            promoCode="MONSOON20"
+            title="Migration Season Special"
+            description="Experience the Great Migration with our premium safari package and exclusive viewing locations."
+            promoCode="MIGRATION20"
             discount="20%"
-            validUntil="Sep 30, 2023"
-            imageUrl="/lovable-uploads/f97f4d91-56e4-4e2f-bb73-93760030da48.png"
+            validUntil="Sep 30, 2025"
+            imageUrl="/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png"
             color="#3949ab"
           />
           
           <Offer 
-            title="Early Bird Special"
-            description="Book at least 30 days in advance and get an exclusive discount."
+            title="Early Bird Safari"
+            description="Book at least 30 days in advance and get an exclusive discount on all safari packages."
             promoCode="EARLYBIRD10"
             discount="10%"
-            validUntil="Dec 31, 2023"
-            imageUrl="https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?q=80&w=2574&auto=format&fit=crop"
+            validUntil="Dec 31, 2025"
+            imageUrl="/lovable-uploads/dc56b3d5-8de2-40a9-b259-35829487f125.png"
             color="#43a047"
           />
           
           <Offer 
-            title="Summer Adventure"
-            description="Escape the heat with our summer special adventure packages."
-            promoCode="SUMMER25"
+            title="Family Adventure"
+            description="Bring your family on safari with special rates for children and custom family activities."
+            promoCode="FAMILY25"
             discount="25%"
-            validUntil="Jun 30, 2023"
+            validUntil="Jun 30, 2025"
             imageUrl="/lovable-uploads/eab0dff8-9904-4338-ae38-67e97ade71cf.png"
             color="#ef6c00"
           />

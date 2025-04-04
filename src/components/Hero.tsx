@@ -14,44 +14,44 @@ const slides: SlideData[] = [
   {
     id: 1,
     imageSrc: '/lovable-uploads/44997248-2a7d-4c4b-8656-13d704d35b37.png',
-    title: 'Riverside Cottages',
-    subtitle: 'Cozy accommodations with stunning views of the Kali River'
+    title: 'Luxury Safari Lodges',
+    subtitle: 'Experience unparalleled comfort with stunning views of the Maasai Mara'
   },
   {
     id: 2,
     imageSrc: '/lovable-uploads/cc6dd7ad-c5fb-4fef-9dd0-f8dca5d5a10d.png',
-    title: 'Western Ghats Panorama',
-    subtitle: 'Experience breathtaking views of the pristine Western Ghats and Kali River'
+    title: 'Spectacular Wildlife',
+    subtitle: 'Witness the majesty of Kenya\'s Big Five in their natural habitat'
   },
   {
     id: 3,
     imageSrc: '/lovable-uploads/968e9c7f-6872-4c43-ad59-1dd92c92d29a.png',
-    title: 'Jungle Trekking Adventures',
-    subtitle: 'Explore the dense forests and hills of Dandeli on guided trek experiences'
+    title: 'Guided Safari Adventures',
+    subtitle: 'Explore Kenya\'s national parks with expert Maasai guides'
   },
   {
     id: 4,
-    imageSrc: '/lovable-uploads/ac22646b-1aa2-41fc-8799-5ece999eabac.png', 
-    title: 'Marsh Crocodiles',
-    subtitle: 'Encounter these magnificent reptiles in their natural habitat'
+    imageSrc: '/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png', 
+    title: 'Great Migration',
+    subtitle: 'Experience the wonder of the wildebeest migration across the Mara River'
   },
   {
     id: 5,
     imageSrc: '/lovable-uploads/b4c6f3a5-3500-43ad-97e1-e69041317e64.png', 
-    title: 'Thrilling River Rafting',
-    subtitle: 'Navigate through exciting rapids on the Kali River with our expert guides'
+    title: 'Hot Air Balloon Safaris',
+    subtitle: 'Soar above the savanna at dawn for breathtaking panoramic views'
   },
   {
     id: 6,
     imageSrc: '/lovable-uploads/d6a0abf8-3fb5-4717-9fff-6a3a99f2becf.png',
-    title: 'Mountain Trekking',
-    subtitle: 'Breathtaking trails through pristine mountains and valleys'
+    title: 'Mountain Adventures',
+    subtitle: 'Trek through Kenya\'s beautiful mountains and valleys'
   },
   {
     id: 7,
-    imageSrc: '/lovable-uploads/45ac4715-903c-4b9d-aaf3-c8fbe391b9a7.png',
-    title: 'Exciting Kali River Rafting',
-    subtitle: 'Experience the thrill of white water rafting with expert guides on the Kali River'
+    imageSrc: '/lovable-uploads/fa6d6df3-ea4b-4f3f-9db1-81fbb2370f9f.png',
+    title: 'Authentic Cultural Experiences',
+    subtitle: 'Connect with local Maasai communities and learn about their traditions'
   }
 ];
 

@@ -48,31 +48,31 @@ const FeaturedActivities: React.FC = () => {
   const activities = [
     {
       id: 1,
-      title: "River Rafting",
-      description: "Navigate the thrilling rapids of the Kali River with our expert guides.",
-      image: "/lovable-uploads/039f35db-5cf1-4a0b-be13-c4f3947bec67.png",
-      link: "/activities#river-rafting"
+      title: "Safari Game Drive",
+      description: "Experience the thrill of seeing the Big Five in Kenya's world-famous Maasai Mara.",
+      image: "/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png",
+      link: "/activities#safari-game-drive"
     },
     {
       id: 2,
-      title: "Wildlife Safari",
-      description: "Explore the rich biodiversity of Dandeli Wildlife Sanctuary.",
-      image: "/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png",
-      link: "/activities#wildlife-safari"
+      title: "Great Migration",
+      description: "Witness one of nature's most spectacular events as millions of wildebeest cross the Mara River.",
+      image: "/lovable-uploads/dc56b3d5-8de2-40a9-b259-35829487f125.png",
+      link: "/activities#great-migration"
     },
     {
       id: 3,
-      title: "Jungle Trekking",
-      description: "Embark on guided treks through pristine forest trails.",
-      image: "/lovable-uploads/968e9c7f-6872-4c43-ad59-1dd92c92d29a.png",
-      link: "/activities#jungle-trekking"
+      title: "Maasai Cultural Visit",
+      description: "Discover the rich traditions and customs of Kenya's iconic Maasai people.",
+      image: "/lovable-uploads/41b176ee-c1a4-467f-8c90-a34ecc92fb8b.png",
+      link: "/activities#maasai-culture"
     },
     {
       id: 4,
-      title: "Kayaking",
-      description: "Paddle through serene waters and enjoy the peaceful surroundings.",
-      image: "/lovable-uploads/006b887f-fc3b-427b-9885-91e44bb4dbee.png",
-      link: "/activities#kayaking"
+      title: "Hot Air Balloon Safari",
+      description: "Soar above the Maasai Mara at dawn for breathtaking views of wildlife and landscapes.",
+      image: "/lovable-uploads/504eed73-ca66-4273-aa1a-905482b892fe.png",
+      link: "/activities#balloon-safari"
     }
   ];
   
@@ -81,7 +81,7 @@ const FeaturedActivities: React.FC = () => {
       <div className="text-center mb-16 animate-slide-up">
         <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Featured Experiences</h2>
         <p className="text-foreground/70 max-w-2xl mx-auto">
-          Discover the thrill and tranquility of our curated adventures in the heart of Dandeli's wilderness.
+          Discover the thrill and tranquility of our curated adventures in the heart of Kenya's magnificent wilderness.
         </p>
       </div>
       
