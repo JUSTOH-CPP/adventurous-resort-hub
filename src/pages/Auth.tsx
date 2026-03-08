@@ -81,19 +81,7 @@ const Auth = () => {
 
       if (error) throw error;
       
-      // Create user profile
-      if (data.user) {
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert({
-            id: data.user.id,
-            name,
-            email,
-            role: 'user'
-          });
-        
-        if (profileError) throw profileError;
-      }
+      // Profile is auto-created by database trigger on signup
       
       toast({
         title: "Account created successfully",
