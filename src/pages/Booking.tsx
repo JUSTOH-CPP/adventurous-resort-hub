@@ -184,7 +184,7 @@ const BookingPage = () => {
               {/* Testimonial */}
               <div className="bg-accent/10 rounded-lg p-6 animate-fade-in animation-delay-600">
                 <p className="italic text-sm mb-4">
-                  "Our stay at Safari Adventures was absolutely magical. The staff went above and beyond to make our vacation unforgettable!"
+                  "Our safari at Maasai Adventures was absolutely magical. The Maasai guides went above and beyond to make our trip unforgettable!"
                 </p>
                 <p className="font-medium text-sm">- Priya & Rahul , Banglore</p>
               </div>
