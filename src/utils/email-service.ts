@@ -192,7 +192,7 @@ export const formatBookingEmail = (bookingData: any): string => {
           
           <p>We look forward to providing you with an unforgettable experience!</p>
           
-          <p>Warm regards,<br>The Dandeli Adventures Team</p>
+          <p>Warm regards,<br>The Safari Adventures Team</p>
         </div>
         <div class="footer">
           <p>© ${new Date().getFullYear()} Dandeli Adventures. All rights reserved.</p>
