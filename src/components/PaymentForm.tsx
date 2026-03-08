@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { processPayment, calculateBookingPrice, applyPromoCode } from "@/utils/payment-service";
 import { initiateStkPush, pollPaymentStatus } from "@/utils/mpesa-service";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
 import { useSearchParams } from 'react-router-dom';
 
 interface PaymentFormProps {
