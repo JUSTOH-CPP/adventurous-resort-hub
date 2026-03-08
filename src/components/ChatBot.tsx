@@ -28,7 +28,7 @@ const ChatBot: React.FC = () => {
       const userInput = input.toLowerCase();
       
       if (userInput.includes("price") || userInput.includes("cost") || userInput.includes("rate")) {
-        botResponse = "Our adventure packages start from ₹1,999 per person. For the premium experience with luxury accommodation, rates are ₹4,999 per night. Don't forget to check our ongoing monsoon special discount of 25% off on all bookings!";
+        botResponse = "Our adventure packages start from KSh 1,999 per person. For the premium experience with luxury accommodation, rates are KSh 4,999 per night. Don't forget to check our ongoing special discount of 25% off on all bookings!";
       } 
       else if (userInput.includes("booking") || userInput.includes("reserve")) {
         botResponse = "Booking is super easy! You can either use our online booking form, contact us on WhatsApp at +918904704234, or call us directly. We recommend booking at least 2 weeks in advance during peak season (Oct-Feb).";

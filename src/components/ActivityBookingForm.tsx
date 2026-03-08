@@ -145,7 +145,7 @@ export function ActivityBookingForm({ activity, onSubmit }: ActivityBookingFormP
       
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-xl font-bold">₹{activity.price} <span className="text-sm font-normal text-muted-foreground">per person</span></div>
+          <div className="text-xl font-bold">KSh {activity.price} <span className="text-sm font-normal text-muted-foreground">per person</span></div>
           <div className="text-sm flex items-center">
             <Users className="mr-1 h-4 w-4" />
             <span>Max: {activity.max_participants} participants</span>

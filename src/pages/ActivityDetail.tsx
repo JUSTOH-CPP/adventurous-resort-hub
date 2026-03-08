@@ -147,7 +147,7 @@ const ActivityDetail: React.FC = () => {
               <div className="space-y-2">
                 <p><strong>Booking ID:</strong> {bookingDetails.bookingId.slice(0, 8)}...</p>
                 <p><strong>Participants:</strong> {bookingDetails.participants}</p>
-                <p><strong>Total:</strong> ₹{bookingDetails.totalPrice}</p>
+                <p><strong>Total:</strong> KSh {bookingDetails.totalPrice}</p>
               </div>
               <div className="flex gap-2 mt-4">
                 <Button variant="outline" className="flex-1" onClick={() => navigate('/activities')}>Browse More</Button>
