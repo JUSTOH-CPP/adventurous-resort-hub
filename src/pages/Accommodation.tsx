@@ -4,7 +4,28 @@ import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useRooms } from '@/hooks/useRooms';
-import { Users, Wifi, Coffee, Tv } from 'lucide-react';
+import { Users, Wifi, Coffee, Tv, Waves, UtensilsCrossed, Wind, Car, Flower2, ShowerHead } from 'lucide-react';
+
+const amenityIconMap: Record<string, { icon: React.ReactNode; label: string }> = {
+  wifi: { icon: <Wifi size={14} />, label: 'WiFi' },
+  pool: { icon: <Waves size={14} />, label: 'Pool' },
+  restaurant: { icon: <UtensilsCrossed size={14} />, label: 'Restaurant' },
+  coffee: { icon: <Coffee size={14} />, label: 'Coffee' },
+  tv: { icon: <Tv size={14} />, label: 'TV' },
+  ac: { icon: <Wind size={14} />, label: 'A/C' },
+  parking: { icon: <Car size={14} />, label: 'Parking' },
+  spa: { icon: <Flower2 size={14} />, label: 'Spa' },
+  shower: { icon: <ShowerHead size={14} />, label: 'Shower' },
+};
+
+const parseAmenities = (amenities: any): { icon: React.ReactNode; label: string }[] => {
+  if (!amenities) return [];
+  const list: string[] = Array.isArray(amenities) ? amenities : typeof amenities === 'string' ? amenities.split(',').map(s => s.trim()) : [];
+  return list.map(a => {
+    const key = a.toLowerCase().trim();
+    return amenityIconMap[key] || { icon: <Coffee size={14} />, label: a };
+  });
+};
 
 const Accommodation: React.FC = () => {
   const { rooms, isLoading, isError } = useRooms();
