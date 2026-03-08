@@ -188,7 +188,7 @@ export const formatBookingEmail = (bookingData: any): string => {
           </ul>
           
           <p>If you have any questions or need to modify your booking, please contact us at:</p>
-          <p>📞 +91 8904704234<br>📧 bookings@dandeliadventures.com</p>
+          <p>📞 +91 8904704234<br>📧 bookings@safariadventures.com</p>
           
           <p>We look forward to providing you with an unforgettable experience!</p>
           
