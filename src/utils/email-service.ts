@@ -239,7 +239,7 @@ export const sendBookingConfirmations = async (bookingData: any, transactionId: 
     // Send to customer
     await sendEmail({
       to: bookingData.email,
-      subject: "Your Booking Confirmation - Dandeli Adventures",
+      subject: "Your Booking Confirmation - Safari Adventures",
       body: emailContent
     });
     
