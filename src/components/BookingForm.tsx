@@ -85,6 +85,7 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
       checkInDate: new Date(),
       checkOutDate: new Date(new Date().setDate(new Date().getDate() + 1)),
       roomType: "standard",
+      paymentMethod: "mpesa",
       specialRequests: "",
     },
   });
