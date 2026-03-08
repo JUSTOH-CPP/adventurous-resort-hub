@@ -54,6 +54,9 @@ const FormSchema = z.object({
   roomType: z.string({
     required_error: "Please select a room type.",
   }),
+  paymentMethod: z.string({
+    required_error: "Please select a payment method.",
+  }),
   specialRequests: z.string().optional(),
 }).refine((data) => data.checkOutDate > data.checkInDate, {
   message: "Check-out date must be after check-in date",
@@ -82,6 +85,7 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
       checkInDate: new Date(),
       checkOutDate: new Date(new Date().setDate(new Date().getDate() + 1)),
       roomType: "standard",
+      paymentMethod: "mpesa",
       specialRequests: "",
     },
   });
@@ -342,6 +346,29 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
             />
           </div>
           
+          <FormField
+            control={form.control}
+            name="paymentMethod"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Payment Method</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select payment method" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="mpesa">M-Pesa</SelectItem>
+                    <SelectItem value="creditCard">Credit/Debit Card</SelectItem>
+                    <SelectItem value="bankTransfer">Bank Transfer</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="specialRequests"
