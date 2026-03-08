@@ -363,7 +363,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="font-medium">Account Name:</span>
-                  <span>Dandeli Adventures Pvt Ltd</span>
+                  <span>Safari Adventures Pvt Ltd</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Account Number:</span>

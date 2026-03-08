@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-white/10 py-6 px-4 text-center text-accent-foreground/70">
-          <p>© {currentYear} Dandeli Adventures. All rights reserved.</p>
+          <p>© {currentYear} Safari Adventures. All rights reserved.</p>
         </div>
       </div>
     </footer>;

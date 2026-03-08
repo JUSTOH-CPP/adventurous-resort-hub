@@ -151,7 +151,7 @@ const Auth = () => {
       <div className="flex-grow flex items-center justify-center bg-muted/30 py-12">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">Welcome to Dandeli Adventures</h1>
+            <h1 className="text-3xl font-bold mb-2">Welcome to Safari Adventures</h1>
             <p className="text-muted-foreground">Sign in or create an account to continue</p>
           </div>
           

@@ -40,7 +40,7 @@ export const sendEmail = async (data: EmailData): Promise<boolean> => {
         personalizations: [{
           to: [{ email: data.to }]
         }],
-        from: { email: 'bookings@dandeliadventures.com', name: 'Dandeli Adventures' },
+        from: { email: 'bookings@safariadventures.com', name: 'Safari Adventures' },
         subject: data.subject,
         content: [{ type: 'text/html', value: data.body }]
       })
