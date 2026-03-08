@@ -70,15 +70,15 @@ const Gallery: React.FC = () => {
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1534177616064-ef1001e02640?auto=format&fit=crop&w=800&q=80",
-      alt: "Hot air balloon over the Masai Mara",
-      category: "adventure"
+      src: "https://images.unsplash.com/photo-1561731216-c3a4d514bf65?auto=format&fit=crop&w=800&q=80",
+      alt: "Leopard resting on a tree branch",
+      category: "wildlife"
     },
     {
       id: 12,
-      src: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
-      alt: "Safari vehicle at golden hour",
-      category: "adventure"
+      src: "https://images.unsplash.com/photo-1519659528534-7fd733a832a0?auto=format&fit=crop&w=800&q=80",
+      alt: "African savanna at golden hour",
+      category: "landscape"
     }
   ];
 
