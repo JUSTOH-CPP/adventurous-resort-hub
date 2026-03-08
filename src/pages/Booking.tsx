@@ -203,7 +203,7 @@ const BookingPage = () => {
                 <ul className="space-y-2 text-sm">
                   <li>• A 50% advance payment is required to confirm your booking</li>
                   <li>• Full payment is due upon check-in</li>
-                  <li>• We accept all major credit cards, UPI, and bank transfers</li>
+                  <li>• We accept M-Pesa, credit cards, and bank transfers</li>
                 </ul>
               </div>
               
