@@ -24,6 +24,7 @@ type MpesaStatus = 'idle' | 'sending' | 'waiting' | 'completed' | 'failed' | 'ex
 export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: PaymentFormProps) {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [cardDetails, setCardDetails] = useState({
