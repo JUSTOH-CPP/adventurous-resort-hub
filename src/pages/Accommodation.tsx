@@ -65,7 +65,7 @@ const Accommodation: React.FC = () => {
                   <div className="aspect-video relative overflow-hidden">
                     <img src={room.images?.[0] || '/placeholder.svg'} alt={room.name} className="w-full h-full object-cover" />
                     <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-accent">
-                      ${room.price} <span className="text-sm text-muted-foreground">/night</span>
+                      KSh {(room.price * 150).toLocaleString()} <span className="text-sm text-muted-foreground">/night</span>
                     </div>
                   </div>
                   <div className="p-6">
