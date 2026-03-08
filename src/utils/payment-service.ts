@@ -37,8 +37,10 @@ export const processPayment = async (details: PaymentDetails): Promise<{success:
     }
     
     if (details.paymentMethod === 'mpesa') {
-      // M-Pesa integration placeholder
-      console.log('Processing M-Pesa payment...');
+      if (!details.mpesaPhone) throw new Error('M-Pesa phone number is required');
+      const phone = details.mpesaPhone.replace(/\s/g, '');
+      if (!/^(0\d{9}|254\d{9})$/.test(phone)) throw new Error('Invalid M-Pesa phone number. Use 07XXXXXXXX or 254XXXXXXXXX');
+      console.log('Processing M-Pesa STK push to:', phone);
     }
     
     const transactionId = 'SAFARI' + Date.now().toString(36).toUpperCase();
