@@ -40,8 +40,8 @@ const Gallery: React.FC = () => {
     },
     {
       id: 6,
-      src: "https://images.unsplash.com/photo-1611601322175-ef8db9e3e30a?auto=format&fit=crop&w=800&q=80",
-      alt: "Giraffes in Nairobi National Park",
+      src: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?auto=format&fit=crop&w=800&q=80",
+      alt: "Giraffes in the Kenyan savanna",
       category: "wildlife"
     },
     {
