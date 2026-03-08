@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { processPayment, calculateBookingPrice, applyPromoCode } from "@/utils/payment-service";
 import { initiateStkPush, pollPaymentStatus } from "@/utils/mpesa-service";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
 import { useSearchParams } from 'react-router-dom';
 
 interface PaymentFormProps {
@@ -23,6 +24,7 @@ type MpesaStatus = 'idle' | 'sending' | 'waiting' | 'completed' | 'failed' | 'ex
 export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: PaymentFormProps) {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [cardDetails, setCardDetails] = useState({
@@ -156,6 +158,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       const { promise, cancel } = pollPaymentStatus(stkResult.checkoutRequestId, {
         intervalMs: 3000,
         maxAttempts: 40,
+        userId: user?.id,
         onStatusChange: (status) => {
           pollCount++;
           const progress = Math.min(15 + (pollCount * 2), 90);

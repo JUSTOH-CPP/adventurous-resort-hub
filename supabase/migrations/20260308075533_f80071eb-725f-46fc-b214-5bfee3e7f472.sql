@@ -1,0 +1,1 @@
+DROP POLICY "Service role can insert receipts" ON public.payment_receipts;
