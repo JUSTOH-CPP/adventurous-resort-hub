@@ -4,7 +4,28 @@ import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useRooms } from '@/hooks/useRooms';
-import { Users, Wifi, Coffee, Tv } from 'lucide-react';
+import { Users, Wifi, Coffee, Tv, Waves, UtensilsCrossed, Wind, Car, Flower2, ShowerHead } from 'lucide-react';
+
+const amenityIconMap: Record<string, { icon: React.ReactNode; label: string }> = {
+  wifi: { icon: <Wifi size={14} />, label: 'WiFi' },
+  pool: { icon: <Waves size={14} />, label: 'Pool' },
+  restaurant: { icon: <UtensilsCrossed size={14} />, label: 'Restaurant' },
+  coffee: { icon: <Coffee size={14} />, label: 'Coffee' },
+  tv: { icon: <Tv size={14} />, label: 'TV' },
+  ac: { icon: <Wind size={14} />, label: 'A/C' },
+  parking: { icon: <Car size={14} />, label: 'Parking' },
+  spa: { icon: <Flower2 size={14} />, label: 'Spa' },
+  shower: { icon: <ShowerHead size={14} />, label: 'Shower' },
+};
+
+const parseAmenities = (amenities: any): { icon: React.ReactNode; label: string }[] => {
+  if (!amenities) return [];
+  const list: string[] = Array.isArray(amenities) ? amenities : typeof amenities === 'string' ? amenities.split(',').map(s => s.trim()) : [];
+  return list.map(a => {
+    const key = a.toLowerCase().trim();
+    return amenityIconMap[key] || { icon: <Coffee size={14} />, label: a };
+  });
+};
 
 const Accommodation: React.FC = () => {
   const { rooms, isLoading, isError } = useRooms();
@@ -76,7 +97,16 @@ const Accommodation: React.FC = () => {
                         <span className="text-sm">Up to {room.capacity}</span>
                       </div>
                     </div>
-                    <p className="text-muted-foreground mb-5 line-clamp-2">{room.description || 'No description available'}</p>
+                    <p className="text-muted-foreground mb-4 line-clamp-2">{room.description || 'No description available'}</p>
+                    {parseAmenities(room.amenities).length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {parseAmenities(room.amenities).map((amenity, i) => (
+                          <span key={i} className="inline-flex items-center gap-1 text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-full">
+                            {amenity.icon} {amenity.label}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <Link to="/booking" className="block w-full py-3 text-center bg-accent text-accent-foreground rounded-md transition-all duration-300 hover:bg-accent/90">
                       Book Now
                     </Link>
