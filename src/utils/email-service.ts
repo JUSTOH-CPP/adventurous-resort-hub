@@ -210,7 +210,7 @@ export const formatBookingEmail = (bookingData: any): string => {
  * @returns Formatted SMS string
  */
 export const formatBookingSMS = (bookingData: any): string => {
-  return `Thank you for booking with Dandeli Adventures! Your booking for ${bookingData.date ? bookingData.date.toLocaleDateString() : 'your selected date'} is confirmed (Ref: ${bookingData.paymentTransactionId || 'Processing'}). For assistance, call +91 8904704234.`;
+  return `Thank you for booking with Safari Adventures! Your booking for ${bookingData.date ? bookingData.date.toLocaleDateString() : 'your selected date'} is confirmed (Ref: ${bookingData.paymentTransactionId || 'Processing'}). For assistance, call +91 8904704234.`;
 };
 
 /**
