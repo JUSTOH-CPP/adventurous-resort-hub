@@ -158,6 +158,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       const { promise, cancel } = pollPaymentStatus(stkResult.checkoutRequestId, {
         intervalMs: 3000,
         maxAttempts: 40,
+        bookingId: bookingDetails.bookingId,
         userId: user?.id,
         onStatusChange: (status) => {
           pollCount++;
