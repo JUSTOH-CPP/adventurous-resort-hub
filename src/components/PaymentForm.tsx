@@ -107,7 +107,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       setPromoApplied(true);
       toast({
         title: "Promo code applied!",
-        description: `You saved ₹${result.discount.toLocaleString()} with code ${promoCode}`,
+        description: `You saved KSh ${result.discount.toLocaleString()} with code ${promoCode}`,
         variant: "default",
       });
     } else {
