@@ -91,50 +91,8 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
   });
 
   async function handleFormSubmit(values: z.infer<typeof FormSchema>) {
-    setIsSubmitting(true);
-    try {
-      // Create booking in Supabase
-      const bookingData: BookingFormData = {
-        name: values.name,
-        email: values.email,
-        phone: values.phone,
-        adults: values.adults,
-        children: values.children,
-        checkInDate: values.checkInDate,
-        checkOutDate: values.checkOutDate,
-        roomType: values.roomType,
-        specialRequests: values.specialRequests,
-      };
-      
-      const bookingId = await createBookingInSupabase(bookingData);
-      
-      // Generate a simple booking reference
-      const bookingReference = `BK${bookingId.slice(-6)}`;
-      
-      // Store booking details for confirmation dialog
-      setBookingDetails({ ...bookingData, bookingReference, bookingId });
-      
-      // Show confirmation dialog
-      setShowConfirmation(true);
-      
-      // Show success toast
-      toast({
-        title: "Booking Successful!",
-        description: "Your booking has been confirmed.",
-      });
-      
-      // Call the parent onSubmit function
-      onSubmit(values);
-    } catch (error) {
-      console.error('Booking error:', error);
-      toast({
-        title: "Booking Error",
-        description: "There was a problem processing your booking. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Just pass values to parent — booking creation happens after payment
+    onSubmit(values);
   }
 
   return (
