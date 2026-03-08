@@ -138,7 +138,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     setMpesaMessage('Sending STK push to your phone...');
 
     try {
-      const stkResult = await initiateStkPush(mpesaPhone, finalAmount);
+      const stkResult = await initiateStkPush(mpesaPhone, finalAmount, bookingDetails.bookingId, user?.id);
       
       if (!stkResult.success || !stkResult.checkoutRequestId) {
         throw new Error(stkResult.error || 'Failed to initiate M-Pesa payment');

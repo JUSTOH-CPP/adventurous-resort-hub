@@ -38,10 +38,12 @@ export interface PaymentReceipt {
  */
 export const initiateStkPush = async (
   phone: string,
-  amount: number
+  amount: number,
+  bookingId?: string,
+  userId?: string
 ): Promise<StkPushResponse> => {
   const { data, error } = await supabase.functions.invoke("mpesa-payment", {
-    body: { action: "initiate", phone, amount },
+    body: { action: "initiate", phone, amount, bookingId, userId },
   });
 
   if (error) {
