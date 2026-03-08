@@ -78,8 +78,8 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
         ...cardDetails,
         [name]: formatted
       });
-    } else if (name === 'upiId') {
-      setUpiId(value);
+    } else if (name === 'mpesaPhone') {
+      setMpesaPhone(value);
     } else if (name === 'promoCode') {
       setPromoCode(value);
     } else {
