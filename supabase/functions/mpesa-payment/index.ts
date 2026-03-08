@@ -6,32 +6,17 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// In-memory store for demo (in production, use a database table)
-const pendingTransactions = new Map<
-  string,
-  { status: string; phone: string; amount: number; createdAt: number }
->();
-
-// Simulate STK push lifecycle: pending -> completed after ~5-8 seconds
-function simulatePaymentCompletion(checkoutRequestId: string) {
-  const delay = 5000 + Math.random() * 3000; // 5-8 seconds
-  setTimeout(() => {
-    const tx = pendingTransactions.get(checkoutRequestId);
-    if (tx && tx.status === "pending") {
-      // 90% success rate for simulation
-      tx.status = Math.random() < 0.9 ? "completed" : "failed";
-    }
-  }, delay);
+function getSupabase() {
+  return createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
 }
 
 function formatPhone(phone: string): string {
   let cleaned = phone.replace(/[\s-]/g, "");
-  if (cleaned.startsWith("0")) {
-    cleaned = "254" + cleaned.substring(1);
-  }
-  if (!cleaned.startsWith("254")) {
-    cleaned = "254" + cleaned;
-  }
+  if (cleaned.startsWith("0")) cleaned = "254" + cleaned.substring(1);
+  if (!cleaned.startsWith("254")) cleaned = "254" + cleaned;
   return cleaned;
 }
 
@@ -41,8 +26,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { action, phone, amount, checkoutRequestId, bookingId, userId } =
-      await req.json();
+    const { action, phone, amount, checkoutRequestId, bookingId, userId } = await req.json();
+    const supabase = getSupabase();
 
     // ACTION 1: Initiate STK Push
     if (action === "initiate") {
@@ -61,20 +46,48 @@ Deno.serve(async (req) => {
         );
       }
 
-      // Generate a checkout request ID (simulating Daraja API response)
       const checkoutId = "ws_CO_" + Date.now() + "_" + Math.random().toString(36).substring(2, 8).toUpperCase();
       const merchantRequestId = "MR" + Date.now().toString(36).toUpperCase();
 
-      // Store the pending transaction
-      pendingTransactions.set(checkoutId, {
-        status: "pending",
+      // Store pending transaction in payment_receipts with status 'pending'
+      await supabase.from("payment_receipts").insert({
+        transaction_id: checkoutId,
+        checkout_request_id: checkoutId,
         phone: formattedPhone,
         amount,
-        createdAt: Date.now(),
+        status: "pending",
+        payment_method: "mpesa",
+        currency: "KES",
+        booking_id: bookingId || null,
+        user_id: userId || null,
+        metadata: { merchant_request_id: merchantRequestId, created_at: new Date().toISOString() },
       });
 
-      // Simulate async payment completion
-      simulatePaymentCompletion(checkoutId);
+      // Schedule simulated completion: update status after 5-8 seconds via a delayed self-call
+      const delay = 5000 + Math.random() * 3000;
+      setTimeout(async () => {
+        try {
+          const newStatus = Math.random() < 0.9 ? "completed" : "failed";
+          const finalTxId = newStatus === "completed" ? "MPESA" + Date.now().toString(36).toUpperCase() : checkoutId;
+          
+          await supabase
+            .from("payment_receipts")
+            .update({ 
+              status: newStatus, 
+              transaction_id: finalTxId,
+              metadata: { merchant_request_id: merchantRequestId, completed_at: new Date().toISOString() } 
+            })
+            .eq("checkout_request_id", checkoutId)
+            .eq("status", "pending");
+
+          // If completed, update booking status
+          if (newStatus === "completed" && bookingId) {
+            await supabase.from("bookings").update({ status: "confirmed" }).eq("id", bookingId);
+          }
+        } catch (e) {
+          console.error("Simulated completion error:", e);
+        }
+      }, delay);
 
       console.log(`STK Push initiated: ${checkoutId} for ${formattedPhone}, KSh ${amount}`);
 
@@ -98,86 +111,46 @@ Deno.serve(async (req) => {
         );
       }
 
-      const tx = pendingTransactions.get(checkoutRequestId);
+      const { data: receipt, error } = await supabase
+        .from("payment_receipts")
+        .select("*")
+        .eq("checkout_request_id", checkoutRequestId)
+        .maybeSingle();
 
-      if (!tx) {
+      if (error || !receipt) {
         return new Response(
-          JSON.stringify({
-            success: false,
-            status: "not_found",
-            error: "Transaction not found",
-          }),
+          JSON.stringify({ success: false, status: "not_found", error: "Transaction not found" }),
           { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
 
       // Auto-expire after 2 minutes
-      if (Date.now() - tx.createdAt > 120000 && tx.status === "pending") {
-        tx.status = "expired";
+      const createdAt = new Date(receipt.created_at).getTime();
+      if (Date.now() - createdAt > 120000 && receipt.status === "pending") {
+        await supabase
+          .from("payment_receipts")
+          .update({ status: "expired" })
+          .eq("id", receipt.id)
+          .eq("status", "pending");
+        
+        return new Response(
+          JSON.stringify({ success: true, status: "expired", amount: receipt.amount, phone: receipt.phone }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
       }
 
-      const transactionId =
-        tx.status === "completed"
-          ? "MPESA" + Date.now().toString(36).toUpperCase()
-          : undefined;
-
-      // On completion: update booking + store receipt
-      if (tx.status === "completed" && transactionId) {
-        try {
-          const supabase = createClient(
-            Deno.env.get("SUPABASE_URL")!,
-            Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-          );
-
-          // Update booking status
-          if (bookingId) {
-            await supabase
-              .from("bookings")
-              .update({ status: "confirmed" })
-              .eq("id", bookingId);
-          }
-
-          // Store payment receipt
-          const { error: receiptError } = await supabase
-            .from("payment_receipts")
-            .insert({
-              booking_id: bookingId || null,
-              user_id: userId || null,
-              transaction_id: transactionId,
-              checkout_request_id: checkoutRequestId,
-              payment_method: "mpesa",
-              phone: tx.phone,
-              amount: tx.amount,
-              currency: "KES",
-              status: "completed",
-              metadata: {
-                checkout_request_id: checkoutRequestId,
-                completed_at: new Date().toISOString(),
-              },
-            });
-
-          if (receiptError) {
-            console.error("Failed to store receipt:", receiptError);
-          } else {
-            console.log("Payment receipt stored for transaction:", transactionId);
-          }
-        } catch (e) {
-          console.error("Failed to update booking/store receipt:", e);
-        }
-      }
-
-      // Clean up completed/failed/expired transactions after returning
-      if (tx.status !== "pending") {
-        setTimeout(() => pendingTransactions.delete(checkoutRequestId), 60000);
+      // Update booking if just completed
+      if (receipt.status === "completed" && bookingId) {
+        await supabase.from("bookings").update({ status: "confirmed" }).eq("id", bookingId);
       }
 
       return new Response(
         JSON.stringify({
           success: true,
-          status: tx.status,
-          transactionId,
-          amount: tx.amount,
-          phone: tx.phone,
+          status: receipt.status,
+          transactionId: receipt.status === "completed" ? receipt.transaction_id : undefined,
+          amount: receipt.amount,
+          phone: receipt.phone,
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
