@@ -132,7 +132,7 @@ export const formatBookingEmail = (bookingData: any): string => {
     <body>
       <div class="container">
         <div class="header">
-          <h1>Dandeli Adventures - Booking Confirmation</h1>
+          <h1>Safari Adventures - Booking Confirmation</h1>
         </div>
         <div class="content">
           <p>Dear ${bookingData.name},</p>
