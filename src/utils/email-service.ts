@@ -136,7 +136,7 @@ export const formatBookingEmail = (bookingData: any): string => {
         </div>
         <div class="content">
           <p>Dear ${bookingData.name},</p>
-          <p>Thank you for booking with Dandeli Adventures. We're excited to host you!</p>
+          <p>Thank you for booking with Safari Adventures. We're excited to host you!</p>
           
           <h3>Booking Details:</h3>
           <table class="info-table">
