@@ -1,50 +1,148 @@
-
-import React, { useState } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
+
+type Message = { role: 'user' | 'assistant'; content: string };
+
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+
+async function streamChat({
+  messages,
+  onDelta,
+  onDone,
+  onError,
+}: {
+  messages: Message[];
+  onDelta: (text: string) => void;
+  onDone: () => void;
+  onError: (msg: string) => void;
+}) {
+  const resp = await fetch(CHAT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+    },
+    body: JSON.stringify({ messages }),
+  });
+
+  if (resp.status === 429) {
+    onError("I'm getting a lot of questions right now! Please try again in a moment.");
+    return;
+  }
+  if (resp.status === 402) {
+    onError("AI service is temporarily unavailable. Please contact us directly at +254 722 123 456.");
+    return;
+  }
+  if (!resp.ok || !resp.body) {
+    onError("Sorry, I'm having trouble connecting. Please try again or reach us on WhatsApp.");
+    return;
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let streamDone = false;
+
+  while (!streamDone) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+
+    let newlineIndex: number;
+    while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
+      let line = buffer.slice(0, newlineIndex);
+      buffer = buffer.slice(newlineIndex + 1);
+      if (line.endsWith('\r')) line = line.slice(0, -1);
+      if (line.startsWith(':') || line.trim() === '') continue;
+      if (!line.startsWith('data: ')) continue;
+
+      const jsonStr = line.slice(6).trim();
+      if (jsonStr === '[DONE]') { streamDone = true; break; }
+
+      try {
+        const parsed = JSON.parse(jsonStr);
+        const content = parsed.choices?.[0]?.delta?.content;
+        if (content) onDelta(content);
+      } catch {
+        buffer = line + '\n' + buffer;
+        break;
+      }
+    }
+  }
+
+  // Flush remaining buffer
+  if (buffer.trim()) {
+    for (let raw of buffer.split('\n')) {
+      if (!raw) continue;
+      if (raw.endsWith('\r')) raw = raw.slice(0, -1);
+      if (!raw.startsWith('data: ')) continue;
+      const jsonStr = raw.slice(6).trim();
+      if (jsonStr === '[DONE]') continue;
+      try {
+        const parsed = JSON.parse(jsonStr);
+        const content = parsed.choices?.[0]?.delta?.content;
+        if (content) onDelta(content);
+      } catch { /* ignore */ }
+    }
+  }
+
+  onDone();
+}
 
 const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{text: string, isUser: boolean}[]>([
-    { text: "Hi there! 👋 I'm your personal Dandeli adventure guide. How can I help you plan your perfect nature getaway?", isUser: false }
+  const [messages, setMessages] = useState<Message[]>([
+    { role: 'assistant', content: "Jambo! 👋 I'm your Savanna Lodge & Safari guide. Ask me anything about our rooms, safari activities, or booking — I'm here to help!" }
   ]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  const handleSend = () => {
-    if (input.trim() === '') return;
-    
-    // Add user message
-    setMessages([...messages, { text: input, isUser: true }]);
+  const handleSend = async () => {
+    if (input.trim() === '' || isLoading) return;
+
+    const userMsg: Message = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMsg]);
     setInput('');
-    
-    // Improved bot responses based on user input
-    setTimeout(() => {
-      let botResponse = "";
-      const userInput = input.toLowerCase();
-      
-      if (userInput.includes("price") || userInput.includes("cost") || userInput.includes("rate")) {
-        botResponse = "Our adventure packages start from KSh 1,999 per person. For the premium experience with luxury accommodation, rates are KSh 4,999 per night. Don't forget to check our ongoing special discount of 25% off on all bookings!";
-      } 
-      else if (userInput.includes("booking") || userInput.includes("reserve")) {
-        botResponse = "Booking is super easy! You can either use our online booking form, contact us on WhatsApp at +918904704234, or call us directly. We recommend booking at least 2 weeks in advance during peak season (Oct-Feb).";
-      }
-      else if (userInput.includes("activity") || userInput.includes("adventure") || userInput.includes("rafting")) {
-        botResponse = "We offer thrilling adventures including white water rafting (grades 2-3), jungle safaris, kayaking, and guided nature walks. Our most popular package is the 'Weekend Wilderness' which includes rafting, safari and overnight camping!";
-      }
-      else if (userInput.includes("location") || userInput.includes("reach") || userInput.includes("address")) {
-        botResponse = "We're located in the heart of Dandeli Wildlife Sanctuary, Karnataka. The nearest airport is Goa International Airport (160km). We provide pickup services, and our resort is just 5km from Dandeli town center.";
-      }
-      else {
-        botResponse = "Thanks for reaching out! Our adventure specialists would love to help you personally. Please contact us via WhatsApp or call us at +918904704234 for immediate assistance. Would you like to know about our adventure packages, accommodation options, or special offers?";
-      }
-      
-      setMessages(prev => [...prev, { text: botResponse, isUser: false }]);
-    }, 1000);
+    setIsLoading(true);
+
+    let assistantSoFar = '';
+    const allMessages = [...messages, userMsg];
+
+    const upsertAssistant = (chunk: string) => {
+      assistantSoFar += chunk;
+      setMessages(prev => {
+        const last = prev[prev.length - 1];
+        if (last?.role === 'assistant' && prev.length > allMessages.length) {
+          return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
+        }
+        return [...prev.slice(0, -1 + (last?.role === 'assistant' ? 0 : 1)),
+          ...(last?.role === 'assistant' ? [] : [last!]),
+          { role: 'assistant' as const, content: assistantSoFar }];
+      });
+    };
+
+    try {
+      await streamChat({
+        messages: allMessages,
+        onDelta: (chunk) => upsertAssistant(chunk),
+        onDone: () => setIsLoading(false),
+        onError: (msg) => {
+          setMessages(prev => [...prev, { role: 'assistant', content: msg }]);
+          setIsLoading(false);
+        },
+      });
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, something went wrong. Please try again or call us at +254 722 123 456." }]);
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -56,12 +154,11 @@ const ChatBot: React.FC = () => {
 
   return (
     <div className="fixed bottom-4 right-6 z-40">
-      {/* Chat Button */}
       <Button
-        onClick={toggleChat}
+        onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "w-14 h-14 rounded-full shadow-lg flex items-center justify-center",
-          "bg-green-600 hover:bg-green-700 transition-all duration-300", 
+          "bg-accent hover:bg-accent/90 transition-all duration-300",
           !isOpen && "animate-bounce"
         )}
         aria-label="Chat with us"
@@ -69,54 +166,68 @@ const ChatBot: React.FC = () => {
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
       </Button>
 
-      {/* Chat Window */}
-      <div 
+      <div
         className={cn(
-          "absolute bottom-20 right-0 w-80 bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform",
+          "absolute bottom-20 right-0 w-80 sm:w-96 bg-card rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform",
           "flex flex-col border border-border",
           isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0 pointer-events-none"
         )}
-        style={{ height: isOpen ? '400px' : '0' }}
+        style={{ height: isOpen ? '450px' : '0' }}
       >
         {/* Header */}
-        <div className="bg-green-600 p-4 text-white">
-          <h3 className="font-bold">Adventure Support</h3>
-          <p className="text-xs opacity-80">We typically reply within minutes</p>
+        <div className="bg-accent text-accent-foreground p-4">
+          <h3 className="font-bold">Savanna Lodge & Safari</h3>
+          <p className="text-xs opacity-80">AI-powered safari guide • Ask me anything</p>
         </div>
-        
+
         {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto flex flex-col space-y-3">
           {messages.map((message, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={cn(
-                "max-w-[80%] p-3 rounded-lg",
-                message.isUser 
-                  ? "bg-green-600 text-white self-end rounded-br-none"
-                  : "bg-gray-100 self-start rounded-bl-none"
+                "max-w-[85%] p-3 rounded-lg text-sm",
+                message.role === 'user'
+                  ? "bg-accent text-accent-foreground self-end rounded-br-none"
+                  : "bg-secondary text-secondary-foreground self-start rounded-bl-none"
               )}
             >
-              {message.text}
+              {message.role === 'assistant' ? (
+                <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                </div>
+              ) : (
+                message.content
+              )}
             </div>
           ))}
+          {isLoading && messages[messages.length - 1]?.role === 'user' && (
+            <div className="flex items-center gap-2 text-muted-foreground self-start p-3">
+              <Loader2 size={16} className="animate-spin" />
+              <span className="text-xs">Thinking...</span>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
         </div>
-        
+
         {/* Input */}
-        <div className="p-3 border-t border-border flex items-center">
+        <div className="p-3 border-t border-border flex items-center gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your message..."
-            className="flex-1 px-3 py-2 border rounded-l-md focus:outline-none focus:ring-1 focus:ring-green-600"
+            placeholder="Ask about safaris, rooms, activities..."
+            className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-accent text-sm"
+            disabled={isLoading}
           />
-          <Button 
+          <Button
             onClick={handleSend}
-            className="rounded-l-none bg-green-600 hover:bg-green-700"
-            disabled={input.trim() === ''}
+            className="bg-accent hover:bg-accent/90"
+            size="icon"
+            disabled={input.trim() === '' || isLoading}
           >
-            <Send size={18} />
+            <Send size={16} />
           </Button>
         </div>
       </div>
