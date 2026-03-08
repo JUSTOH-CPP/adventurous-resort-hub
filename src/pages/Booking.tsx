@@ -175,10 +175,9 @@ const BookingPage = () => {
                 <p className="mb-4 text-sm">Our reservation team is available to help you plan your perfect stay.</p>
                 <div className="space-y-2 text-sm">
                   <p className="font-medium">Call us:</p>
-                  <p className="text-accent">+91 8904704234
-+91 7795601255</p>
+                  <p className="text-accent">+254 722 123 456</p>
                   <p className="font-medium mt-3">Email:</p>
-                  <p className="text-accent">dandeliadventuresinfo@gmail.com</p>
+                  <p className="text-accent">info@maasaiadventures.co.ke</p>
                 </div>
               </div>
               
