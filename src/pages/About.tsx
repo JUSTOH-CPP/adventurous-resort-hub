@@ -8,25 +8,25 @@ import { cn } from '@/lib/utils';
 
 const About: React.FC = () => {
   const teamMembers = [{
-    name: "Wanjiku Mwangi",
-    role: "Founder & CEO",
-    bio: "With over 15 years of experience in safari tourism and conservation, Wanjiku founded Maasai Adventures with a vision to create sustainable wildlife experiences.",
-    image: "/lovable-uploads/2bbf5848-053c-4f28-96bc-dac23d6a8b34.png"
+    name: "Otieno Odhiambo",
+    role: "Founder & Managing Director",
+    bio: "A Luo native from Kisumu, Otieno spent his youth along Lake Victoria before pursuing wildlife management. With 18 years in safari tourism, he built Maasai Adventures from the ground up.",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80"
   }, {
-    name: "Daniel Kipkorir",
-    role: "Head Safari Guide",
-    bio: "Born and raised in the Maasai Mara, Daniel has unparalleled knowledge of Kenya's wildlife and landscapes after 12 years of guiding experience.",
-    image: "/lovable-uploads/849faf99-8ef2-4028-bb7f-9b1fd88877ee.png"
+    name: "Njeri Kamau",
+    role: "Head of Operations",
+    bio: "Born in Nyeri at the foot of Mount Kenya, Njeri brings 10 years of hospitality expertise. She ensures every guest receives world-class service from booking to departure.",
+    image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=80"
   }, {
-    name: "Amina Omar",
-    role: "Conservation Director",
-    bio: "A certified ecologist with a passion for big cat conservation, Amina leads our wildlife protection programs and community education initiatives.",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80"
+    name: "Kipchoge Langat",
+    role: "Lead Safari Guide",
+    bio: "A Kalenjin from Kericho, Kipchoge grew up tracking wildlife in the Rift Valley. His 14 years of guiding experience and deep knowledge of animal behaviour make every safari unforgettable.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
   }, {
-    name: "Joseph Mutua",
-    role: "Cultural Ambassador",
-    bio: "A respected Maasai elder, Joseph helps create authentic cultural experiences while ensuring respectful engagement with local communities.",
-    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80"
+    name: "Akinyi Wafula",
+    role: "Conservation & Community Lead",
+    bio: "Raised in a farming community near Kakamega Forest, Akinyi holds a degree in Environmental Science from the University of Nairobi. She leads anti-poaching and community outreach programmes.",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80"
   }];
   
   const timeline = [{
