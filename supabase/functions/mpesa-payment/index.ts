@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { action, phone, amount, checkoutRequestId, bookingId } =
+    const { action, phone, amount, checkoutRequestId, bookingId, userId } =
       await req.json();
 
     // ACTION 1: Initiate STK Push
