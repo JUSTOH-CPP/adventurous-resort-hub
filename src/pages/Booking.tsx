@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Check, Info } from 'lucide-react';
+import BookingReceipt from '@/components/BookingReceipt';
 import { cn } from '@/lib/utils';
 import { createBookingInSupabase, BookingFormData } from '@/utils/booking-service';
 import { supabase } from '@/integrations/supabase/client';
