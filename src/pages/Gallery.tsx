@@ -70,8 +70,8 @@ const Gallery: React.FC = () => {
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1612880484613-a9e4a005551e?auto=format&fit=crop&w=800&q=80",
-      alt: "Mount Kenya at sunrise",
+      src: "https://images.unsplash.com/photo-1621414050946-1b936a78d7d6?auto=format&fit=crop&w=800&q=80",
+      alt: "Mount Kenya landscape",
       category: "landscape"
     },
     {
