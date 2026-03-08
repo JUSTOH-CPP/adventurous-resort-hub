@@ -22,7 +22,7 @@ const AuthButtons = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm" className="gap-2">
             <User size={16} />
-            {user.user_metadata.name || user.email}
+            {user.user_metadata?.name || user.email}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
