@@ -265,7 +265,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
               </div>
               <div className="flex justify-between font-medium text-lg">
                 <span>Discounted Total:</span>
-                <span className="text-green-600">₹{finalAmount.toLocaleString()}</span>
+                <span className="text-green-600">KSh {finalAmount.toLocaleString()}</span>
               </div>
             </div>
           ) : (
