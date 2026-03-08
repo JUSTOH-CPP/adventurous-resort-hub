@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Check, CreditCard, Loader2, Phone, Tag, AlertCircle, Clock } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
+
 import { processPayment, calculateBookingPrice, applyPromoCode } from "@/utils/payment-service";
 import { initiateStkPush, pollPaymentStatus } from "@/utils/mpesa-service";
 import { useToast } from "@/hooks/use-toast";
