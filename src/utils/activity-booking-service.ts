@@ -119,12 +119,12 @@ export const getActivityAvailability = async (activityId: string, date: string):
       throw new Error('Could not fetch activity details');
     }
     
-    const { data: bookings, error: bookingsError } = await supabase
+    const { data: bookings, error: bookingsError } = await (supabase
       .from('activity_bookings')
-      .select('participants')
+      .select('participants') as any)
       .eq('activity_id', activityId)
       .eq('date', date)
-      .neq('status' as any, 'cancelled');
+      .neq('status', 'cancelled');
     
     if (bookingsError) {
       console.error("Error fetching bookings:", bookingsError);
