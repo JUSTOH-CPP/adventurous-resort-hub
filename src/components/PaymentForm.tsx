@@ -1,12 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Check, CreditCard, Loader2, Phone, Tag } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Check, CreditCard, Loader2, Phone, Tag, AlertCircle, Clock } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
 import { processPayment, calculateBookingPrice, applyPromoCode } from "@/utils/payment-service";
+import { initiateStkPush, pollPaymentStatus } from "@/utils/mpesa-service";
 import { useToast } from "@/hooks/use-toast";
 import { useSearchParams } from 'react-router-dom';
 
@@ -15,6 +17,8 @@ interface PaymentFormProps {
   onPaymentSuccess: (transactionId: string) => void;
   onCancel: () => void;
 }
+
+type MpesaStatus = 'idle' | 'sending' | 'waiting' | 'completed' | 'failed' | 'expired';
 
 export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: PaymentFormProps) {
   const [searchParams] = useSearchParams();
@@ -28,6 +32,11 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     cvv: ''
   });
   const [mpesaPhone, setMpesaPhone] = useState(bookingDetails.phone || '');
+  const [mpesaStatus, setMpesaStatus] = useState<MpesaStatus>('idle');
+  const [mpesaProgress, setMpesaProgress] = useState(0);
+  const [mpesaMessage, setMpesaMessage] = useState('');
+  const cancelPollingRef = useRef<(() => void) | null>(null);
+
   const [promoCode, setPromoCode] = useState(searchParams.get('promo') || '');
   const [promoApplied, setPromoApplied] = useState(false);
   const [discountInfo, setDiscountInfo] = useState<{
@@ -36,14 +45,12 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     valid: boolean;
   }>({ discountedAmount: 0, discount: 0, valid: false });
   
-  // Calculate booking amount
   const baseAmount = calculateBookingPrice(
     bookingDetails.roomType, 
     parseInt(bookingDetails.adults),
     parseInt(bookingDetails.children)
   );
   
-  // Apply promo code if present
   useEffect(() => {
     if (promoCode && !promoApplied) {
       const result = applyPromoCode(baseAmount, promoCode);
@@ -58,8 +65,14 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       }
     }
   }, [promoCode, baseAmount, promoApplied, toast]);
+
+  // Cleanup polling on unmount
+  useEffect(() => {
+    return () => {
+      cancelPollingRef.current?.();
+    };
+  }, []);
   
-  // Final amount to charge
   const finalAmount = promoApplied && discountInfo.valid 
     ? discountInfo.discountedAmount 
     : baseAmount;
@@ -68,25 +81,17 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     const { name, value } = e.target;
     
     if (name === 'cardNumber') {
-      // Format card number with spaces every 4 digits
       const formatted = value
         .replace(/\s/g, '')
         .replace(/(\d{4})/g, '$1 ')
         .trim();
-      
-      setCardDetails({
-        ...cardDetails,
-        [name]: formatted
-      });
+      setCardDetails({ ...cardDetails, [name]: formatted });
     } else if (name === 'mpesaPhone') {
       setMpesaPhone(value);
     } else if (name === 'promoCode') {
       setPromoCode(value);
     } else {
-      setCardDetails({
-        ...cardDetails,
-        [name]: value
-      });
+      setCardDetails({ ...cardDetails, [name]: value });
     }
   };
   
@@ -119,12 +124,122 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     }
   };
 
+  const handleMpesaPayment = async () => {
+    if (!mpesaPhone) {
+      toast({ title: "Phone number required", description: "Enter your M-Pesa phone number", variant: "destructive" });
+      return;
+    }
+
+    setIsProcessing(true);
+    setMpesaStatus('sending');
+    setMpesaProgress(5);
+    setMpesaMessage('Sending STK push to your phone...');
+
+    try {
+      const stkResult = await initiateStkPush(mpesaPhone, finalAmount);
+      
+      if (!stkResult.success || !stkResult.checkoutRequestId) {
+        throw new Error(stkResult.error || 'Failed to initiate M-Pesa payment');
+      }
+
+      setMpesaStatus('waiting');
+      setMpesaProgress(15);
+      setMpesaMessage('STK push sent! Please check your phone and enter your M-Pesa PIN.');
+
+      toast({
+        title: "Check your phone!",
+        description: "Enter your M-Pesa PIN to authorize the payment.",
+      });
+
+      // Start polling
+      let pollCount = 0;
+      const { promise, cancel } = pollPaymentStatus(stkResult.checkoutRequestId, {
+        intervalMs: 3000,
+        maxAttempts: 40,
+        onStatusChange: (status) => {
+          pollCount++;
+          const progress = Math.min(15 + (pollCount * 2), 90);
+          setMpesaProgress(progress);
+
+          if (status.status === 'pending') {
+            setMpesaMessage(
+              pollCount < 5
+                ? 'Waiting for you to enter your M-Pesa PIN...'
+                : pollCount < 15
+                ? 'Still waiting for payment confirmation...'
+                : 'Taking a bit longer than usual. Please check your phone.'
+            );
+          }
+        },
+      });
+
+      cancelPollingRef.current = cancel;
+      const result = await promise;
+      cancelPollingRef.current = null;
+
+      if (result.status === 'completed' && result.transactionId) {
+        setMpesaStatus('completed');
+        setMpesaProgress(100);
+        setMpesaMessage('Payment confirmed!');
+        setPaymentSuccess(true);
+        
+        setTimeout(() => {
+          onPaymentSuccess(result.transactionId!);
+        }, 1500);
+      } else if (result.status === 'failed') {
+        setMpesaStatus('failed');
+        setMpesaMessage('Payment was not completed. Please try again.');
+        toast({
+          title: "Payment not completed",
+          description: "The M-Pesa payment was declined or cancelled. Please try again.",
+          variant: "destructive",
+        });
+      } else {
+        setMpesaStatus('expired');
+        setMpesaMessage('Payment request timed out. Please try again.');
+        toast({
+          title: "Payment timed out",
+          description: "The payment request expired. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('M-Pesa payment error:', error);
+      setMpesaStatus('failed');
+      setMpesaMessage('Something went wrong. Please try again.');
+      toast({
+        title: "Payment error",
+        description: error instanceof Error ? error.message : "Failed to process M-Pesa payment",
+        variant: "destructive",
+      });
+    } finally {
+      if (mpesaStatus !== 'completed') {
+        setIsProcessing(false);
+      }
+    }
+  };
+
+  const handleCancelMpesa = () => {
+    cancelPollingRef.current?.();
+    cancelPollingRef.current = null;
+    setMpesaStatus('idle');
+    setMpesaProgress(0);
+    setMpesaMessage('');
+    setIsProcessing(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // M-Pesa uses its own flow
+    if (bookingDetails.paymentMethod === 'mpesa') {
+      await handleMpesaPayment();
+      return;
+    }
+
     setIsProcessing(true);
     
     try {
-      // Prepare payment details based on method
       const paymentDetails: any = {
         amount: finalAmount,
         currency: 'KES',
@@ -132,21 +247,17 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
         description: `Booking for ${bookingDetails.roomType} room`,
         metadata: {
           guestName: bookingDetails.name,
-          checkInDate: bookingDetails.checkInDate?.toISOString(), // Use optional chaining for dates
+          checkInDate: bookingDetails.checkInDate?.toISOString(),
           checkOutDate: bookingDetails.checkOutDate?.toISOString(),
           roomType: bookingDetails.roomType,
           promoApplied: promoApplied ? promoCode : null
         }
       };
       
-      // Add method-specific details
       if (bookingDetails.paymentMethod === 'creditCard') {
         paymentDetails.cardDetails = cardDetails;
-      } else if (bookingDetails.paymentMethod === 'mpesa') {
-        paymentDetails.mpesaPhone = mpesaPhone;
       }
       
-      // Process payment with the chosen method
       const paymentResult = await processPayment(paymentDetails);
       
       if (paymentResult.success && paymentResult.transactionId) {
@@ -173,7 +284,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     return (
       <Card className="w-full max-w-md mx-auto">
         <CardHeader className="text-center">
-          <div className="mx-auto bg-green-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+          <div className="mx-auto bg-green-100 dark:bg-green-950/30 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-4">
             <Check className="h-8 w-8 text-green-600" />
           </div>
           <CardTitle className="text-2xl">Payment Successful!</CardTitle>
@@ -193,7 +304,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       <CardHeader>
         <CardTitle>Complete Your Payment</CardTitle>
         <CardDescription>
-          Secure payment for your booking at Safari Adventures
+          Secure payment for your booking at Maasai Adventures
         </CardDescription>
       </CardHeader>
       
@@ -343,31 +454,70 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
                 <Phone className="h-5 w-5 text-green-600" />
                 <h3 className="font-medium">M-Pesa Payment</h3>
               </div>
-              <p className="text-sm mb-4">
-                Enter your M-Pesa registered phone number. You will receive an STK push prompt on your phone to authorize the payment of <span className="font-semibold">KSh {finalAmount.toLocaleString()}</span>.
-              </p>
-              <div className="space-y-2">
-                <Label htmlFor="mpesaPhone">M-Pesa Phone Number</Label>
-                <Input
-                  id="mpesaPhone"
-                  name="mpesaPhone"
-                  placeholder="e.g. 0712345678 or 254712345678"
-                  value={mpesaPhone}
-                  onChange={handleInputChange}
-                  required
-                />
-                <p className="text-xs text-muted-foreground">Use format: 07XXXXXXXX or 254XXXXXXXXX</p>
-              </div>
-              <div className="mt-4 space-y-2 text-sm bg-green-50 dark:bg-green-950/30 p-3 rounded-md">
-                <div className="flex justify-between">
-                  <span className="font-medium">Paybill Number:</span>
-                  <span>174379</span>
+
+              {/* M-Pesa Status Display */}
+              {mpesaStatus !== 'idle' && (
+                <div className="mb-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    {mpesaStatus === 'sending' && <Loader2 className="h-4 w-4 animate-spin text-primary" />}
+                    {mpesaStatus === 'waiting' && <Clock className="h-4 w-4 animate-pulse text-amber-500" />}
+                    {mpesaStatus === 'completed' && <Check className="h-4 w-4 text-green-600" />}
+                    {(mpesaStatus === 'failed' || mpesaStatus === 'expired') && <AlertCircle className="h-4 w-4 text-destructive" />}
+                    <span className="text-sm font-medium">{mpesaMessage}</span>
+                  </div>
+                  <Progress value={mpesaProgress} className="h-2" />
+                  {mpesaStatus === 'waiting' && (
+                    <p className="text-xs text-muted-foreground">
+                      Please enter your M-Pesa PIN on your phone to authorize KSh {finalAmount.toLocaleString()}
+                    </p>
+                  )}
+                  {(mpesaStatus === 'failed' || mpesaStatus === 'expired') && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setMpesaStatus('idle');
+                        setMpesaProgress(0);
+                        setMpesaMessage('');
+                      }}
+                    >
+                      Try Again
+                    </Button>
+                  )}
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Account Name:</span>
-                  <span>Maasai Adventures Ltd</span>
-                </div>
-              </div>
+              )}
+
+              {mpesaStatus === 'idle' && (
+                <>
+                  <p className="text-sm mb-4">
+                    Enter your M-Pesa registered phone number. You will receive an STK push prompt on your phone to authorize the payment of <span className="font-semibold">KSh {finalAmount.toLocaleString()}</span>.
+                  </p>
+                  <div className="space-y-2">
+                    <Label htmlFor="mpesaPhone">M-Pesa Phone Number</Label>
+                    <Input
+                      id="mpesaPhone"
+                      name="mpesaPhone"
+                      placeholder="e.g. 0712345678 or 254712345678"
+                      value={mpesaPhone}
+                      onChange={handleInputChange}
+                      required
+                      disabled={isProcessing}
+                    />
+                    <p className="text-xs text-muted-foreground">Use format: 07XXXXXXXX or 254XXXXXXXXX</p>
+                  </div>
+                  <div className="mt-4 space-y-2 text-sm bg-green-50 dark:bg-green-950/30 p-3 rounded-md">
+                    <div className="flex justify-between">
+                      <span className="font-medium">Paybill Number:</span>
+                      <span>174379</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Account Name:</span>
+                      <span>Maasai Adventures Ltd</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           )}
           
@@ -409,21 +559,23 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
             <Button
               type="button"
               variant="outline"
-              onClick={onCancel}
-              disabled={isProcessing}
+              onClick={mpesaStatus === 'waiting' || mpesaStatus === 'sending' ? handleCancelMpesa : onCancel}
+              disabled={mpesaStatus === 'completed'}
             >
-              Back
+              {mpesaStatus === 'waiting' || mpesaStatus === 'sending' ? 'Cancel Payment' : 'Back'}
             </Button>
             
             <Button 
               type="submit" 
-              disabled={isProcessing}
+              disabled={isProcessing || mpesaStatus === 'completed'}
             >
               {isProcessing ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
+                  {bookingDetails.paymentMethod === 'mpesa' ? 'Processing M-Pesa...' : 'Processing...'}
                 </>
+              ) : bookingDetails.paymentMethod === 'mpesa' ? (
+                "Send M-Pesa Request"
               ) : (
                 "Complete Payment"
               )}
