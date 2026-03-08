@@ -348,6 +348,29 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
           
           <FormField
             control={form.control}
+            name="paymentMethod"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Payment Method</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select payment method" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="mpesa">M-Pesa</SelectItem>
+                    <SelectItem value="creditCard">Credit/Debit Card</SelectItem>
+                    <SelectItem value="bankTransfer">Bank Transfer</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="specialRequests"
             render={({ field }) => (
               <FormItem>
