@@ -18,9 +18,10 @@ import { format } from 'date-fns';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, BarChart3 } from 'lucide-react';
 import RoomForm from '@/components/admin/RoomForm';
 import ActivityForm from '@/components/admin/ActivityForm';
+import AdminAnalytics from '@/components/admin/AdminAnalytics';
 import type { Room, Activity } from '@/types/supabase';
 
 const AdminPage = () => {
