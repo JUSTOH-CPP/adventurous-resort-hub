@@ -51,48 +51,45 @@ const BookingPage = () => {
   };
   const handlePaymentSuccess = async (paymentTransactionId: string) => {
     setTransactionId(paymentTransactionId);
+    setBookingStep('confirmation');
+
+    // Send real booking confirmation email via edge function
     try {
-      const emailContent = formatBookingEmail({
-        ...currentBooking,
-        paymentTransactionId
-      });
-      await sendEmail({
-        to: "info@maasaiadventures.co.ke",
-        subject: `New Booking: ${currentBooking.name}`,
-        body: emailContent
+      const { error } = await supabase.functions.invoke('send-booking-email', {
+        body: {
+          to: currentBooking.email,
+          guestName: currentBooking.name,
+          bookingId: bookingId || 'N/A',
+          checkIn: currentBooking.checkInDate instanceof Date 
+            ? currentBooking.checkInDate.toLocaleDateString() 
+            : String(currentBooking.checkInDate),
+          checkOut: currentBooking.checkOutDate instanceof Date 
+            ? currentBooking.checkOutDate.toLocaleDateString() 
+            : String(currentBooking.checkOutDate),
+          roomType: currentBooking.roomType || 'Safari Lodge',
+          totalPrice: currentBooking.totalPrice || 15000,
+          transactionId: paymentTransactionId,
+        },
       });
 
-      await sendEmail({
-        to: currentBooking.email,
-        subject: "Your Booking Confirmation - Maasai Adventures",
-        body: emailContent
-      });
-
-      // Send SMS to customer
-      if (currentBooking.phone) {
-        const smsContent = formatBookingSMS({
-          ...currentBooking,
-          paymentTransactionId
+      if (error) {
+        console.error('Email send error:', error);
+        toast({
+          title: "Booking Confirmed!",
+          description: "However, we couldn't send the confirmation email. Your booking is still valid.",
         });
-        await sendSMS({
-          to: currentBooking.phone,
-          message: smsContent
+      } else {
+        toast({
+          title: "Booking Confirmed! 🎉",
+          description: "A confirmation email has been sent to your inbox.",
         });
       }
-      setBookingStep('confirmation');
-      toast({
-        title: "Booking Confirmed!",
-        description: "Check your email and phone for booking details.",
-        variant: "default"
-      });
     } catch (error) {
       console.error('Error sending confirmation email:', error);
       toast({
-        title: "Booking Successful",
-        description: "However, there was an issue sending the confirmation email.",
-        variant: "default"
+        title: "Booking Confirmed!",
+        description: "Your booking is confirmed. Check your email for details.",
       });
-      setBookingStep('confirmation');
     }
   };
   const handlePaymentCancel = () => {
