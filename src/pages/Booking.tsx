@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { Check, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { sendEmail, formatBookingEmail, sendSMS, formatBookingSMS } from '@/utils/email-service';
+import { createBookingInSupabase, BookingFormData } from '@/utils/booking-service';
 const BookingPage = () => {
   const {
     toast
@@ -16,10 +17,25 @@ const BookingPage = () => {
   const [bookingStep, setBookingStep] = useState<'form' | 'payment' | 'confirmation'>('form');
   const [currentBooking, setCurrentBooking] = useState<any>(null);
   const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [bookingId, setBookingId] = useState<string | null>(null);
   const handleBookingSubmit = async (values: any) => {
     setIsSubmitting(true);
     setCurrentBooking(values);
     try {
+      // Create booking in database first
+      const bookingData: BookingFormData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        adults: values.adults,
+        children: values.children,
+        checkInDate: values.checkInDate,
+        checkOutDate: values.checkOutDate,
+        roomType: values.roomType,
+        specialRequests: values.specialRequests,
+      };
+      const id = await createBookingInSupabase(bookingData);
+      setBookingId(id);
       // Move to payment step
       setBookingStep('payment');
     } catch (error) {
@@ -119,7 +135,7 @@ const BookingPage = () => {
               
               {bookingStep === 'payment' && currentBooking && <>
                   <h2 className="text-2xl font-display font-semibold mb-6">Payment Details</h2>
-                  <PaymentForm bookingDetails={currentBooking} onPaymentSuccess={handlePaymentSuccess} onCancel={handlePaymentCancel} />
+                  <PaymentForm bookingDetails={{ ...currentBooking, bookingId }} onPaymentSuccess={handlePaymentSuccess} onCancel={handlePaymentCancel} />
                 </>}
               
               {bookingStep === 'confirmation' && <div className="text-center py-8">

@@ -13,21 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, Check, Loader2, PartyPopper, Sparkle } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
-import { createBookingInSupabase, BookingFormData } from "@/utils/booking-service";
 import { useAuth } from "@/context/AuthContext";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -68,11 +59,7 @@ interface BookingFormProps {
 }
 
 export function BookingForm({ onSubmit }: BookingFormProps) {
-  const { toast } = useToast();
   const { user } = useAuth();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [showConfirmation, setShowConfirmation] = React.useState(false);
-  const [bookingDetails, setBookingDetails] = React.useState<BookingFormData & { bookingId?: string } | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -91,50 +78,8 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
   });
 
   async function handleFormSubmit(values: z.infer<typeof FormSchema>) {
-    setIsSubmitting(true);
-    try {
-      // Create booking in Supabase
-      const bookingData: BookingFormData = {
-        name: values.name,
-        email: values.email,
-        phone: values.phone,
-        adults: values.adults,
-        children: values.children,
-        checkInDate: values.checkInDate,
-        checkOutDate: values.checkOutDate,
-        roomType: values.roomType,
-        specialRequests: values.specialRequests,
-      };
-      
-      const bookingId = await createBookingInSupabase(bookingData);
-      
-      // Generate a simple booking reference
-      const bookingReference = `BK${bookingId.slice(-6)}`;
-      
-      // Store booking details for confirmation dialog
-      setBookingDetails({ ...bookingData, bookingReference, bookingId });
-      
-      // Show confirmation dialog
-      setShowConfirmation(true);
-      
-      // Show success toast
-      toast({
-        title: "Booking Successful!",
-        description: "Your booking has been confirmed.",
-      });
-      
-      // Call the parent onSubmit function
-      onSubmit(values);
-    } catch (error) {
-      console.error('Booking error:', error);
-      toast({
-        title: "Booking Error",
-        description: "There was a problem processing your booking. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Just pass values to parent — booking creation happens after payment
+    onSubmit(values);
   }
 
   return (
@@ -387,76 +332,11 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
             )}
           />
 
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              "Book Now"
-            )}
+          <Button type="submit" className="w-full">
+              Book Now
           </Button>
         </form>
       </Form>
-
-      <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader className="space-y-3">
-            <div className="mx-auto bg-green-100 rounded-full p-3 w-16 h-16 flex items-center justify-center animate-scale-in">
-              <Check className="h-8 w-8 text-green-600 animate-[pulse_2s_ease-in-out_infinite]" />
-            </div>
-            <DialogTitle className="text-center text-2xl flex items-center justify-center gap-2 animate-fade-in">
-              <PartyPopper className="h-5 w-5 text-yellow-500" />
-              Booking Confirmed!
-              <Sparkle className="h-5 w-5 text-blue-500 animate-[pulse_3s_ease-in-out_infinite]" />
-            </DialogTitle>
-            <DialogDescription className="text-center animate-fade-in animation-delay-200">
-              Thank you for your booking. Here are your details:
-            </DialogDescription>
-          </DialogHeader>
-          {bookingDetails && (
-            <div className="mt-4 space-y-3 animate-fade-in animation-delay-400 bg-muted/50 p-4 rounded-lg">
-              <p className="flex justify-between">
-                <span className="font-medium">Booking ID:</span> 
-                <span className="text-accent">{bookingDetails.bookingId?.slice(0, 8)}...</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Room Type:</span> 
-                <span className="capitalize">{bookingDetails.roomType}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Name:</span> 
-                <span>{bookingDetails.name}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Check-in Date:</span> 
-                <span>{format(bookingDetails.checkInDate, "PPP")}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Check-out Date:</span> 
-                <span>{format(bookingDetails.checkOutDate, "PPP")}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Guests:</span> 
-                <span>{bookingDetails.adults} Adults, {bookingDetails.children} Children</span>
-              </p>
-              <div className="text-sm text-muted-foreground mt-6 bg-green-50 p-3 rounded-md border border-green-100 shadow-sm animate-fade-in animation-delay-600">
-                <p className="text-center">
-                  A confirmation has been sent to your email 
-                  <span className="font-medium"> ({bookingDetails.email})</span> and 
-                  phone number <span className="font-medium">({bookingDetails.phone})</span>.
-                </p>
-              </div>
-              <div className="pt-4">
-                <Button className="w-full" onClick={() => window.location.href = "/my-bookings"}>
-                  View My Bookings
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
