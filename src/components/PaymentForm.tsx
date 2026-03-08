@@ -308,7 +308,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       <CardHeader>
         <CardTitle>Complete Your Payment</CardTitle>
         <CardDescription>
-          Secure payment for your booking at Maasai Adventures
+          Secure payment for your booking at Savanna Lodge & Safari
         </CardDescription>
       </CardHeader>
       
@@ -394,6 +394,12 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           {bookingDetails.paymentMethod === 'creditCard' && (
             <>
+              <div className="flex items-center gap-2 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-md mb-2">
+                <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
+                <p className="text-xs text-amber-700 dark:text-amber-400">
+                  Card payments are in demo mode. For real payments, use M-Pesa. Your booking will be marked as pending verification.
+                </p>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="cardNumber">Card Number</Label>
                 <div className="relative">

@@ -20,32 +20,62 @@ interface PaymentDetails {
 }
 
 /**
- * Process a payment through payment gateway
+ * Validate credit card details (basic client-side validation only)
+ * NOTE: Real card processing requires a payment gateway like Stripe.
+ * This validates format only — no real charge is made.
+ */
+const validateCardDetails = (cardDetails: { cardNumber: string; expiryDate: string; cvv: string }) => {
+  const { cardNumber, expiryDate, cvv } = cardDetails;
+  const cleanNumber = cardNumber.replace(/\s/g, '');
+  
+  if (!cleanNumber || cleanNumber.length !== 16 || !/^\d{16}$/.test(cleanNumber)) {
+    throw new Error('Invalid card number. Please enter a valid 16-digit card number.');
+  }
+  
+  if (!cvv || cvv.length !== 3 || !/^\d{3}$/.test(cvv)) {
+    throw new Error('Invalid CVV. Please enter a valid 3-digit CVV.');
+  }
+  
+  if (!expiryDate || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
+    throw new Error('Invalid expiry date. Use MM/YY format.');
+  }
+  
+  const [month, year] = expiryDate.split('/').map(Number);
+  const now = new Date();
+  const expiry = new Date(2000 + year, month);
+  if (expiry <= now) {
+    throw new Error('Card has expired. Please use a valid card.');
+  }
+};
+
+/**
+ * Process a payment
+ * - M-Pesa: Handled separately via mpesa-service.ts (real STK push)
+ * - Credit Card: Validates card details. NOTE: No real charge — requires Stripe integration for production.
  */
 export const processPayment = async (details: PaymentDetails): Promise<{success: boolean; transactionId?: string; error?: string}> => {
   try {
-    console.log('Processing payment:', details);
-    
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
     if (details.paymentMethod === 'creditCard' && details.cardDetails) {
-      const { cardNumber, expiryDate, cvv } = details.cardDetails;
-      if (!cardNumber || !expiryDate || !cvv) throw new Error('Invalid card details');
-      if (cardNumber.replace(/\s/g, '').length !== 16) throw new Error('Invalid card number');
-      if (cvv.length !== 3) throw new Error('Invalid CVV');
+      validateCardDetails(details.cardDetails);
+      
+      // IMPORTANT: This is a DEMO card payment. 
+      // In production, integrate Stripe or another payment gateway.
+      // The booking will be marked as 'pending_verification' not 'confirmed'.
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const transactionId = 'CARD' + Date.now().toString(36).toUpperCase();
+      return { 
+        success: true, 
+        transactionId,
+      };
     }
     
     if (details.paymentMethod === 'mpesa') {
-      if (!details.mpesaPhone) throw new Error('M-Pesa phone number is required');
-      const phone = details.mpesaPhone.replace(/\s/g, '');
-      if (!/^(0\d{9}|254\d{9})$/.test(phone)) throw new Error('Invalid M-Pesa phone number. Use 07XXXXXXXX or 254XXXXXXXXX');
-      console.log('Processing M-Pesa STK push to:', phone);
+      // M-Pesa is handled via mpesa-service.ts with real STK push
+      throw new Error('M-Pesa payments should use the dedicated M-Pesa flow');
     }
     
-    const transactionId = 'SAFARI' + Date.now().toString(36).toUpperCase();
-    
-    return { success: true, transactionId };
+    throw new Error('Unsupported payment method');
   } catch (error) {
     console.error('Payment processing error:', error);
     return {
@@ -69,8 +99,8 @@ export const calculateBookingPrice = (roomType: string, adults: number, children
     ? basePrices[roomType as keyof typeof basePrices] 
     : 15000;
   
-  const adultCost = adults * 3000;   // KSh 3,000 per additional adult
-  const childrenCost = children * 1500;  // KSh 1,500 per child
+  const adultCost = adults * 3000;
+  const childrenCost = children * 1500;
   
   return basePrice + adultCost + childrenCost;
 };
