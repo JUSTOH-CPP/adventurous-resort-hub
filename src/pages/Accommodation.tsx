@@ -11,9 +11,10 @@ const Accommodation: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
 
   const filteredRooms = filter === 'all' ? rooms : rooms.filter(room => {
-    if (filter === 'budget' && room.price < 200) return true;
-    if (filter === 'standard' && room.price >= 200 && room.price < 300) return true;
-    if (filter === 'luxury' && room.price >= 300) return true;
+    const kshPrice = room.price * 150;
+    if (filter === 'budget' && kshPrice < 25000) return true;
+    if (filter === 'standard' && kshPrice >= 25000 && kshPrice < 40000) return true;
+    if (filter === 'luxury' && kshPrice >= 40000) return true;
     return false;
   });
 
