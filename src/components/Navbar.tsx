@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Menu } from "lucide-react";
 import Logo from './Logo';  // Default import from Logo component
 import AuthButtons from './AuthButtons';
+import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   {
