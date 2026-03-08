@@ -70,14 +70,14 @@ const Gallery: React.FC = () => {
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80",
-      alt: "Rhinos in the Kenyan wilderness",
-      category: "wildlife"
+      src: "https://images.unsplash.com/photo-1534177616064-ef1001e02640?auto=format&fit=crop&w=800&q=80",
+      alt: "Hot air balloon over the Masai Mara",
+      category: "adventure"
     },
     {
       id: 12,
-      src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80",
-      alt: "Safari jeep on dusty trail",
+      src: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
+      alt: "Safari vehicle at golden hour",
       category: "adventure"
     }
   ];
