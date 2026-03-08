@@ -201,7 +201,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
         <div className="space-y-4">
           <div className="flex justify-between">
             <span>Booking Amount:</span>
-            <span className="font-medium">₹{baseAmount.toLocaleString()}</span>
+            <span className="font-medium">KSh {baseAmount.toLocaleString()}</span>
           </div>
           <div className="flex justify-between">
             <span>Room Type:</span>
