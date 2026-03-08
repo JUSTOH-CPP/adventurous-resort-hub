@@ -100,22 +100,41 @@ Deno.serve(async (req) => {
 
       // Auto-expire after 2 minutes
       const createdAt = new Date(receipt.created_at).getTime();
-      if (Date.now() - createdAt > 120000 && receipt.status === "pending") {
-        await supabase
-          .from("payment_receipts")
-          .update({ status: "expired" })
-          .eq("id", receipt.id)
-          .eq("status", "pending");
-        
+      const elapsed = Date.now() - createdAt;
+      
+      if (elapsed > 120000 && receipt.status === "pending") {
+        await supabase.from("payment_receipts").update({ status: "expired" }).eq("id", receipt.id).eq("status", "pending");
         return new Response(
           JSON.stringify({ success: true, status: "expired", amount: receipt.amount, phone: receipt.phone }),
           { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
 
-      // Update booking if just completed
-      if (receipt.status === "completed" && bookingId) {
-        await supabase.from("bookings").update({ status: "confirmed" }).eq("id", bookingId);
+      // Simulate completion after 6-10 seconds (90% success rate)
+      if (receipt.status === "pending" && elapsed > 6000) {
+        const newStatus = Math.random() < 0.9 ? "completed" : "failed";
+        const finalTxId = newStatus === "completed" ? "MPESA" + Date.now().toString(36).toUpperCase() : receipt.transaction_id;
+        
+        await supabase
+          .from("payment_receipts")
+          .update({ status: newStatus, transaction_id: finalTxId, metadata: { ...((receipt.metadata as any) || {}), completed_at: new Date().toISOString() } })
+          .eq("id", receipt.id)
+          .eq("status", "pending");
+
+        if (newStatus === "completed" && (bookingId || receipt.booking_id)) {
+          await supabase.from("bookings").update({ status: "confirmed" }).eq("id", bookingId || receipt.booking_id);
+        }
+
+        return new Response(
+          JSON.stringify({
+            success: true,
+            status: newStatus,
+            transactionId: newStatus === "completed" ? finalTxId : undefined,
+            amount: receipt.amount,
+            phone: receipt.phone,
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
       }
 
       return new Response(
