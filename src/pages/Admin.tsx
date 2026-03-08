@@ -105,10 +105,16 @@ const AdminPage = () => {
         
         <Tabs defaultValue="bookings" className="w-full">
           <TabsList className="mb-4">
+            <TabsTrigger value="analytics" className="gap-1.5"><BarChart3 className="h-4 w-4" />Analytics</TabsTrigger>
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="rooms">Rooms</TabsTrigger>
             <TabsTrigger value="activities">Activities</TabsTrigger>
           </TabsList>
+          
+          {/* Analytics Tab */}
+          <TabsContent value="analytics">
+            <AdminAnalytics />
+          </TabsContent>
           
           {/* Bookings Tab */}
           <TabsContent value="bookings">
