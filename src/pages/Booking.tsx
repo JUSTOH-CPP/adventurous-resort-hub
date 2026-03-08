@@ -46,10 +46,9 @@ const BookingPage = () => {
         body: emailContent
       });
 
-      // Also send email to the customer
       await sendEmail({
         to: currentBooking.email,
-        subject: "Your Booking Confirmation - Safari Adventures",
+        subject: "Your Booking Confirmation - Maasai Adventures",
         body: emailContent
       });
 
