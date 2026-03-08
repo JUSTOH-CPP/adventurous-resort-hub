@@ -40,8 +40,8 @@ const Gallery: React.FC = () => {
     },
     {
       id: 6,
-      src: "https://images.unsplash.com/photo-1611601322175-ef8db9e3e30a?auto=format&fit=crop&w=800&q=80",
-      alt: "Giraffes in Nairobi National Park",
+      src: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?auto=format&fit=crop&w=800&q=80",
+      alt: "Giraffes in the Kenyan savanna",
       category: "wildlife"
     },
     {
@@ -70,15 +70,15 @@ const Gallery: React.FC = () => {
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1612880484613-a9e4a005551e?auto=format&fit=crop&w=800&q=80",
-      alt: "Mount Kenya at sunrise",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=800&q=80",
+      alt: "Leopard in the African wild",
+      category: "wildlife"
     },
     {
       id: 12,
-      src: "https://images.unsplash.com/photo-1551009175-15bdf9dcb580?auto=format&fit=crop&w=800&q=80",
-      alt: "Safari jeep on dusty trail",
-      category: "adventure"
+      src: "https://images.unsplash.com/photo-1519659528534-7fd733a832a0?auto=format&fit=crop&w=800&q=80",
+      alt: "African savanna at golden hour",
+      category: "landscape"
     }
   ];
 
