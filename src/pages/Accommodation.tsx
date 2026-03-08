@@ -11,9 +11,10 @@ const Accommodation: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
 
   const filteredRooms = filter === 'all' ? rooms : rooms.filter(room => {
-    if (filter === 'budget' && room.price < 200) return true;
-    if (filter === 'standard' && room.price >= 200 && room.price < 300) return true;
-    if (filter === 'luxury' && room.price >= 300) return true;
+    const kshPrice = room.price * 150;
+    if (filter === 'budget' && kshPrice < 25000) return true;
+    if (filter === 'standard' && kshPrice >= 25000 && kshPrice < 40000) return true;
+    if (filter === 'luxury' && kshPrice >= 40000) return true;
     return false;
   });
 
@@ -34,9 +35,9 @@ const Accommodation: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             {[
               { value: 'all', label: 'All' },
-              { value: 'budget', label: 'Budget (Under $200)' },
-              { value: 'standard', label: 'Standard ($200-$300)' },
-              { value: 'luxury', label: 'Luxury (Above $300)' },
+              { value: 'budget', label: 'Budget (Under KSh 25,000)' },
+              { value: 'standard', label: 'Standard (KSh 25,000–40,000)' },
+              { value: 'luxury', label: 'Luxury (Above KSh 40,000)' },
             ].map(option => (
               <button key={option.value} onClick={() => setFilter(option.value)}
                 className={`px-4 py-2 rounded-full text-sm transition-all duration-300 ${filter === option.value ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground/70 hover:bg-secondary/80'}`}>
@@ -64,7 +65,7 @@ const Accommodation: React.FC = () => {
                   <div className="aspect-video relative overflow-hidden">
                     <img src={room.images?.[0] || '/placeholder.svg'} alt={room.name} className="w-full h-full object-cover" />
                     <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full font-medium text-accent">
-                      ${room.price} <span className="text-sm text-muted-foreground">/night</span>
+                      KSh {(room.price * 150).toLocaleString()} <span className="text-sm text-muted-foreground">/night</span>
                     </div>
                   </div>
                   <div className="p-6">
