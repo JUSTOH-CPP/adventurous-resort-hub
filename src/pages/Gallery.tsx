@@ -11,74 +11,74 @@ const Gallery: React.FC = () => {
     {
       id: 1,
       src: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
-      alt: "Lions resting in the Masai Mara",
-      category: "wildlife"
+      alt: "Golden savanna sunset with acacia tree",
+      category: "landscape"
     },
     {
       id: 2,
       src: "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&w=800&q=80",
-      alt: "Elephants at Amboseli with Mt Kilimanjaro",
-      category: "wildlife"
+      alt: "Mount Kilimanjaro view from Amboseli",
+      category: "landscape"
     },
     {
       id: 3,
       src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80",
-      alt: "Zebras on the savanna",
-      category: "wildlife"
+      alt: "Safari jeep at sunset on the savanna",
+      category: "adventure"
     },
     {
       id: 4,
       src: "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?auto=format&fit=crop&w=800&q=80",
-      alt: "Wildebeest migration crossing the Mara River",
+      alt: "Elephant walking through the grasslands",
       category: "wildlife"
     },
     {
       id: 5,
       src: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=800&q=80",
-      alt: "Kenyan sunset over the savanna",
-      category: "landscape"
+      alt: "Giraffe silhouette at sunset",
+      category: "wildlife"
     },
     {
       id: 6,
       src: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?auto=format&fit=crop&w=800&q=80",
-      alt: "Giraffes in the Kenyan savanna",
-      category: "wildlife"
+      alt: "Aerial view of the Kenyan coastline",
+      category: "beach"
     },
     {
       id: 7,
       src: "https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=800&q=80",
-      alt: "Flamingos at Lake Nakuru",
+      alt: "Zebra herd on the Masai Mara plains",
       category: "wildlife"
     },
     {
       id: 8,
       src: "https://images.unsplash.com/photo-1504432842672-1a79f78e4084?auto=format&fit=crop&w=800&q=80",
-      alt: "Maasai people in traditional dress",
-      category: "culture"
+      alt: "Adventurer overlooking the savanna landscape",
+      category: "adventure"
     },
     {
       id: 9,
       src: "https://images.unsplash.com/photo-1528277342758-f1d7613953a2?auto=format&fit=crop&w=800&q=80",
-      alt: "Diani Beach, Kenyan coast",
-      category: "beach"
+      alt: "Acacia trees at sunset in Kenya",
+      category: "landscape"
     },
     {
       id: 10,
       src: "https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=800&q=80",
-      alt: "Cheetah in the wild",
+      alt: "Close-up of an African elephant",
       category: "wildlife"
     },
     {
       id: 11,
       src: "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=800&q=80",
-      alt: "Leopard in the African wild",
+      alt: "Leopard resting in the wild",
       category: "wildlife"
     },
     {
       id: 12,
       src: "https://images.unsplash.com/photo-1519659528534-7fd733a832a0?auto=format&fit=crop&w=800&q=80",
-      alt: "African savanna at golden hour",
-      category: "landscape"
+      alt: "Hot air balloon safari over the Mara",
+      category: "adventure"
     }
   ];
 
