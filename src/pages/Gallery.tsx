@@ -70,8 +70,8 @@ const Gallery: React.FC = () => {
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1561731216-c3a4d514bf65?auto=format&fit=crop&w=800&q=80",
-      alt: "Leopard resting on a tree branch",
+      src: "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=800&q=80",
+      alt: "Leopard in the African wild",
       category: "wildlife"
     },
     {
