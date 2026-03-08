@@ -196,7 +196,7 @@ const AdminPage = () => {
                         <CardDescription>Capacity: {room.capacity} guests</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-semibold mb-2">₹{room.price} / night</p>
+                        <p className="text-lg font-semibold mb-2">KSh {room.price?.toLocaleString()} / night</p>
                         <p className="text-sm text-muted-foreground line-clamp-2">{room.description || 'No description'}</p>
                       </CardContent>
                       <CardFooter className="flex justify-between">
