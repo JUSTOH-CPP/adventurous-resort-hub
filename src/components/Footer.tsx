@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 py-16 px-4">
           <div className="space-y-4 animate-fade-in">
-            <h3 className="text-2xl font-display font-semibold">Dandeli Adventures</h3>
+            <h3 className="text-2xl font-display font-semibold">Safari Adventures</h3>
             <p className="text-accent-foreground/80 max-w-xs">
               Discover a world of adventure and tranquility nestled in the heart of nature's paradise.
             </p>
