@@ -221,7 +221,7 @@ const UserActivityBookings = () => {
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Total Amount:</span>
                           <span className="font-medium">
-                            ₹{booking.total_price || 
+                            KSh {booking.total_price || 
                               (booking.activity?.price 
                                 ? booking.activity.price * booking.participants
                                 : 'N/A')}
@@ -293,7 +293,7 @@ const UserActivityBookings = () => {
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Total Amount:</span>
-                          <span className="font-medium">₹{booking.total_price || 'N/A'}</span>
+                          <span className="font-medium">KSh {booking.total_price || 'N/A'}</span>
                         </div>
                       </div>
                     </CardContent>
@@ -356,7 +356,7 @@ const UserActivityBookings = () => {
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Total Amount:</span>
-                          <span className="font-medium">₹{booking.total_price || 'N/A'}</span>
+                          <span className="font-medium">KSh {booking.total_price || 'N/A'}</span>
                         </div>
                       </div>
                     </CardContent>
