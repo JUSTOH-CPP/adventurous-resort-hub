@@ -143,7 +143,7 @@ const AdminPage = () => {
                         <TableCell className="font-mono text-xs">{booking.user_id?.slice(0, 8)}…</TableCell>
                         <TableCell>{format(new Date(booking.check_in), 'MMM dd, yyyy')}</TableCell>
                         <TableCell>{format(new Date(booking.check_out), 'MMM dd, yyyy')}</TableCell>
-                        <TableCell>₹{booking.total_price}</TableCell>
+                        <TableCell>KSh {booking.total_price?.toLocaleString()}</TableCell>
                         <TableCell>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
