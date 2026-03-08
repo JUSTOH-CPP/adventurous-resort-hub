@@ -127,7 +127,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       // Prepare payment details based on method
       const paymentDetails: any = {
         amount: finalAmount,
-        currency: 'INR',
+        currency: 'KES',
         paymentMethod: bookingDetails.paymentMethod,
         description: `Booking for ${bookingDetails.roomType} room`,
         metadata: {
