@@ -17,6 +17,22 @@ interface PaymentStatusResponse {
   error?: string;
 }
 
+export interface PaymentReceipt {
+  id: string;
+  booking_id: string | null;
+  user_id: string | null;
+  transaction_id: string;
+  checkout_request_id: string | null;
+  payment_method: string;
+  phone: string | null;
+  amount: number;
+  currency: string;
+  status: string;
+  metadata: Record<string, any> | null;
+  created_at: string;
+  updated_at: string;
+}
+
 /**
  * Initiate M-Pesa STK Push
  */
@@ -41,10 +57,11 @@ export const initiateStkPush = async (
  */
 export const queryPaymentStatus = async (
   checkoutRequestId: string,
-  bookingId?: string
+  bookingId?: string,
+  userId?: string
 ): Promise<PaymentStatusResponse> => {
   const { data, error } = await supabase.functions.invoke("mpesa-payment", {
-    body: { action: "query", checkoutRequestId, bookingId },
+    body: { action: "query", checkoutRequestId, bookingId, userId },
   });
 
   if (error) {
@@ -57,7 +74,6 @@ export const queryPaymentStatus = async (
 
 /**
  * Poll for M-Pesa payment completion
- * Calls onStatusChange on each poll, resolves when terminal state reached
  */
 export const pollPaymentStatus = (
   checkoutRequestId: string,
@@ -65,10 +81,11 @@ export const pollPaymentStatus = (
     intervalMs?: number;
     maxAttempts?: number;
     bookingId?: string;
+    userId?: string;
     onStatusChange?: (status: PaymentStatusResponse) => void;
   } = {}
 ): { promise: Promise<PaymentStatusResponse>; cancel: () => void } => {
-  const { intervalMs = 3000, maxAttempts = 40, bookingId, onStatusChange } = options;
+  const { intervalMs = 3000, maxAttempts = 40, bookingId, userId, onStatusChange } = options;
   let cancelled = false;
   let attempt = 0;
 
@@ -84,7 +101,7 @@ export const pollPaymentStatus = (
       }
 
       attempt++;
-      const result = await queryPaymentStatus(checkoutRequestId, bookingId);
+      const result = await queryPaymentStatus(checkoutRequestId, bookingId, userId);
       onStatusChange?.(result);
 
       if (result.status === "completed" || result.status === "failed" || result.status === "expired") {
@@ -104,4 +121,39 @@ export const pollPaymentStatus = (
   });
 
   return { promise, cancel };
+};
+
+/**
+ * Get payment receipts for the current user
+ */
+export const getUserPaymentReceipts = async (): Promise<PaymentReceipt[]> => {
+  const { data, error } = await supabase
+    .from("payment_receipts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching payment receipts:", error);
+    return [];
+  }
+
+  return (data || []) as unknown as PaymentReceipt[];
+};
+
+/**
+ * Get payment receipt by booking ID
+ */
+export const getReceiptByBookingId = async (bookingId: string): Promise<PaymentReceipt | null> => {
+  const { data, error } = await supabase
+    .from("payment_receipts")
+    .select("*")
+    .eq("booking_id", bookingId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error fetching receipt:", error);
+    return null;
+  }
+
+  return data as unknown as PaymentReceipt | null;
 };
