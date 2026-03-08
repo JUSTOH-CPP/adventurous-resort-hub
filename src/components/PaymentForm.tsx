@@ -193,7 +193,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       <CardHeader>
         <CardTitle>Complete Your Payment</CardTitle>
         <CardDescription>
-          Secure payment for your booking at Dandeli Adventures
+          Secure payment for your booking at Safari Adventures
         </CardDescription>
       </CardHeader>
       
