@@ -142,8 +142,8 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       // Add method-specific details
       if (bookingDetails.paymentMethod === 'creditCard') {
         paymentDetails.cardDetails = cardDetails;
-      } else if (bookingDetails.paymentMethod === 'upi') {
-        paymentDetails.upiId = upiId;
+      } else if (bookingDetails.paymentMethod === 'mpesa') {
+        paymentDetails.mpesaPhone = mpesaPhone;
       }
       
       // Process payment with the chosen method
