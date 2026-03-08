@@ -195,7 +195,7 @@ export const formatBookingEmail = (bookingData: any): string => {
           <p>Warm regards,<br>The Safari Adventures Team</p>
         </div>
         <div class="footer">
-          <p>© ${new Date().getFullYear()} Dandeli Adventures. All rights reserved.</p>
+          <p>© ${new Date().getFullYear()} Safari Adventures. All rights reserved.</p>
           <p>Kali River Front, Dandeli, Karnataka 581325, India</p>
         </div>
       </div>
