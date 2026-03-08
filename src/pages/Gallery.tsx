@@ -10,75 +10,75 @@ const Gallery: React.FC = () => {
   const galleryImages = [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=80",
-      alt: "Deer in forest",
+      src: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
+      alt: "Lions resting in the Masai Mara",
       category: "wildlife"
     },
     {
       id: 2,
-      src: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=800&q=80",
-      alt: "Waterfall",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&w=800&q=80",
+      alt: "Elephants at Amboseli with Mt Kilimanjaro",
+      category: "wildlife"
     },
     {
       id: 3,
-      src: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&w=800&q=80",
-      alt: "River",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80",
+      alt: "Zebras on the savanna",
+      category: "wildlife"
     },
     {
       id: 4,
-      src: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80",
-      alt: "Forest",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?auto=format&fit=crop&w=800&q=80",
+      alt: "Wildebeest migration crossing the Mara River",
+      category: "wildlife"
     },
     {
       id: 5,
-      src: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80",
-      alt: "Sunlight through trees",
+      src: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=800&q=80",
+      alt: "Kenyan sunset over the savanna",
       category: "landscape"
     },
     {
       id: 6,
-      src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80",
-      alt: "Mountain sunrise",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1611601322175-ef8db9e3e30a?auto=format&fit=crop&w=800&q=80",
+      alt: "Giraffes in Nairobi National Park",
+      category: "wildlife"
     },
     {
       id: 7,
-      src: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=800&q=80",
-      alt: "Starry night",
-      category: "night"
+      src: "https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=800&q=80",
+      alt: "Flamingos at Lake Nakuru",
+      category: "wildlife"
     },
     {
       id: 8,
-      src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
-      alt: "Foggy mountains",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1504432842672-1a79f78e4084?auto=format&fit=crop&w=800&q=80",
+      alt: "Maasai people in traditional dress",
+      category: "culture"
     },
     {
       id: 9,
-      src: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=800&q=80",
-      alt: "Ocean waves",
-      category: "water"
+      src: "https://images.unsplash.com/photo-1528277342758-f1d7613953a2?auto=format&fit=crop&w=800&q=80",
+      alt: "Diani Beach, Kenyan coast",
+      category: "beach"
     },
     {
       id: 10,
-      src: "https://images.unsplash.com/photo-1458668383970-8ddd3927deed?auto=format&fit=crop&w=800&q=80",
-      alt: "Mountain alps",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=800&q=80",
+      alt: "Cheetah in the wild",
+      category: "wildlife"
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=800&q=80",
-      alt: "River surrounded by rocks",
+      src: "https://images.unsplash.com/photo-1612880484613-a9e4a005551e?auto=format&fit=crop&w=800&q=80",
+      alt: "Mount Kenya at sunrise",
       category: "landscape"
     },
     {
       id: 12,
-      src: "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&w=800&q=80",
-      alt: "Sunbeam in forest",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1551009175-15bdf9dcb580?auto=format&fit=crop&w=800&q=80",
+      alt: "Safari jeep on dusty trail",
+      category: "adventure"
     }
   ];
 
