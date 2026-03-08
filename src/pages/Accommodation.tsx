@@ -97,7 +97,16 @@ const Accommodation: React.FC = () => {
                         <span className="text-sm">Up to {room.capacity}</span>
                       </div>
                     </div>
-                    <p className="text-muted-foreground mb-5 line-clamp-2">{room.description || 'No description available'}</p>
+                    <p className="text-muted-foreground mb-4 line-clamp-2">{room.description || 'No description available'}</p>
+                    {parseAmenities(room.amenities).length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {parseAmenities(room.amenities).map((amenity, i) => (
+                          <span key={i} className="inline-flex items-center gap-1 text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-full">
+                            {amenity.icon} {amenity.label}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <Link to="/booking" className="block w-full py-3 text-center bg-accent text-accent-foreground rounded-md transition-all duration-300 hover:bg-accent/90">
                       Book Now
                     </Link>
