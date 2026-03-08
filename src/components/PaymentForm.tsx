@@ -249,7 +249,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
               <div className="flex items-center mt-2 text-sm text-green-600">
                 <Tag size={14} className="mr-1" />
                 <span>
-                  {promoCode} applied: ₹{discountInfo.discount.toLocaleString()} off
+                  {promoCode} applied: KSh {discountInfo.discount.toLocaleString()} off
                 </span>
               </div>
             )}
