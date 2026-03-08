@@ -130,7 +130,12 @@ const BookingPage = () => {
                   {transactionId && <p className="text-sm bg-muted p-3 rounded-md inline-block mb-6">
                       Transaction ID: {transactionId}
                     </p>}
-                  <button onClick={resetBooking} className="btn-primary mx-auto mt-4">
+                  <BookingReceipt
+                    booking={currentBooking}
+                    bookingId={bookingId}
+                    transactionId={transactionId}
+                  />
+                  <button onClick={resetBooking} className="btn-primary mx-auto mt-6">
                     Make Another Booking
                   </button>
                 </div>}
