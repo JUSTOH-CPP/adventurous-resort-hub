@@ -28,22 +28,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // First, set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Check if user is admin
-          checkUserRole(session.user.id);
+          // Use setTimeout to avoid Supabase client deadlock
+          setTimeout(() => checkUserRole(session.user.id), 0);
         } else {
           setIsAdmin(false);
         }
       }
     );
 
-    // Then check for existing session
     const getInitialSession = async () => {
       try {
         setLoading(true);
@@ -52,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          checkUserRole(session.user.id);
+          await checkUserRole(session.user.id);
         }
       } catch (error) {
         console.error('Error getting session:', error);
@@ -70,13 +68,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const checkUserRole = async (userId: string) => {
     try {
-      const { data: userData } = await supabase
-        .from('users')
+      const { data } = await supabase
+        .from('user_roles')
         .select('role')
-        .eq('id', userId)
-        .single();
+        .eq('user_id', userId)
+        .eq('role', 'admin')
+        .maybeSingle();
       
-      setIsAdmin(userData?.role === 'admin');
+      setIsAdmin(!!data);
     } catch (error) {
       console.error('Error checking user role:', error);
       setIsAdmin(false);

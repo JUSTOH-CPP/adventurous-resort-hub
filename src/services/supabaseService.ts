@@ -72,6 +72,36 @@ export const getRoomById = async (id: string) => {
   return data as Room;
 };
 
+export const createRoom = async (room: Omit<Room, 'id' | 'created_at' | 'updated_at'>) => {
+  const { data, error } = await supabase
+    .from('rooms')
+    .insert(room)
+    .select();
+  
+  if (error) throw error;
+  return data[0] as Room;
+};
+
+export const updateRoom = async (id: string, room: Partial<Room>) => {
+  const { data, error } = await supabase
+    .from('rooms')
+    .update(room)
+    .eq('id', id)
+    .select();
+  
+  if (error) throw error;
+  return data[0] as Room;
+};
+
+export const deleteRoom = async (id: string) => {
+  const { error } = await supabase
+    .from('rooms')
+    .delete()
+    .eq('id', id);
+  
+  if (error) throw error;
+};
+
 // Activities
 export const getActivities = async () => {
   const { data, error } = await supabase
@@ -91,6 +121,36 @@ export const getActivityById = async (id: string) => {
   
   if (error) throw error;
   return data as Activity;
+};
+
+export const createActivity = async (activity: Omit<Activity, 'id' | 'created_at' | 'updated_at'>) => {
+  const { data, error } = await supabase
+    .from('activities')
+    .insert(activity)
+    .select();
+  
+  if (error) throw error;
+  return data[0] as Activity;
+};
+
+export const updateActivity = async (id: string, activity: Partial<Activity>) => {
+  const { data, error } = await supabase
+    .from('activities')
+    .update(activity)
+    .eq('id', id)
+    .select();
+  
+  if (error) throw error;
+  return data[0] as Activity;
+};
+
+export const deleteActivity = async (id: string) => {
+  const { error } = await supabase
+    .from('activities')
+    .delete()
+    .eq('id', id);
+  
+  if (error) throw error;
 };
 
 // Activity Bookings
