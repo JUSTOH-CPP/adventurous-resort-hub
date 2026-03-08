@@ -91,7 +91,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         
         <div className="mt-auto flex items-center justify-between">
           <div className="text-lg font-semibold">
-            ₹{price * 83} <span className="text-sm font-normal text-foreground/70">per person</span>
+            KSh {(price * 150).toLocaleString()} <span className="text-sm font-normal text-foreground/70">per person</span>
           </div>
           
           <Link 

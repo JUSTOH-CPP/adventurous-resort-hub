@@ -41,18 +41,16 @@ const Footer: React.FC = () => {
               <li className="flex items-start space-x-3">
                 <MapPin size={20} className="mt-1 flex-shrink-0" />
                 <span className="text-accent-foreground/80">
-                  Dandeli Wildlife Sanctuary, Karnataka, India - 581325
+                  Maasai Adventures, Ngong Road, Karen, Nairobi, Kenya - 00200
                 </span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={20} className="flex-shrink-0" />
-                <span className="text-accent-foreground/80">+91 8277385225  
-+91 7795601255</span>
+                <span className="text-accent-foreground/80">+254 722 123 456</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={20} className="flex-shrink-0" />
-                <span className="text-accent-foreground/80 text-base">dandeliadventures.in@gmail.com
-              </span>
+                <span className="text-accent-foreground/80 text-base">info@maasaiadventures.co.ke</span>
               </li>
             </ul>
           </div>

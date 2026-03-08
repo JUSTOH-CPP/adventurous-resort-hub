@@ -86,7 +86,7 @@ const SpecialOffers: React.FC = () => {
             description="Experience the Great Migration with our premium safari package and exclusive viewing locations."
             promoCode="MIGRATION20"
             discount="20%"
-            validUntil="Sep 30, 2025"
+            validUntil="Oct 31, 2026"
             imageUrl="/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png"
             color="#3949ab"
           />
@@ -96,7 +96,7 @@ const SpecialOffers: React.FC = () => {
             description="Book at least 30 days in advance and get an exclusive discount on all safari packages."
             promoCode="EARLYBIRD10"
             discount="10%"
-            validUntil="Dec 31, 2025"
+            validUntil="Dec 31, 2026"
             imageUrl="/lovable-uploads/dc56b3d5-8de2-40a9-b259-35829487f125.png"
             color="#43a047"
           />
@@ -106,7 +106,7 @@ const SpecialOffers: React.FC = () => {
             description="Bring your family on safari with special rates for children and custom family activities."
             promoCode="FAMILY25"
             discount="25%"
-            validUntil="Jun 30, 2025"
+            validUntil="Jun 30, 2026"
             imageUrl="/lovable-uploads/eab0dff8-9904-4338-ae38-67e97ade71cf.png"
             color="#ef6c00"
           />

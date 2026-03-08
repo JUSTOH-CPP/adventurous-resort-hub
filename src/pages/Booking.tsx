@@ -36,21 +36,19 @@ const BookingPage = () => {
   const handlePaymentSuccess = async (paymentTransactionId: string) => {
     setTransactionId(paymentTransactionId);
     try {
-      // Send confirmation email to admin (Stanley)
       const emailContent = formatBookingEmail({
         ...currentBooking,
         paymentTransactionId
       });
       await sendEmail({
-        to: "stanleyyesu@gmail.com",
+        to: "info@maasaiadventures.co.ke",
         subject: `New Booking: ${currentBooking.name}`,
         body: emailContent
       });
 
-      // Also send email to the customer
       await sendEmail({
         to: currentBooking.email,
-        subject: "Your Booking Confirmation - Safari Adventures",
+        subject: "Your Booking Confirmation - Maasai Adventures",
         body: emailContent
       });
 
@@ -130,7 +128,7 @@ const BookingPage = () => {
                   </div>
                   <h2 className="text-2xl font-display font-semibold mb-4">Booking Confirmed!</h2>
                   <p className="mb-4 text-muted-foreground">
-                    Thank you for booking with Safari Adventures. We've sent a confirmation email to {currentBooking?.email} and an SMS to your phone.
+                    Asante sana for booking with Maasai Adventures! We've sent a confirmation to {currentBooking?.email} and an SMS to your phone.
                   </p>
                   {transactionId && <p className="text-sm bg-muted p-3 rounded-md inline-block mb-6">
                       Transaction ID: {transactionId}
@@ -177,19 +175,18 @@ const BookingPage = () => {
                 <p className="mb-4 text-sm">Our reservation team is available to help you plan your perfect stay.</p>
                 <div className="space-y-2 text-sm">
                   <p className="font-medium">Call us:</p>
-                  <p className="text-accent">+91 8904704234
-+91 7795601255</p>
+                  <p className="text-accent">+254 722 123 456</p>
                   <p className="font-medium mt-3">Email:</p>
-                  <p className="text-accent">dandeliadventuresinfo@gmail.com</p>
+                  <p className="text-accent">info@maasaiadventures.co.ke</p>
                 </div>
               </div>
               
               {/* Testimonial */}
               <div className="bg-accent/10 rounded-lg p-6 animate-fade-in animation-delay-600">
                 <p className="italic text-sm mb-4">
-                  "Our stay at Safari Adventures was absolutely magical. The staff went above and beyond to make our vacation unforgettable!"
+                  "Our safari at Maasai Adventures was absolutely magical. The Maasai guides went above and beyond to make our trip unforgettable!"
                 </p>
-                <p className="font-medium text-sm">- Priya & Rahul , Banglore</p>
+                <p className="font-medium text-sm">- Amara & David, Nairobi</p>
               </div>
             </div>
           </div>
@@ -206,7 +203,7 @@ const BookingPage = () => {
                 <ul className="space-y-2 text-sm">
                   <li>• A 50% advance payment is required to confirm your booking</li>
                   <li>• Full payment is due upon check-in</li>
-                  <li>• We accept all major credit cards, UPI, and bank transfers</li>
+                  <li>• We accept M-Pesa, credit cards, and bank transfers</li>
                 </ul>
               </div>
               
@@ -253,18 +250,18 @@ const BookingPage = () => {
 // FAQ data
 const faqs = [{
   question: "How do I make a reservation?",
-  answer: "You can make a reservation by filling out the booking form on our website, calling our reservation team, or sending an email to bookings@dandeliadventures.com."
+  answer: "You can make a reservation by filling out the booking form on our website, calling our team at +254 722 123 456, or emailing info@maasaiadventures.co.ke."
 }, {
   question: "Is there a minimum stay requirement?",
-  answer: "During weekends and peak seasons, there is typically a 2-night minimum stay requirement. During weekdays and off-peak seasons, single-night stays may be available."
+  answer: "During peak migration season (July-October), there is a 2-night minimum stay. Off-peak single-night stays may be available."
 }, {
   question: "Do you offer airport transfers?",
-  answer: "Yes, we offer airport transfers from Hubballi Airport and Goa Airport for an additional fee. Please mention your requirement in the special requests section of the booking form."
+  answer: "Yes, we offer transfers from Jomo Kenyatta International Airport and Wilson Airport in Nairobi. Please mention your requirement in special requests."
 }, {
   question: "Are meals included in the room rate?",
-  answer: "Our standard packages include breakfast. You can upgrade to half-board (breakfast and dinner) or full-board (all meals) options during the booking process."
+  answer: "Our standard packages include breakfast. You can upgrade to half-board (breakfast and dinner) or full-board (all meals) during booking."
 }, {
   question: "Can I book activities in advance?",
-  answer: "Yes, we recommend booking activities in advance, especially during peak season. You can add activities to your reservation through our booking form or contact our team for assistance."
+  answer: "Yes, we recommend booking safaris and activities in advance, especially during the Great Migration season. Contact our team for assistance."
 }];
 export default BookingPage;

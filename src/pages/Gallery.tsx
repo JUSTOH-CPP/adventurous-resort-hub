@@ -117,7 +117,7 @@ const Gallery: React.FC = () => {
           <div className="text-center mb-16 animate-slide-up">
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Our Gallery</h1>
             <p className="text-foreground/70 max-w-2xl mx-auto">
-              Explore the breathtaking natural beauty of Dandeli through our collection of stunning photographs
+              Explore the breathtaking natural beauty of Kenya through our collection of stunning photographs
             </p>
           </div>
           
