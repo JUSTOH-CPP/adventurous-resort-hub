@@ -130,7 +130,7 @@ const BookingPage = () => {
                   </div>
                   <h2 className="text-2xl font-display font-semibold mb-4">Booking Confirmed!</h2>
                   <p className="mb-4 text-muted-foreground">
-                    Thank you for booking with Dandeli Adventures. We've sent a confirmation email to {currentBooking?.email} and an SMS to your phone.
+                    Thank you for booking with Safari Adventures. We've sent a confirmation email to {currentBooking?.email} and an SMS to your phone.
                   </p>
                   {transactionId && <p className="text-sm bg-muted p-3 rounded-md inline-block mb-6">
                       Transaction ID: {transactionId}
