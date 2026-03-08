@@ -17,10 +17,25 @@ const BookingPage = () => {
   const [bookingStep, setBookingStep] = useState<'form' | 'payment' | 'confirmation'>('form');
   const [currentBooking, setCurrentBooking] = useState<any>(null);
   const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [bookingId, setBookingId] = useState<string | null>(null);
   const handleBookingSubmit = async (values: any) => {
     setIsSubmitting(true);
     setCurrentBooking(values);
     try {
+      // Create booking in database first
+      const bookingData: BookingFormData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        adults: values.adults,
+        children: values.children,
+        checkInDate: values.checkInDate,
+        checkOutDate: values.checkOutDate,
+        roomType: values.roomType,
+        specialRequests: values.specialRequests,
+      };
+      const id = await createBookingInSupabase(bookingData);
+      setBookingId(id);
       // Move to payment step
       setBookingStep('payment');
     } catch (error) {
