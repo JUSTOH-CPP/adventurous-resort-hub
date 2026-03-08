@@ -50,7 +50,7 @@ const BookingPage = () => {
       // Also send email to the customer
       await sendEmail({
         to: currentBooking.email,
-        subject: "Your Booking Confirmation - Dandeli Adventures",
+        subject: "Your Booking Confirmation - Safari Adventures",
         body: emailContent
       });
 
