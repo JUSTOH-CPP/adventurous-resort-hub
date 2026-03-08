@@ -121,19 +121,48 @@ Deno.serve(async (req) => {
           ? "MPESA" + Date.now().toString(36).toUpperCase()
           : undefined;
 
-      // Update booking status if completed and bookingId provided
-      if (tx.status === "completed" && bookingId) {
+      // On completion: update booking + store receipt
+      if (tx.status === "completed" && transactionId) {
         try {
           const supabase = createClient(
             Deno.env.get("SUPABASE_URL")!,
             Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
           );
-          await supabase
-            .from("bookings")
-            .update({ status: "confirmed" })
-            .eq("id", bookingId);
+
+          // Update booking status
+          if (bookingId) {
+            await supabase
+              .from("bookings")
+              .update({ status: "confirmed" })
+              .eq("id", bookingId);
+          }
+
+          // Store payment receipt
+          const { error: receiptError } = await supabase
+            .from("payment_receipts")
+            .insert({
+              booking_id: bookingId || null,
+              user_id: userId || null,
+              transaction_id: transactionId,
+              checkout_request_id: checkoutRequestId,
+              payment_method: "mpesa",
+              phone: tx.phone,
+              amount: tx.amount,
+              currency: "KES",
+              status: "completed",
+              metadata: {
+                checkout_request_id: checkoutRequestId,
+                completed_at: new Date().toISOString(),
+              },
+            });
+
+          if (receiptError) {
+            console.error("Failed to store receipt:", receiptError);
+          } else {
+            console.log("Payment receipt stored for transaction:", transactionId);
+          }
         } catch (e) {
-          console.error("Failed to update booking status:", e);
+          console.error("Failed to update booking/store receipt:", e);
         }
       }
 
