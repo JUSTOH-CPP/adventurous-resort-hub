@@ -308,7 +308,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
       <CardHeader>
         <CardTitle>Complete Your Payment</CardTitle>
         <CardDescription>
-          Secure payment for your booking at Maasai Adventures
+          Secure payment for your booking at Savanna Lodge & Safari
         </CardDescription>
       </CardHeader>
       
