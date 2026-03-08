@@ -109,7 +109,7 @@ const ActivityDetail: React.FC = () => {
                           <h3 className="font-medium">{sa.name}</h3>
                           <div className="flex justify-between items-center mt-2">
                             <span className="text-sm text-muted-foreground">{sa.duration} mins</span>
-                            <span className="font-semibold">₹{sa.price}</span>
+                            <span className="font-semibold">KSh {sa.price}</span>
                           </div>
                           <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => navigate(`/activities/${sa.id}`)}>View Details</Button>
                         </div>
