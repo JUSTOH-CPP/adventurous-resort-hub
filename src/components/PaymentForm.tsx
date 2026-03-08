@@ -27,7 +27,7 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
     expiryDate: '',
     cvv: ''
   });
-  const [upiId, setUpiId] = useState('');
+  const [mpesaPhone, setMpesaPhone] = useState(bookingDetails.phone || '');
   const [promoCode, setPromoCode] = useState(searchParams.get('promo') || '');
   const [promoApplied, setPromoApplied] = useState(false);
   const [discountInfo, setDiscountInfo] = useState<{
