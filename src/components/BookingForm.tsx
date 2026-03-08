@@ -332,76 +332,11 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
             )}
           />
 
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              "Book Now"
-            )}
+          <Button type="submit" className="w-full">
+              Book Now
           </Button>
         </form>
       </Form>
-
-      <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader className="space-y-3">
-            <div className="mx-auto bg-green-100 rounded-full p-3 w-16 h-16 flex items-center justify-center animate-scale-in">
-              <Check className="h-8 w-8 text-green-600 animate-[pulse_2s_ease-in-out_infinite]" />
-            </div>
-            <DialogTitle className="text-center text-2xl flex items-center justify-center gap-2 animate-fade-in">
-              <PartyPopper className="h-5 w-5 text-yellow-500" />
-              Booking Confirmed!
-              <Sparkle className="h-5 w-5 text-blue-500 animate-[pulse_3s_ease-in-out_infinite]" />
-            </DialogTitle>
-            <DialogDescription className="text-center animate-fade-in animation-delay-200">
-              Thank you for your booking. Here are your details:
-            </DialogDescription>
-          </DialogHeader>
-          {bookingDetails && (
-            <div className="mt-4 space-y-3 animate-fade-in animation-delay-400 bg-muted/50 p-4 rounded-lg">
-              <p className="flex justify-between">
-                <span className="font-medium">Booking ID:</span> 
-                <span className="text-accent">{bookingDetails.bookingId?.slice(0, 8)}...</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Room Type:</span> 
-                <span className="capitalize">{bookingDetails.roomType}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Name:</span> 
-                <span>{bookingDetails.name}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Check-in Date:</span> 
-                <span>{format(bookingDetails.checkInDate, "PPP")}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Check-out Date:</span> 
-                <span>{format(bookingDetails.checkOutDate, "PPP")}</span>
-              </p>
-              <p className="flex justify-between">
-                <span className="font-medium">Guests:</span> 
-                <span>{bookingDetails.adults} Adults, {bookingDetails.children} Children</span>
-              </p>
-              <div className="text-sm text-muted-foreground mt-6 bg-green-50 p-3 rounded-md border border-green-100 shadow-sm animate-fade-in animation-delay-600">
-                <p className="text-center">
-                  A confirmation has been sent to your email 
-                  <span className="font-medium"> ({bookingDetails.email})</span> and 
-                  phone number <span className="font-medium">({bookingDetails.phone})</span>.
-                </p>
-              </div>
-              <div className="pt-4">
-                <Button className="w-full" onClick={() => window.location.href = "/my-bookings"}>
-                  View My Bookings
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
