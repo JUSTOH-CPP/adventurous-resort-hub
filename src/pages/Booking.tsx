@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { Check, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { sendEmail, formatBookingEmail, sendSMS, formatBookingSMS } from '@/utils/email-service';
+import { createBookingInSupabase, BookingFormData } from '@/utils/booking-service';
 const BookingPage = () => {
   const {
     toast
