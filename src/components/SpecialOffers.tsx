@@ -96,7 +96,7 @@ const SpecialOffers: React.FC = () => {
             description="Book at least 30 days in advance and get an exclusive discount on all safari packages."
             promoCode="EARLYBIRD10"
             discount="10%"
-            validUntil="Dec 31, 2025"
+            validUntil="Dec 31, 2026"
             imageUrl="/lovable-uploads/dc56b3d5-8de2-40a9-b259-35829487f125.png"
             color="#43a047"
           />
