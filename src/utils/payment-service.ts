@@ -16,7 +16,7 @@ interface PaymentDetails {
     expiryDate: string;
     cvv: string;
   };
-  upiId?: string;
+  mpesaPhone?: string;
 }
 
 /**
