@@ -77,10 +77,10 @@ export const getUserActivityBookings = async (): Promise<ActivityBooking[]> => {
       throw new Error('User not authenticated');
     }
     
-    const { data, error } = await supabase
+    const { data, error } = await (supabase
       .from('activity_bookings')
-      .select('*, activity:activity_id(*)')
-      .eq('user_id' as any, userId)
+      .select('*, activity:activity_id(*)') as any)
+      .eq('user_id', userId)
       .order('created_at', { ascending: false });
       
     if (error) throw error;
