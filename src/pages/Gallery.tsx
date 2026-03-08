@@ -70,13 +70,13 @@ const Gallery: React.FC = () => {
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1621414050946-1b936a78d7d6?auto=format&fit=crop&w=800&q=80",
-      alt: "Mount Kenya landscape",
-      category: "landscape"
+      src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80",
+      alt: "Rhinos in the Kenyan wilderness",
+      category: "wildlife"
     },
     {
       id: 12,
-      src: "https://images.unsplash.com/photo-1551009175-15bdf9dcb580?auto=format&fit=crop&w=800&q=80",
+      src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80",
       alt: "Safari jeep on dusty trail",
       category: "adventure"
     }
