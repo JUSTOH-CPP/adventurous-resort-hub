@@ -468,7 +468,12 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
                     {(mpesaStatus === 'failed' || mpesaStatus === 'expired') && <AlertCircle className="h-4 w-4 text-destructive" />}
                     <span className="text-sm font-medium">{mpesaMessage}</span>
                   </div>
-                  <Progress value={mpesaProgress} className="h-2" />
+                  <div className="relative h-2 w-full overflow-hidden rounded-full bg-secondary">
+                    <div
+                      className="h-full bg-primary transition-all duration-300"
+                      style={{ width: `${mpesaProgress}%` }}
+                    />
+                  </div>
                   {mpesaStatus === 'waiting' && (
                     <p className="text-xs text-muted-foreground">
                       Please enter your M-Pesa PIN on your phone to authorize KSh {finalAmount.toLocaleString()}
