@@ -63,32 +63,6 @@ Deno.serve(async (req) => {
         metadata: { merchant_request_id: merchantRequestId, created_at: new Date().toISOString() },
       });
 
-      // Schedule simulated completion: update status after 5-8 seconds via a delayed self-call
-      const delay = 5000 + Math.random() * 3000;
-      setTimeout(async () => {
-        try {
-          const newStatus = Math.random() < 0.9 ? "completed" : "failed";
-          const finalTxId = newStatus === "completed" ? "MPESA" + Date.now().toString(36).toUpperCase() : checkoutId;
-          
-          await supabase
-            .from("payment_receipts")
-            .update({ 
-              status: newStatus, 
-              transaction_id: finalTxId,
-              metadata: { merchant_request_id: merchantRequestId, completed_at: new Date().toISOString() } 
-            })
-            .eq("checkout_request_id", checkoutId)
-            .eq("status", "pending");
-
-          // If completed, update booking status
-          if (newStatus === "completed" && bookingId) {
-            await supabase.from("bookings").update({ status: "confirmed" }).eq("id", bookingId);
-          }
-        } catch (e) {
-          console.error("Simulated completion error:", e);
-        }
-      }, delay);
-
       console.log(`STK Push initiated: ${checkoutId} for ${formattedPhone}, KSh ${amount}`);
 
       return new Response(
