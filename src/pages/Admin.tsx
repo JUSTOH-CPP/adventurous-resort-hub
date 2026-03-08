@@ -18,9 +18,10 @@ import { format } from 'date-fns';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, BarChart3 } from 'lucide-react';
 import RoomForm from '@/components/admin/RoomForm';
 import ActivityForm from '@/components/admin/ActivityForm';
+import AdminAnalytics from '@/components/admin/AdminAnalytics';
 import type { Room, Activity } from '@/types/supabase';
 
 const AdminPage = () => {
@@ -102,12 +103,18 @@ const AdminPage = () => {
       <main className="flex-grow container mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
         
-        <Tabs defaultValue="bookings" className="w-full">
+        <Tabs defaultValue="analytics" className="w-full">
           <TabsList className="mb-4">
+            <TabsTrigger value="analytics" className="gap-1.5"><BarChart3 className="h-4 w-4" />Analytics</TabsTrigger>
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="rooms">Rooms</TabsTrigger>
             <TabsTrigger value="activities">Activities</TabsTrigger>
           </TabsList>
+          
+          {/* Analytics Tab */}
+          <TabsContent value="analytics">
+            <AdminAnalytics />
+          </TabsContent>
           
           {/* Bookings Tab */}
           <TabsContent value="bookings">
@@ -136,7 +143,7 @@ const AdminPage = () => {
                         <TableCell className="font-mono text-xs">{booking.user_id?.slice(0, 8)}…</TableCell>
                         <TableCell>{format(new Date(booking.check_in), 'MMM dd, yyyy')}</TableCell>
                         <TableCell>{format(new Date(booking.check_out), 'MMM dd, yyyy')}</TableCell>
-                        <TableCell>₹{booking.total_price}</TableCell>
+                        <TableCell>KSh {booking.total_price?.toLocaleString()}</TableCell>
                         <TableCell>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
@@ -189,7 +196,7 @@ const AdminPage = () => {
                         <CardDescription>Capacity: {room.capacity} guests</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-semibold mb-2">₹{room.price} / night</p>
+                        <p className="text-lg font-semibold mb-2">KSh {room.price?.toLocaleString()} / night</p>
                         <p className="text-sm text-muted-foreground line-clamp-2">{room.description || 'No description'}</p>
                       </CardContent>
                       <CardFooter className="flex justify-between">
@@ -243,7 +250,7 @@ const AdminPage = () => {
                         <CardDescription>Duration: {activity.duration} min • {activity.difficulty || 'Any level'}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-semibold mb-2">₹{activity.price}</p>
+                        <p className="text-lg font-semibold mb-2">KSh {activity.price?.toLocaleString()}</p>
                         <p className="text-sm text-muted-foreground line-clamp-2">{activity.description || 'No description'}</p>
                         {activity.max_participants && <p className="text-sm mt-1">Max: {activity.max_participants} participants</p>}
                       </CardContent>
