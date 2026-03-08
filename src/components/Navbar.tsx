@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Menu } from "lucide-react";
 import Logo from './Logo';  // Default import from Logo component
 import AuthButtons from './AuthButtons';
+import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   {
@@ -81,7 +82,8 @@ const Navbar = () => {
             ))}
           </nav>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <AuthButtons />
             
             {/* Mobile menu button */}
