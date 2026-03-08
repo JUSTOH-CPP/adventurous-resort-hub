@@ -54,6 +54,9 @@ const FormSchema = z.object({
   roomType: z.string({
     required_error: "Please select a room type.",
   }),
+  paymentMethod: z.string({
+    required_error: "Please select a payment method.",
+  }),
   specialRequests: z.string().optional(),
 }).refine((data) => data.checkOutDate > data.checkInDate, {
   message: "Check-out date must be after check-in date",
