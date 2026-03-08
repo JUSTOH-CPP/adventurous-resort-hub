@@ -59,11 +59,7 @@ interface BookingFormProps {
 }
 
 export function BookingForm({ onSubmit }: BookingFormProps) {
-  const { toast } = useToast();
   const { user } = useAuth();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [showConfirmation, setShowConfirmation] = React.useState(false);
-  const [bookingDetails, setBookingDetails] = React.useState<BookingFormData & { bookingId?: string } | null>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
