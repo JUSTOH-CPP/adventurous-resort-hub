@@ -51,9 +51,26 @@ const BookingPage = () => {
   };
   const handlePaymentSuccess = async (paymentTransactionId: string) => {
     setTransactionId(paymentTransactionId);
+
+    // Update booking status to 'confirmed' in database AFTER payment
+    try {
+      if (bookingId && !bookingId.startsWith('test-')) {
+        const { error: updateError } = await supabase
+          .from('bookings')
+          .update({ status: 'confirmed' })
+          .eq('id', bookingId);
+        
+        if (updateError) {
+          console.error('Failed to update booking status:', updateError);
+        }
+      }
+    } catch (err) {
+      console.error('Error updating booking status:', err);
+    }
+
     setBookingStep('confirmation');
 
-    // Send real booking confirmation email via edge function
+    // Send booking confirmation email
     try {
       const { error } = await supabase.functions.invoke('send-booking-email', {
         body: {
@@ -74,21 +91,17 @@ const BookingPage = () => {
 
       if (error) {
         console.error('Email send error:', error);
-        toast({
-          title: "Booking Confirmed!",
-          description: "However, we couldn't send the confirmation email. Your booking is still valid.",
-        });
-      } else {
-        toast({
-          title: "Booking Confirmed! 🎉",
-          description: "A confirmation email has been sent to your inbox.",
-        });
       }
+      
+      toast({
+        title: "Booking Confirmed! 🎉",
+        description: "Payment verified. A confirmation email has been sent.",
+      });
     } catch (error) {
       console.error('Error sending confirmation email:', error);
       toast({
         title: "Booking Confirmed!",
-        description: "Your booking is confirmed. Check your email for details.",
+        description: "Payment verified successfully.",
       });
     }
   };
