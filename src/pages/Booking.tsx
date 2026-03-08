@@ -36,13 +36,12 @@ const BookingPage = () => {
   const handlePaymentSuccess = async (paymentTransactionId: string) => {
     setTransactionId(paymentTransactionId);
     try {
-      // Send confirmation email to admin (Stanley)
       const emailContent = formatBookingEmail({
         ...currentBooking,
         paymentTransactionId
       });
       await sendEmail({
-        to: "stanleyyesu@gmail.com",
+        to: "info@maasaiadventures.co.ke",
         subject: `New Booking: ${currentBooking.name}`,
         body: emailContent
       });
