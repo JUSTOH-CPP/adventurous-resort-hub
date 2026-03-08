@@ -86,7 +86,7 @@ const SpecialOffers: React.FC = () => {
             description="Experience the Great Migration with our premium safari package and exclusive viewing locations."
             promoCode="MIGRATION20"
             discount="20%"
-            validUntil="Sep 30, 2025"
+            validUntil="Oct 31, 2026"
             imageUrl="/lovable-uploads/003350e1-bba1-4aed-9001-4acf317067fb.png"
             color="#3949ab"
           />
