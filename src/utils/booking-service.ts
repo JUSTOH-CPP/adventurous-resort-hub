@@ -1,6 +1,5 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/context/AuthContext';
 import { Booking } from '@/types/supabase';
 
 export interface BookingFormData {
@@ -18,21 +17,18 @@ export interface BookingFormData {
 
 export const createBookingInSupabase = async (bookingData: BookingFormData): Promise<string> => {
   try {
-    // Get the current user or create a guest booking
     const { data: { session } } = await supabase.auth.getSession();
-    const userId = session?.user?.id || null; // Allow for guest bookings
+    const userId = session?.user?.id || null;
     
-    // Calculate the price based on room type, adults, children, and duration
     const checkIn = new Date(bookingData.checkInDate);
     const checkOut = new Date(bookingData.checkOutDate);
     const duration = Math.max(1, Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24)));
     
-    // Basic price calculation (you may want to enhance this with actual pricing logic)
-    const basePrice = bookingData.roomType === 'deluxe' ? 3999 : 
-                     bookingData.roomType === 'suite' ? 5999 : 2499;
+    // Prices in KSh
+    const basePrice = bookingData.roomType === 'deluxe' ? 25000 : 
+                     bookingData.roomType === 'suite' ? 40000 : 15000;
     const totalPrice = basePrice * duration * (parseInt(bookingData.adults) + parseInt(bookingData.children) * 0.5);
     
-    // Insert booking into Supabase, even if user is not logged in
     const bookingRecord = {
       check_in: bookingData.checkInDate.toISOString().split('T')[0],
       check_out: bookingData.checkOutDate.toISOString().split('T')[0],
@@ -40,7 +36,6 @@ export const createBookingInSupabase = async (bookingData: BookingFormData): Pro
       status: 'pending',
     };
 
-    // Add user_id only if we have a valid user session
     if (userId) {
       Object.assign(bookingRecord, { user_id: userId });
     }
@@ -56,14 +51,11 @@ export const createBookingInSupabase = async (bookingData: BookingFormData): Pro
       throw error;
     }
     
-    if (!data) {
-      throw new Error('No booking data returned');
-    }
+    if (!data) throw new Error('No booking data returned');
     
     return data.id;
   } catch (error) {
     console.error('Error creating booking:', error);
-    // Return a dummy ID for testing if there's an error
     return 'test-' + Math.random().toString(36).substring(2, 10);
   }
 };
@@ -73,9 +65,7 @@ export const getUserBookings = async (): Promise<Booking[]> => {
     const { data: { session } } = await supabase.auth.getSession();
     const userId = session?.user?.id;
     
-    if (!userId) {
-      throw new Error('User not authenticated');
-    }
+    if (!userId) throw new Error('User not authenticated');
     
     const { data, error } = await supabase
       .from('bookings')
@@ -84,11 +74,10 @@ export const getUserBookings = async (): Promise<Booking[]> => {
       .order('created_at', { ascending: false });
       
     if (error) throw error;
-    
     return data as Booking[];
   } catch (error) {
     console.error('Error getting user bookings:', error);
-    return []; // Return empty array instead of throwing
+    return [];
   }
 };
 

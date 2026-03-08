@@ -150,9 +150,9 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="standard">Standard Room (₹2,499/night)</SelectItem>
-                    <SelectItem value="deluxe">Deluxe Room (₹3,999/night)</SelectItem>
-                    <SelectItem value="suite">Luxury Suite (₹5,999/night)</SelectItem>
+                    <SelectItem value="standard">Standard Room (KSh 15,000/night)</SelectItem>
+                    <SelectItem value="deluxe">Deluxe Room (KSh 25,000/night)</SelectItem>
+                    <SelectItem value="suite">Luxury Suite (KSh 40,000/night)</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

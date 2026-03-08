@@ -337,19 +337,24 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
             </>
           )}
           
-          {bookingDetails.paymentMethod === 'upi' && (
-            <div className="space-y-2">
-              <Label htmlFor="upiId">UPI ID</Label>
-              <Input
-                id="upiId"
-                name="upiId"
-                placeholder="yourname@upi"
-                value={upiId}
-                onChange={handleInputChange}
-                required
-              />
-              <p className="text-sm text-muted-foreground mt-1">
-                Enter your UPI ID (e.g., name@okhdfcbank, name@ybl)
+          {bookingDetails.paymentMethod === 'mpesa' && (
+            <div className="border rounded-md p-4 bg-muted/30">
+              <h3 className="font-medium mb-2">M-Pesa Payment</h3>
+              <p className="text-sm mb-4">
+                You will receive an M-Pesa STK push on your registered phone number to complete the payment.
+              </p>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-medium">Paybill Number:</span>
+                  <span>123456</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Account Name:</span>
+                  <span>Maasai Adventures Ltd</span>
+                </div>
+              </div>
+              <p className="text-sm mt-4">
+                After payment, click "Complete Payment" to finish your booking.
               </p>
             </div>
           )}
@@ -363,23 +368,27 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="font-medium">Account Name:</span>
-                  <span>Safari Adventures Pvt Ltd</span>
+                  <span>Maasai Adventures Ltd</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Account Number:</span>
-                  <span>1234567890</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">IFSC Code:</span>
-                  <span>HDFC0001234</span>
+                  <span>0123456789</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Bank:</span>
-                  <span>HDFC Bank</span>
+                  <span>Kenya Commercial Bank (KCB)</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Branch:</span>
+                  <span>Karen Branch, Nairobi</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Swift Code:</span>
+                  <span>KCBLKENX</span>
                 </div>
               </div>
               <p className="text-sm mt-4">
-                After making the transfer, please click "Complete Payment" to finish your booking.
+                After making the transfer, click "Complete Payment" to finish your booking.
               </p>
             </div>
           )}

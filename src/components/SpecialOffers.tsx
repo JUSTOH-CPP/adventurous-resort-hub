@@ -106,7 +106,7 @@ const SpecialOffers: React.FC = () => {
             description="Bring your family on safari with special rates for children and custom family activities."
             promoCode="FAMILY25"
             discount="25%"
-            validUntil="Jun 30, 2025"
+            validUntil="Jun 30, 2026"
             imageUrl="/lovable-uploads/eab0dff8-9904-4338-ae38-67e97ade71cf.png"
             color="#ef6c00"
           />

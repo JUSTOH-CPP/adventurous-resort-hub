@@ -1,7 +1,6 @@
 
 /**
  * Email Service Utility
- * This module contains functions to send emails from the application
  */
 
 interface EmailData {
@@ -15,42 +14,10 @@ interface SMSData {
   message: string;
 }
 
-/**
- * Send an email to the recipient
- * @param data Email data including to, subject, and body
- * @returns Promise that resolves when email is sent
- */
 export const sendEmail = async (data: EmailData): Promise<boolean> => {
   try {
-    // In this demo, we'll log the email content to console
     console.log('Sending email to:', data.to);
     console.log('Subject:', data.subject);
-    console.log('Body:', data.body);
-    
-    // In a real implementation, you would connect to an email API service like SendGrid, Mailgun, etc.
-    // Example (commented out as we don't have actual credentials):
-    /*
-    const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_SENDGRID_API_KEY'
-      },
-      body: JSON.stringify({
-        personalizations: [{
-          to: [{ email: data.to }]
-        }],
-        from: { email: 'bookings@safariadventures.com', name: 'Safari Adventures' },
-        subject: data.subject,
-        content: [{ type: 'text/html', value: data.body }]
-      })
-    });
-    
-    return response.ok;
-    */
-    
-    // For demo purposes, always return true
-    // In production, you would check the response from the email service
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
@@ -58,38 +25,10 @@ export const sendEmail = async (data: EmailData): Promise<boolean> => {
   }
 };
 
-/**
- * Send SMS to the customer
- * @param data SMS data including to and message
- * @returns Promise that resolves when SMS is sent
- */
 export const sendSMS = async (data: SMSData): Promise<boolean> => {
   try {
-    // In this demo, we'll log the SMS content to console
     console.log('Sending SMS to:', data.to);
     console.log('Message:', data.message);
-    
-    // In a real implementation, you would connect to an SMS API service like Twilio, MSG91, etc.
-    // Example (commented out as we don't have actual credentials):
-    /*
-    const response = await fetch('https://api.twilio.com/2010-04-01/Accounts/YOUR_ACCOUNT_SID/Messages.json', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + btoa(`YOUR_ACCOUNT_SID:YOUR_AUTH_TOKEN`)
-      },
-      body: new URLSearchParams({
-        From: 'YOUR_TWILIO_PHONE_NUMBER',
-        To: data.to,
-        Body: data.message
-      })
-    });
-    
-    const result = await response.json();
-    return result.status === 'queued' || result.status === 'sent';
-    */
-    
-    // For demo purposes, always return true
     return true;
   } catch (error) {
     console.error('Error sending SMS:', error);
@@ -97,13 +36,7 @@ export const sendSMS = async (data: SMSData): Promise<boolean> => {
   }
 };
 
-/**
- * Format booking details into HTML email content
- * @param bookingData Booking form data
- * @returns Formatted HTML string
- */
 export const formatBookingEmail = (bookingData: any): string => {
-  // Format room type display
   const roomTypeDisplay = {
     standard: 'Standard Room',
     deluxe: 'Deluxe Room',
@@ -132,71 +65,45 @@ export const formatBookingEmail = (bookingData: any): string => {
     <body>
       <div class="container">
         <div class="header">
-          <h1>Safari Adventures - Booking Confirmation</h1>
+          <h1>Maasai Adventures - Booking Confirmation</h1>
         </div>
         <div class="content">
           <p>Dear ${bookingData.name},</p>
-          <p>Thank you for booking with Safari Adventures. We're excited to host you!</p>
+          <p>Asante sana for booking with Maasai Adventures! We're excited to host you in the heart of Kenya.</p>
           
           <h3>Booking Details:</h3>
           <table class="info-table">
-            <tr>
-              <td><strong>Booking Reference:</strong></td>
-              <td>${bookingData.paymentTransactionId || 'Processing'}</td>
-            </tr>
-            <tr>
-              <td><strong>Check-in Date:</strong></td>
-              <td>${bookingData.date ? bookingData.date.toLocaleDateString() : 'N/A'}</td>
-            </tr>
-            <tr>
-              <td><strong>Room Type:</strong></td>
-              <td>${roomDisplay}</td>
-            </tr>
-            <tr>
-              <td><strong>Guests:</strong></td>
-              <td>${bookingData.adults} Adult(s), ${bookingData.children} Child(ren)</td>
-            </tr>
-            <tr>
-              <td><strong>Payment Method:</strong></td>
-              <td>${bookingData.paymentMethod === 'creditCard' ? 'Credit/Debit Card' : 
-                  bookingData.paymentMethod === 'upi' ? 'UPI Payment' : 'Bank Transfer'}</td>
-            </tr>
+            <tr><td><strong>Booking Reference:</strong></td><td>${bookingData.paymentTransactionId || 'Processing'}</td></tr>
+            <tr><td><strong>Check-in Date:</strong></td><td>${bookingData.date ? bookingData.date.toLocaleDateString() : 'N/A'}</td></tr>
+            <tr><td><strong>Room Type:</strong></td><td>${roomDisplay}</td></tr>
+            <tr><td><strong>Guests:</strong></td><td>${bookingData.adults} Adult(s), ${bookingData.children} Child(ren)</td></tr>
           </table>
           
           <h3>Guest Information:</h3>
           <table class="info-table">
-            <tr>
-              <td><strong>Name:</strong></td>
-              <td>${bookingData.name}</td>
-            </tr>
-            <tr>
-              <td><strong>Email:</strong></td>
-              <td>${bookingData.email}</td>
-            </tr>
-            <tr>
-              <td><strong>Phone:</strong></td>
-              <td>${bookingData.phone}</td>
-            </tr>
+            <tr><td><strong>Name:</strong></td><td>${bookingData.name}</td></tr>
+            <tr><td><strong>Email:</strong></td><td>${bookingData.email}</td></tr>
+            <tr><td><strong>Phone:</strong></td><td>${bookingData.phone}</td></tr>
           </table>
           
           <p class="highlight" style="margin-top: 30px;">Important Information:</p>
           <ul>
             <li>Check-in time: 2:00 PM</li>
             <li>Check-out time: 11:00 AM</li>
-            <li>Please bring a valid ID for check-in</li>
+            <li>Please bring a valid ID/passport for check-in</li>
             <li>Our staff will be available 24/7 to assist you</li>
           </ul>
           
-          <p>If you have any questions or need to modify your booking, please contact us at:</p>
-          <p>📞 +91 8904704234<br>📧 bookings@safariadventures.com</p>
+          <p>If you have any questions, please contact us at:</p>
+          <p>📞 +254 722 123 456<br>📧 info@maasaiadventures.co.ke</p>
           
-          <p>We look forward to providing you with an unforgettable experience!</p>
+          <p>Karibu sana! We look forward to your visit!</p>
           
-          <p>Warm regards,<br>The Safari Adventures Team</p>
+          <p>Warm regards,<br>The Maasai Adventures Team</p>
         </div>
         <div class="footer">
-          <p>© ${new Date().getFullYear()} Safari Adventures. All rights reserved.</p>
-          <p>Kali River Front, Dandeli, Karnataka 581325, India</p>
+          <p>© ${new Date().getFullYear()} Maasai Adventures. All rights reserved.</p>
+          <p>Ngong Road, Karen, Nairobi, Kenya 00200</p>
         </div>
       </div>
     </body>
@@ -204,57 +111,35 @@ export const formatBookingEmail = (bookingData: any): string => {
   `;
 };
 
-/**
- * Format booking details into SMS content
- * @param bookingData Booking form data
- * @returns Formatted SMS string
- */
 export const formatBookingSMS = (bookingData: any): string => {
-  return `Thank you for booking with Safari Adventures! Your booking for ${bookingData.date ? bookingData.date.toLocaleDateString() : 'your selected date'} is confirmed (Ref: ${bookingData.paymentTransactionId || 'Processing'}). For assistance, call +91 8904704234.`;
+  return `Asante! Your booking at Maasai Adventures for ${bookingData.date ? bookingData.date.toLocaleDateString() : 'your selected date'} is confirmed (Ref: ${bookingData.paymentTransactionId || 'Processing'}). For assistance, call +254 722 123 456. Karibu!`;
 };
 
-/**
- * Send booking confirmation to both customer and admin
- * @param bookingData Booking form data
- * @param transactionId Payment transaction ID
- * @returns Promise that resolves when emails and SMS are sent
- */
 export const sendBookingConfirmations = async (bookingData: any, transactionId: string): Promise<boolean> => {
   try {
-    const bookingWithTransaction = {
-      ...bookingData,
-      paymentTransactionId: transactionId
-    };
-    
-    // Format email content
+    const bookingWithTransaction = { ...bookingData, paymentTransactionId: transactionId };
     const emailContent = formatBookingEmail(bookingWithTransaction);
     
-    // Send to admin (Stanley)
     await sendEmail({
-      to: "stanleyyesu@gmail.com",
+      to: "info@maasaiadventures.co.ke",
       subject: `New Booking: ${bookingData.name} - ${transactionId}`,
       body: emailContent
     });
     
-    // Send to customer
     await sendEmail({
       to: bookingData.email,
-      subject: "Your Booking Confirmation - Safari Adventures",
+      subject: "Your Booking Confirmation - Maasai Adventures",
       body: emailContent
     });
     
-    // Send SMS to customer
     if (bookingData.phone) {
       const smsContent = formatBookingSMS(bookingWithTransaction);
-      await sendSMS({
-        to: bookingData.phone,
-        message: smsContent
-      });
+      await sendSMS({ to: bookingData.phone, message: smsContent });
     }
     
     return true;
   } catch (error) {
-    console.error('Error sending confirmation emails/SMS:', error);
+    console.error('Error sending confirmation:', error);
     return false;
   }
 };

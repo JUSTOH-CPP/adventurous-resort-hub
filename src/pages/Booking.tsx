@@ -250,18 +250,18 @@ const BookingPage = () => {
 // FAQ data
 const faqs = [{
   question: "How do I make a reservation?",
-  answer: "You can make a reservation by filling out the booking form on our website, calling our reservation team, or sending an email to bookings@dandeliadventures.com."
+  answer: "You can make a reservation by filling out the booking form on our website, calling our team at +254 722 123 456, or emailing info@maasaiadventures.co.ke."
 }, {
   question: "Is there a minimum stay requirement?",
-  answer: "During weekends and peak seasons, there is typically a 2-night minimum stay requirement. During weekdays and off-peak seasons, single-night stays may be available."
+  answer: "During peak migration season (July-October), there is a 2-night minimum stay. Off-peak single-night stays may be available."
 }, {
   question: "Do you offer airport transfers?",
-  answer: "Yes, we offer airport transfers from Hubballi Airport and Goa Airport for an additional fee. Please mention your requirement in the special requests section of the booking form."
+  answer: "Yes, we offer transfers from Jomo Kenyatta International Airport and Wilson Airport in Nairobi. Please mention your requirement in special requests."
 }, {
   question: "Are meals included in the room rate?",
-  answer: "Our standard packages include breakfast. You can upgrade to half-board (breakfast and dinner) or full-board (all meals) options during the booking process."
+  answer: "Our standard packages include breakfast. You can upgrade to half-board (breakfast and dinner) or full-board (all meals) during booking."
 }, {
   question: "Can I book activities in advance?",
-  answer: "Yes, we recommend booking activities in advance, especially during peak season. You can add activities to your reservation through our booking form or contact our team for assistance."
+  answer: "Yes, we recommend booking safaris and activities in advance, especially during the Great Migration season. Contact our team for assistance."
 }];
 export default BookingPage;
