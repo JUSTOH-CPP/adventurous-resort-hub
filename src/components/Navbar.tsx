@@ -63,7 +63,7 @@ const Navbar = () => {
             <span className={cn(
               "font-display font-bold text-xl",
               !isAtTop && "text-foreground"
-            )}>Dandeli Adventures</span>
+            )}>Safari Adventures</span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-6">

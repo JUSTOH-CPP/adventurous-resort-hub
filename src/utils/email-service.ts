@@ -40,7 +40,7 @@ export const sendEmail = async (data: EmailData): Promise<boolean> => {
         personalizations: [{
           to: [{ email: data.to }]
         }],
-        from: { email: 'bookings@dandeliadventures.com', name: 'Dandeli Adventures' },
+        from: { email: 'bookings@safariadventures.com', name: 'Safari Adventures' },
         subject: data.subject,
         content: [{ type: 'text/html', value: data.body }]
       })
@@ -132,11 +132,11 @@ export const formatBookingEmail = (bookingData: any): string => {
     <body>
       <div class="container">
         <div class="header">
-          <h1>Dandeli Adventures - Booking Confirmation</h1>
+          <h1>Safari Adventures - Booking Confirmation</h1>
         </div>
         <div class="content">
           <p>Dear ${bookingData.name},</p>
-          <p>Thank you for booking with Dandeli Adventures. We're excited to host you!</p>
+          <p>Thank you for booking with Safari Adventures. We're excited to host you!</p>
           
           <h3>Booking Details:</h3>
           <table class="info-table">
@@ -188,14 +188,14 @@ export const formatBookingEmail = (bookingData: any): string => {
           </ul>
           
           <p>If you have any questions or need to modify your booking, please contact us at:</p>
-          <p>📞 +91 8904704234<br>📧 bookings@dandeliadventures.com</p>
+          <p>📞 +91 8904704234<br>📧 bookings@safariadventures.com</p>
           
           <p>We look forward to providing you with an unforgettable experience!</p>
           
-          <p>Warm regards,<br>The Dandeli Adventures Team</p>
+          <p>Warm regards,<br>The Safari Adventures Team</p>
         </div>
         <div class="footer">
-          <p>© ${new Date().getFullYear()} Dandeli Adventures. All rights reserved.</p>
+          <p>© ${new Date().getFullYear()} Safari Adventures. All rights reserved.</p>
           <p>Kali River Front, Dandeli, Karnataka 581325, India</p>
         </div>
       </div>
@@ -210,7 +210,7 @@ export const formatBookingEmail = (bookingData: any): string => {
  * @returns Formatted SMS string
  */
 export const formatBookingSMS = (bookingData: any): string => {
-  return `Thank you for booking with Dandeli Adventures! Your booking for ${bookingData.date ? bookingData.date.toLocaleDateString() : 'your selected date'} is confirmed (Ref: ${bookingData.paymentTransactionId || 'Processing'}). For assistance, call +91 8904704234.`;
+  return `Thank you for booking with Safari Adventures! Your booking for ${bookingData.date ? bookingData.date.toLocaleDateString() : 'your selected date'} is confirmed (Ref: ${bookingData.paymentTransactionId || 'Processing'}). For assistance, call +91 8904704234.`;
 };
 
 /**
@@ -239,7 +239,7 @@ export const sendBookingConfirmations = async (bookingData: any, transactionId: 
     // Send to customer
     await sendEmail({
       to: bookingData.email,
-      subject: "Your Booking Confirmation - Dandeli Adventures",
+      subject: "Your Booking Confirmation - Safari Adventures",
       body: emailContent
     });
     

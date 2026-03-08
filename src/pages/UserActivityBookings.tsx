@@ -149,7 +149,7 @@ const UserActivityBookings = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold">My Activity Bookings</h1>
           <p className="text-muted-foreground">
-            Manage your adventure bookings and experiences at Dandeli Adventures
+            Manage your adventure bookings and experiences at Safari Adventures
           </p>
         </div>
         

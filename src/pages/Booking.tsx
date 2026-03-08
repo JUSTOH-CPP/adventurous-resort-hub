@@ -50,7 +50,7 @@ const BookingPage = () => {
       // Also send email to the customer
       await sendEmail({
         to: currentBooking.email,
-        subject: "Your Booking Confirmation - Dandeli Adventures",
+        subject: "Your Booking Confirmation - Safari Adventures",
         body: emailContent
       });
 
@@ -130,7 +130,7 @@ const BookingPage = () => {
                   </div>
                   <h2 className="text-2xl font-display font-semibold mb-4">Booking Confirmed!</h2>
                   <p className="mb-4 text-muted-foreground">
-                    Thank you for booking with Dandeli Adventures. We've sent a confirmation email to {currentBooking?.email} and an SMS to your phone.
+                    Thank you for booking with Safari Adventures. We've sent a confirmation email to {currentBooking?.email} and an SMS to your phone.
                   </p>
                   {transactionId && <p className="text-sm bg-muted p-3 rounded-md inline-block mb-6">
                       Transaction ID: {transactionId}
@@ -187,7 +187,7 @@ const BookingPage = () => {
               {/* Testimonial */}
               <div className="bg-accent/10 rounded-lg p-6 animate-fade-in animation-delay-600">
                 <p className="italic text-sm mb-4">
-                  "Our stay at Dandeli Adventures was absolutely magical. The staff went above and beyond to make our vacation unforgettable!"
+                  "Our stay at Safari Adventures was absolutely magical. The staff went above and beyond to make our vacation unforgettable!"
                 </p>
                 <p className="font-medium text-sm">- Priya & Rahul , Banglore</p>
               </div>
