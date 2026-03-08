@@ -34,9 +34,9 @@ const Accommodation: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             {[
               { value: 'all', label: 'All' },
-              { value: 'budget', label: 'Budget (Under $200)' },
-              { value: 'standard', label: 'Standard ($200-$300)' },
-              { value: 'luxury', label: 'Luxury (Above $300)' },
+              { value: 'budget', label: 'Budget (Under KSh 25,000)' },
+              { value: 'standard', label: 'Standard (KSh 25,000–40,000)' },
+              { value: 'luxury', label: 'Luxury (Above KSh 40,000)' },
             ].map(option => (
               <button key={option.value} onClick={() => setFilter(option.value)}
                 className={`px-4 py-2 rounded-full text-sm transition-all duration-300 ${filter === option.value ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground/70 hover:bg-secondary/80'}`}>
