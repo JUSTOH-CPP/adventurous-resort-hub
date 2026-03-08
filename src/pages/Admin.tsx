@@ -250,7 +250,7 @@ const AdminPage = () => {
                         <CardDescription>Duration: {activity.duration} min • {activity.difficulty || 'Any level'}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-lg font-semibold mb-2">₹{activity.price}</p>
+                        <p className="text-lg font-semibold mb-2">KSh {activity.price?.toLocaleString()}</p>
                         <p className="text-sm text-muted-foreground line-clamp-2">{activity.description || 'No description'}</p>
                         {activity.max_participants && <p className="text-sm mt-1">Max: {activity.max_participants} participants</p>}
                       </CardContent>
