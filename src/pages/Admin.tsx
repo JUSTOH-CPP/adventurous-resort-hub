@@ -103,7 +103,7 @@ const AdminPage = () => {
       <main className="flex-grow container mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
         
-        <Tabs defaultValue="bookings" className="w-full">
+        <Tabs defaultValue="analytics" className="w-full">
           <TabsList className="mb-4">
             <TabsTrigger value="analytics" className="gap-1.5"><BarChart3 className="h-4 w-4" />Analytics</TabsTrigger>
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
