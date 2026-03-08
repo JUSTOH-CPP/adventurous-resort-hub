@@ -339,23 +339,35 @@ export function PaymentForm({ bookingDetails, onPaymentSuccess, onCancel }: Paym
           
           {bookingDetails.paymentMethod === 'mpesa' && (
             <div className="border rounded-md p-4 bg-muted/30">
-              <h3 className="font-medium mb-2">M-Pesa Payment</h3>
+              <div className="flex items-center gap-2 mb-3">
+                <Phone className="h-5 w-5 text-green-600" />
+                <h3 className="font-medium">M-Pesa Payment</h3>
+              </div>
               <p className="text-sm mb-4">
-                You will receive an M-Pesa STK push on your registered phone number to complete the payment.
+                Enter your M-Pesa registered phone number. You will receive an STK push prompt on your phone to authorize the payment of <span className="font-semibold">KSh {finalAmount.toLocaleString()}</span>.
               </p>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-2">
+                <Label htmlFor="mpesaPhone">M-Pesa Phone Number</Label>
+                <Input
+                  id="mpesaPhone"
+                  name="mpesaPhone"
+                  placeholder="e.g. 0712345678 or 254712345678"
+                  value={mpesaPhone}
+                  onChange={handleInputChange}
+                  required
+                />
+                <p className="text-xs text-muted-foreground">Use format: 07XXXXXXXX or 254XXXXXXXXX</p>
+              </div>
+              <div className="mt-4 space-y-2 text-sm bg-green-50 dark:bg-green-950/30 p-3 rounded-md">
                 <div className="flex justify-between">
                   <span className="font-medium">Paybill Number:</span>
-                  <span>123456</span>
+                  <span>174379</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Account Name:</span>
                   <span>Maasai Adventures Ltd</span>
                 </div>
               </div>
-              <p className="text-sm mt-4">
-                After payment, click "Complete Payment" to finish your booking.
-              </p>
             </div>
           )}
           
