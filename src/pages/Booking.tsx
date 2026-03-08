@@ -135,7 +135,7 @@ const BookingPage = () => {
               
               {bookingStep === 'payment' && currentBooking && <>
                   <h2 className="text-2xl font-display font-semibold mb-6">Payment Details</h2>
-                  <PaymentForm bookingDetails={currentBooking} onPaymentSuccess={handlePaymentSuccess} onCancel={handlePaymentCancel} />
+                  <PaymentForm bookingDetails={{ ...currentBooking, bookingId }} onPaymentSuccess={handlePaymentSuccess} onCancel={handlePaymentCancel} />
                 </>}
               
               {bookingStep === 'confirmation' && <div className="text-center py-8">
