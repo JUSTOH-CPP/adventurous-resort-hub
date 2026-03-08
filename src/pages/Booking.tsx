@@ -70,40 +70,10 @@ const BookingPage = () => {
 
     setBookingStep('confirmation');
 
-    // Send booking confirmation email
-    try {
-      const { error } = await supabase.functions.invoke('send-booking-email', {
-        body: {
-          to: currentBooking.email,
-          guestName: currentBooking.name,
-          bookingId: bookingId || 'N/A',
-          checkIn: currentBooking.checkInDate instanceof Date 
-            ? currentBooking.checkInDate.toLocaleDateString() 
-            : String(currentBooking.checkInDate),
-          checkOut: currentBooking.checkOutDate instanceof Date 
-            ? currentBooking.checkOutDate.toLocaleDateString() 
-            : String(currentBooking.checkOutDate),
-          roomType: currentBooking.roomType || 'Safari Lodge',
-          totalPrice: currentBooking.totalPrice || 15000,
-          transactionId: paymentTransactionId,
-        },
-      });
-
-      if (error) {
-        console.error('Email send error:', error);
-      }
-      
-      toast({
-        title: "Booking Confirmed! 🎉",
-        description: "Payment verified. A confirmation email has been sent.",
-      });
-    } catch (error) {
-      console.error('Error sending confirmation email:', error);
-      toast({
-        title: "Booking Confirmed!",
-        description: "Payment verified successfully.",
-      });
-    }
+    toast({
+      title: "Booking Confirmed! 🎉",
+      description: "Payment verified successfully. Your booking is confirmed.",
+    });
   };
   const handlePaymentCancel = () => {
     setBookingStep('form');
