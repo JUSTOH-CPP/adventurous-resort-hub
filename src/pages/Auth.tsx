@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { lovable } from '@/integrations/lovable';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
+import { Chrome } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -29,19 +30,16 @@ const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
-      
       if (data.user) {
         navigate('/');
       }
     };
-    
+
     getUser();
-    
-    // Set up auth state listener
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
@@ -50,17 +48,38 @@ const Auth = () => {
         }
       }
     );
-    
+
     return () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
 
+  async function handleGoogleSignIn() {
+    try {
+      setLoading(true);
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) throw result.error;
+      if (result.redirected) return;
+
+      navigate('/');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Google sign-in failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSignUp() {
     try {
       setLoading(true);
-      
-      // Validate inputs
       if (!email || !password || !name) {
         toast({
           title: "All fields are required",
@@ -68,21 +87,17 @@ const Auth = () => {
         });
         return;
       }
-      
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: {
-            name,
-          },
+          data: { name },
         },
       });
 
       if (error) throw error;
-      
-      // Profile is auto-created by database trigger on signup
-      
+
       toast({
         title: "Account created successfully",
         description: "Please check your email for verification link",
@@ -102,8 +117,6 @@ const Auth = () => {
   async function handleSignIn() {
     try {
       setLoading(true);
-      
-      // Validate inputs
       if (!email || !password) {
         toast({
           title: "Email and password are required",
@@ -111,14 +124,13 @@ const Auth = () => {
         });
         return;
       }
-      
+
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
-      
       navigate('/');
     } catch (error: any) {
       console.error(error);
@@ -135,20 +147,20 @@ const Auth = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      
+
       <div className="flex-grow flex items-center justify-center bg-muted/30 py-12">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2">Welcome to Safari Adventures</h1>
             <p className="text-muted-foreground">Sign in or create an account to continue</p>
           </div>
-          
+
           <Tabs defaultValue="signin" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
-            
+
             <Card>
               <TabsContent value="signin">
                 <CardHeader>
@@ -182,7 +194,7 @@ const Auth = () => {
                     />
                   </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex flex-col gap-3">
                   <Button
                     className="w-full"
                     onClick={handleSignIn}
@@ -190,9 +202,26 @@ const Auth = () => {
                   >
                     {loading ? "Signing in..." : "Sign In"}
                   </Button>
+                  <div className="relative w-full">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleGoogleSignIn}
+                    disabled={loading}
+                  >
+                    <Chrome className="mr-2 h-4 w-4" />
+                    Google
+                  </Button>
                 </CardFooter>
               </TabsContent>
-              
+
               <TabsContent value="signup">
                 <CardHeader>
                   <CardTitle>Create Account</CardTitle>
@@ -232,7 +261,7 @@ const Auth = () => {
                     </p>
                   </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex flex-col gap-3">
                   <Button
                     className="w-full"
                     onClick={handleSignUp}
@@ -240,13 +269,30 @@ const Auth = () => {
                   >
                     {loading ? "Creating account..." : "Create Account"}
                   </Button>
+                  <div className="relative w-full">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleGoogleSignIn}
+                    disabled={loading}
+                  >
+                    <Chrome className="mr-2 h-4 w-4" />
+                    Google
+                  </Button>
                 </CardFooter>
               </TabsContent>
             </Card>
           </Tabs>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );
