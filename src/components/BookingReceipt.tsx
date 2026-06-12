@@ -70,10 +70,10 @@ Total Paid:      KES ${(booking.totalPrice || 15000).toLocaleString()}
 Status:          CONFIRMED ✓
 
 ════════════════════════════════════════
-  Thank you for choosing Maasai Adventures!
+  Thank you for choosing safari Adventures!
   
   Contact: +254 722 123 456
-  Email:   info@maasaiadventures.co.ke
+  Email:   info@safariadventures.co.ke
 ════════════════════════════════════════
     `.trim();
 
@@ -96,7 +96,7 @@ Status:          CONFIRMED ✓
       >
         <div className="text-center">
           <h3 className="text-lg font-display font-semibold text-foreground">Booking Receipt</h3>
-          <p className="text-xs text-muted-foreground">Maasai Adventures</p>
+          <p className="text-xs text-muted-foreground">Safari Adventures</p>
         </div>
 
         <Separator />
