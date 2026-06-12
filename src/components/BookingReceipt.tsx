@@ -38,7 +38,7 @@ const BookingReceipt: React.FC<BookingReceiptProps> = ({ booking, bookingId, tra
   const handleDownload = () => {
     const receiptContent = `
 ════════════════════════════════════════
-       MAASAI ADVENTURES
+       SAFARI ADVENTURES
        Booking Receipt
 ════════════════════════════════════════
 
