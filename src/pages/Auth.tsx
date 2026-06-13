@@ -242,6 +242,15 @@ const Auth = () => {
                     <Chrome className="mr-2 h-4 w-4" />
                     Google
                   </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleAppleSignIn}
+                    disabled={loading}
+                  >
+                    <Apple className="mr-2 h-4 w-4" />
+                    Apple
+                  </Button>
                 </CardFooter>
               </TabsContent>
 
