@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
-import { Chrome } from 'lucide-react';
+import { Chrome, Apple } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
