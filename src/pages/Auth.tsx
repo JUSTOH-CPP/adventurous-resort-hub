@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
-import { Chrome } from 'lucide-react';
+import { Chrome, Apple } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -69,6 +69,29 @@ const Auth = () => {
       console.error(error);
       toast({
         title: "Google sign-in failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleAppleSignIn() {
+    try {
+      setLoading(true);
+      const result = await lovable.auth.signInWithOAuth("apple", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) throw result.error;
+      if (result.redirected) return;
+
+      navigate('/');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Apple sign-in failed",
         description: error.message,
         variant: "destructive",
       });
@@ -219,6 +242,15 @@ const Auth = () => {
                     <Chrome className="mr-2 h-4 w-4" />
                     Google
                   </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleAppleSignIn}
+                    disabled={loading}
+                  >
+                    <Apple className="mr-2 h-4 w-4" />
+                    Apple
+                  </Button>
                 </CardFooter>
               </TabsContent>
 
@@ -285,6 +317,15 @@ const Auth = () => {
                   >
                     <Chrome className="mr-2 h-4 w-4" />
                     Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleAppleSignIn}
+                    disabled={loading}
+                  >
+                    <Apple className="mr-2 h-4 w-4" />
+                    Apple
                   </Button>
                 </CardFooter>
               </TabsContent>
