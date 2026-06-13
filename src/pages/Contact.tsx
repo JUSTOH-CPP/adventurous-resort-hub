@@ -63,7 +63,7 @@ const ContactPage = () => {
                       <div>
                         <h3 className="font-medium">Main Office</h3>
                         <p className="text-muted-foreground">
-                          Maasai Adventures, Ngong Road, Karen, Nairobi, Kenya - 00200
+                          Safari Adventures, Ngong Road, Karen, Nairobi, Kenya - 00200
                         </p>
                       </div>
                     </div>
@@ -74,8 +74,8 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <h3 className="font-medium">Phone</h3>
-                        <a href="tel:+254722123456" className="text-green-700 hover:underline">
-                          +254 722 123 456
+                        <a href="tel:+254114145731" className="text-green-700 hover:underline">
+                          +254 114 145 731
                         </a>
                       </div>
                     </div>
@@ -86,8 +86,8 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <h3 className="font-medium">Email</h3>
-                        <a href="mailto:info@maasaiadventures.co.ke" className="text-green-700 hover:underline">
-                          info@maasaiadventures.co.ke
+                        <a href="mailto:info@safariadventures.co.ke" className="text-green-700 hover:underline">
+                          info@safariadventures.co.ke
                         </a>
                       </div>
                     </div>
