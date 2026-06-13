@@ -77,6 +77,29 @@ const Auth = () => {
     }
   }
 
+  async function handleAppleSignIn() {
+    try {
+      setLoading(true);
+      const result = await lovable.auth.signInWithOAuth("apple", {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) throw result.error;
+      if (result.redirected) return;
+
+      navigate('/');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Apple sign-in failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSignUp() {
     try {
       setLoading(true);
