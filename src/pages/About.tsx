@@ -32,7 +32,7 @@ const About: React.FC = () => {
   const timeline = [{
     year: "2005",
     title: "Our Beginning",
-    description: "Maasai Adventures was founded with just two safari vehicles and a dream to share Kenya's wildlife wonders with the world."
+    description: "Safari Adventures was founded with just two safari vehicles and a dream to share Kenya's wildlife wonders with the world."
   }, {
     year: "2010",
     title: "Conservation Focus",
@@ -63,7 +63,7 @@ const About: React.FC = () => {
               Our Story
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 animate-fade-in animation-delay-200">
-              Discover the journey of Maasai Adventures, from a small family business to becoming Kenya's premier safari and conservation company.
+              Discover the journey of Safari Adventures, from a small family business to becoming Kenya's premier safari and conservation company.
             </p>
           </div>
         </section>
@@ -85,7 +85,7 @@ const About: React.FC = () => {
                 Our Mission & Vision
               </h2>
               <p className="text-foreground/70 mb-6">
-                At Maasai Adventures, we're committed to creating transformative safari experiences that connect people with Kenya's magnificent wildlife while ensuring its conservation for future generations.
+                At Safari Adventures, we're committed to creating transformative safari experiences that connect people with Kenya's magnificent wildlife while ensuring its conservation for future generations.
               </p>
               
               <div className="space-y-6 mb-8">
@@ -121,7 +121,7 @@ const About: React.FC = () => {
                 Our Conservation Efforts
               </h2>
               <p className="text-foreground/70 max-w-2xl mx-auto">
-                Maasai Adventures is committed to protecting Kenya's wildlife and supporting local communities through these key initiatives.
+                Safari Adventures is committed to protecting Kenya's wildlife and supporting local communities through these key initiatives.
               </p>
             </div>
             
@@ -176,7 +176,7 @@ const About: React.FC = () => {
                 Our Core Values
               </h2>
               <p className="text-foreground/70 max-w-2xl mx-auto">
-                The guiding principles that define everything we do at Maasai Adventures.
+                The guiding principles that define everything we do at Safari Adventures.
               </p>
             </div>
             
@@ -310,7 +310,7 @@ const About: React.FC = () => {
                   <div>
                     <h3 className="font-medium">Our Headquarters</h3>
                     <p className="text-sm text-foreground/70">
-                      Maasai Adventures, Ngong Road, Karen, Nairobi, Kenya
+                      Safari Adventures, Ngong Road, Karen, Nairobi, Kenya
                     </p>
                   </div>
                 </div>
@@ -337,7 +337,7 @@ const About: React.FC = () => {
               <div className="rounded-xl overflow-hidden shadow-lg">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35853841743!2d36.70731444941403!3d-1.304441599999922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%20National%20Park!5e0!3m2!1sen!2sus!4v1650120000000!5m2!1sen!2sus" width="100%" height="450" style={{
                 border: 0
-              }} allowFullScreen loading="lazy" title="Maasai Adventures Location" className="w-full"></iframe>
+              }} allowFullScreen loading="lazy" title="Safari Adventures Location" className="w-full"></iframe>
               </div>
             </div>
           </div>
